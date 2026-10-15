@@ -95,7 +95,7 @@ All IDs are strings. Timestamps are UTC. "Date" means a calendar date in the tea
 - id, report_id, author_id, text (1 to 1,000), created_at
 
 **Event** (append-only, never edited or deleted)
-- id, report_id, actor_id (nullable for the system), type: created | expense_added | expense_edited | expense_removed | submitted | retracted | approved | rejected | reimbursed | reminded | commented
+- id, report_id, actor_id (nullable for the system), type: created | expense_added | expense_edited | expense_removed | submitted | retracted | approved | rejected | reimbursed | reminded | commented | reassigned
 - data (JSON, nullable), created_at
 
 **Notification** (outbox)
@@ -110,6 +110,7 @@ All IDs are strings. Timestamps are UTC. "Date" means a calendar date in the tea
   - **Missing receipt:** the category requires receipts, amount_cents is at least receipt_required_cents, and no receipt is attached.
   - **Old expense:** the date is more than max_age_days before today.
   - **Possible duplicate:** another expense of the same person (in any report that is not reimbursed more than 90 days ago) has the same date, the same amount and the same merchant, ignoring case and spaces.
+- Flags are not stored. They are computed from current data whenever an expense or report is shown, and enforced at submission. Possible duplicate flags every matching expense, wherever it is. For a report that has been submitted, Old expense is judged against the date it was submitted.
 - **R4. Flags need an explanation.** A report cannot be submitted while any expense has a Missing receipt flag ("Attach a receipt for Hotel, 1 night ($289.00)."). Every other flag needs the expense's explanation filled in before submitting ("Explain why Dinner with Acme is over the Meals limit of $75.00."). Approvers see every flag and explanation.
 
 ### Worked examples (seed data in section 14; today is Tue Oct 13, 2026)
@@ -149,15 +150,16 @@ All IDs are strings. Timestamps are UTC. "Date" means a calendar date in the tea
 | Reject | The report's approver | submitted | draft | Comment of 5 to 300 characters required; owner emailed with the comment |
 | Reject at payment | Finance | approved | draft | Comment required; owner and approver emailed; the report must be approved again after resubmitting |
 | Mark reimbursed | Finance | approved | reimbursed | paid_on (today or earlier) and payment_reference required; owner emailed; final |
+| Reassign | Finance | submitted | submitted | Comment of 5 to 300 characters required; the approver changes; event `reassigned`; new approver emailed |
 
 Reimbursed is final. Any other move is refused. Only draft reports can be edited.
 
 ## 9. Business rules
 
 - **R2. Expense validation.** Date not in the future; merchant 1 to 100 characters; amount between $0.01 and $10,000.00; an active category; receipts must be JPG, PNG or PDF, at most 10 MB, and are checked by content, not just the file name.
-- **R3. Receipts are private.** A receipt is served only through an authenticated route to its owner, the report's approver and finance. Anyone else, or a signed-out request, gets "Not found". Receipt links are never public URLs.
+- **R3. Receipts are private.** A receipt is served only through an authenticated route to the people who can see its report (R8). Anyone else, or a signed-out request, gets "Not found". Receipt links are never public URLs.
 - **R6. Submitting.** A report needs at least one expense, no Missing receipt flags and an explanation on every other flagged expense.
-- **R8. Visibility.** Employees see their own reports. Approvers also see reports from their direct reports. Finance sees everything. Anyone else gets "Not found" for a report URL.
+- **R8. Visibility.** A person can see a report, and its receipts, if they own it, are its current approver, are the owner's manager, or are finance. Anyone else gets "Not found" for a report URL.
 - **R9. Stale changes.** Approve, reject and reimburse check the report's version; if it changed after the page was loaded, the action is refused with "This report changed. Reload to see the latest version."
 - **R10. People.** A manager cannot be the person themselves or create a loop (A manages B manages A). Deactivating a person who is the approver of a submitted report is refused until finance reassigns it (finance can change the approver of a submitted report, with a comment).
 - **R11. Events.** Every successful action writes the event in section 8; events are never edited or deleted.
@@ -169,8 +171,8 @@ Reimbursed is final. Any other move is refused. Only draft reports can be edited
 2. **Report.** Title, status, approver, total, and the expenses table (date, category, merchant, amount, receipt, flags with their explanation). Add expense (with "Mileage" switching the amount field to miles), receipt upload with a phone camera option, comments, and the activity log. Actions by role and status: Submit, Retract, Approve, Reject, Mark reimbursed.
 3. **To approve.** Submitted reports waiting on me, oldest first, with total and flag count.
 4. **Finance: Payments.** Approved reports waiting to be paid, grouped by employee, with totals; select several and Mark reimbursed with one paid_on date and reference; Export CSV of the selection.
-5. **Finance: All reports.** Every report with filters by status, person and month.
-6. **Finance: Spending.** Totals of reimbursed and approved expenses by category and by month (last 6 months), and by person for the selected month.
+5. **Finance: All reports.** Every report with filters by status, person and month. Month always means the month of the expense date: a report appears under a month when any of its expenses is dated in that month.
+6. **Finance: Spending.** Totals of reimbursed and approved expenses by category and by month (last 6 months), and by person for the selected month; each expense counts in the month of its date.
 7. **Admin: People** (manager, finance flag, active) and **Admin: Settings** (receipt threshold, mileage rate, max age, reminder days, categories with limits). Finance only.
 8. **Admin: Outbox.**
 
@@ -183,14 +185,15 @@ Reimbursed is final. Any other move is refused. Only draft reports can be edited
 | Approve | Owner | "Approved: R-101, waiting for payment" |
 | Reject (either step) | Owner (and the approver, at the payment step) | "Changes requested on R-101" (with the comment) |
 | Mark reimbursed | Owner | "Paid: R-101 ($474.55), reference ACH-1016" |
-| Reminder (section 12) | Approver | "Reminder: R-102 has been waiting 3 days" |
+| Reminder (section 12) | Approver | "Reminder: R-102 has been waiting 4 days" |
+| Reassign | New approver | "To approve: R-102 October software ($204.00) from Jo Park" |
 
 Write every email to the outbox first, then send it. With no provider configured, set status logged. Failed sends are retried. A notification failure never blocks the action that caused it.
 
 ## 12. Scheduled job and time
 
 An hourly job (protected by a CRON_SECRET header) does two things:
-1. **Reminders.** For each submitted report waiting reminder_days or more since submitted_at, with no reminder yet for that submission, email the approver once and write a `reminded` event.
+1. **Reminders.** N is the number of whole 24-hour days since submitted_at, by the app clock. For each submitted report with N at least reminder_days, with no reminder yet for that submission, email the approver once and write a `reminded` event.
 2. **Retry** failed notifications.
 
 All time reads go through one function that adds the development clock offset.
@@ -210,9 +213,9 @@ Settings: company "Fernway", time zone America/New_York, receipt threshold $75.0
 
 Categories: Travel (no limit), Meals (limit $75.00), Lodging (limit $300.00), Software (limit $200.00), Office supplies (limit $150.00), Other (no limit), Mileage (no limit, no receipt).
 
-People: Dana Ruiz (finance, no manager), Ana Lima (finance, manager Dana Ruiz), Sam Okafor (manager Dana Ruiz), Maya Chen (manager Dana Ruiz), Lee Park (manager Sam Okafor), Jo Park (manager Maya Chen). Everyone is active.
+People: Dana Ruiz (finance, no manager), Ana Lima (finance, manager Dana Ruiz), Sam Okafor (manager Dana Ruiz), Maya Chen (manager Dana Ruiz), Lee Park (manager Sam Okafor), Jo Park (manager Maya Chen). Everyone is active. Emails are first name at fernway.com (dana@fernway.com, ana@fernway.com and so on).
 
-Reports (T is when the seed is loaded, here Tue Oct 13, 2026):
+Reports (T is when the seed is loaded, here Tue Oct 13, 2026). Every date in this section is relative to T: load it as the same number of days before T (Oct 8 is T-5 days). The worked examples and checks use these example dates; on another day, use the matching relative dates.
 
 | Report | Owner | Status | Expenses | Total |
 |---|---|---|---|---|
@@ -221,11 +224,13 @@ Reports (T is when the seed is loaded, here Tue Oct 13, 2026):
 | R-103 Team offsite supplies | Sam Okafor | Approved T-1 day by Dana Ruiz | Notebooks and markers, Oct 6, Office supplies, $132.80, receipt attached | $132.80 |
 | R-104 Design conference | Maya Chen | Reimbursed Sep 30, reference ACH-0930 | Conference ticket, Sep 10, Other, $890.00; Hotel, 2 nights, Sep 11, Lodging, $350.00 (over limit, explained "Two nights in one charge, $175 a night"); both with receipts | $1,240.00 |
 
+R-103 was submitted T-2 days. R-104 was submitted Sep 14 (T-29 days), approved Sep 15 (T-28 days) by Dana Ruiz, and marked reimbursed by Dana Ruiz.
+
 Use small placeholder images as seed receipts.
 
 ## 15. Build plan
 
-Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app.
+Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app. Start the checks of Phases 1, 2 and 4 from a fresh load of the seed (the reset button); Phase 3's checks continue from the end of Phase 2's. Checks within a phase run in order on the same data.
 
 ### Phase 1: Foundation
 
@@ -234,7 +239,7 @@ Using the Expense Reports blueprint above, build Phase 1 only.
 
 1. Set up the data model from section 5 exactly, with a real database and private file storage for receipts.
 2. Add sign-in with the platform's built-in auth or Google sign-in limited to our company email domain. A signed-in email must match an active Person; anyone else sees "Ask finance to add you."
-3. Build Admin: People and Admin: Settings with categories (section 10, screen 7). Only finance can use them; enforce R10 on the server.
+3. Build Admin: People and Admin: Settings with categories (section 10, screen 7). Only finance can use them; enforce the manager rules in R10 (no self-manager, no loops) on the server. The deactivation rule comes with reassigning in Phase 4.
 4. Load the seed data from section 14, with dates relative to today.
 5. Add a "sign in as" switcher, a "move the clock forward" control and a "reset to seed data" button, all visible only in development.
 
@@ -264,12 +269,12 @@ When you're done, list what you built and anything in the spec you had to interp
 - [ ] Signed in as Lee, R-101 shows a total of $474.55, the mileage expense as 38.5 miles = $26.95, an Over limit flag on the dinner and a Missing receipt flag on the hotel.
 - [ ] Submitting R-101 is refused with "Attach a receipt for Hotel, 1 night ($289.00)."; after uploading a receipt it is refused with the message asking to explain the dinner.
 - [ ] After adding the explanation "Dinner with three people from Acme", R-101 submits, its approver is Sam Okafor, and the outbox has "To approve: R-101 Boston client visit ($474.55) from Lee Park".
-- [ ] Adding a second "Taxi to acme" for $46.20 dated Oct 8 to a new draft report flags both taxi expenses as Possible duplicate.
+- [ ] Adding a second "Taxi to acme" for $46.20, dated the same day as the seed taxi (Oct 8 when T is Oct 13), to a new draft report flags both taxi expenses as Possible duplicate; then remove the second taxi.
 - [ ] Uploading a 12 MB file, or a text file renamed receipt.jpg, is refused.
 - [ ] Signed in as Jo, opening R-101 returns Not found, and a direct request for its hotel receipt returns Not found.
 - [ ] Lee retracts R-101: it returns to Draft, and the outbox has "Withdrawn: R-101 Boston client visit" for Sam.
-- [ ] An expense dated tomorrow is refused, and one dated Jul 1, 2026 shows Old expense.
-- [ ] After the mileage rate is changed to $0.72 in Settings, R-101's mileage expense still shows $26.95, and a new 10-mile expense shows $7.20.
+- [ ] On the new draft report from the taxi check, an expense dated tomorrow is refused, and one dated more than 90 days ago (Jul 1, 2026 when T is Oct 13) shows Old expense.
+- [ ] After the mileage rate is changed to $0.72 in Settings, R-101's mileage expense still shows $26.95, and a new 10-mile expense on the new draft report shows $7.20.
 
 ### Phase 3: Approval and payment
 
@@ -283,7 +288,7 @@ Using the Expense Reports blueprint above, build Phase 3 only.
 When you're done, list what you built and anything in the spec you had to interpret.
 ```
 
-**Acceptance checks**
+**Acceptance checks** (continue from the end of the Phase 2 checks)
 - [ ] Signed in as Maya, To approve lists R-102 ($204.00) from Jo Park; approving it emails Jo "Approved: R-102, waiting for payment" and it appears in Finance: Payments.
 - [ ] After Lee submits R-101 again, signed in as Sam, rejecting it without a comment is refused; with the comment "Please split the hotel onto its own report" it returns to Draft and Lee is emailed the comment.
 - [ ] Signed in as Dana, submitting a report of her own routes it to Ana Lima, and Dana has no Approve button on it; a direct approve request from Dana is refused.
@@ -307,7 +312,7 @@ When you're done, list what you built and anything in the spec you had to interp
 **Acceptance checks** (reset to seed data first)
 - [ ] Running the job emails Maya "Reminder: R-102 has been waiting 4 days" once; running it again sends nothing new.
 - [ ] Deactivating Maya Chen is refused while R-102 waits for her; after finance reassigns R-102 to Dana with a comment, deactivation succeeds.
-- [ ] Finance: Spending for September shows Other $890.00 and Lodging $350.00 from R-104.
+- [ ] Finance: Spending for the month of R-104's expenses (September when T is Oct 13) shows Other $890.00 and Lodging $350.00 from R-104.
 - [ ] Signed in as Lee, Finance: Spending says "Only finance can open this page."
 
 ## 16. Variations
@@ -319,3 +324,28 @@ When you're done, list what you built and anything in the spec you had to interp
 - Direct payment through your bank's API, with the reference filled in automatically.
 - Export to QuickBooks or Xero.
 - Reversing a reimbursed report with a correcting entry.
+
+## 17. Build notes from our test build
+
+We built this blueprint by sending the four phase prompts above, in order, to an AI builder (Claude, working in Type), then checked every acceptance item in a real browser. Where a check says something is refused, the person saw the reason on screen and a direct request got an error with nothing changed.
+
+**Result:** 24 of 24 acceptance checks passed in one final browser run on a fresh database, plus 59 automated tests. The seed was loaded relative to the day of the test (Oct 15), so dated checks used the matching relative dates.
+
+**Gaps the build found, now fixed in this spec:**
+1. The seed is loaded relative to today, but the examples and checks used fixed dates. Section 14 now says how to read them, and the checks name the relative date.
+2. The seed people had no emails, and two reports had no submitted or approved dates. Section 14 now gives them.
+3. Phase 1 asked for the deactivation rule before reassigning existed. It now comes with reassigning in Phase 4.
+4. Only Phase 4 said to reset the seed, and two Phase 2 checks didn't say which report to use. The build plan and the checks now say.
+5. It wasn't clear when flags are computed. Section 6 now says they are computed, not stored, and how the old-expense flag works after submitting.
+6. R3 and R8 named different people who can see receipts. Both now use one rule.
+7. "Month" wasn't defined for filters and spending. It is the month of the expense date.
+8. Changing a report's approver had no event, email or comment rule. Section 8 now has a Reassign action; the test build recorded it as a comment event.
+9. The reminder's "N days" wasn't defined, and two examples disagreed. Section 12 now defines it.
+
+**What we did not test:**
+- Production sign-in. Google sign-in was built, but every check used the development "sign in as" switcher.
+- Sending email. Emails were logged in the outbox, not delivered.
+- The hourly job on a real scheduler. Its endpoint was called directly.
+- A real phone camera. Receipts were uploaded as generated images and PDFs.
+- Payments and accounting integrations, which are outside v1.
+- Hosting. The test build ran on SQLite on one server. For a hosted deploy, use a managed Postgres (or your platform's database) and the same schema.
