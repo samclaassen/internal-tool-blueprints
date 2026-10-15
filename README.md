@@ -26,6 +26,7 @@ These are mirrored from **[Personal Software Factory](https://personalsoftwarefa
 | **Equipment Tracker**: Nobody knows who has which laptop, or when its warranty ends. | Asset Panda | 10–200 people | Full spec; build test pending | [equipment-tracker.md](blueprints/equipment-tracker.md) | [page](https://personalsoftwarefactory.com/blueprints/equipment-tracker) |
 | **SaaS Spend Tracker**: Nobody knows how many software tools we're actually paying for. | Zylo | 10–200 people | Full spec with working demo; independent build test pending | [saas-spend-tracker.md](blueprints/saas-spend-tracker.md) | [page](https://personalsoftwarefactory.com/blueprints/saas-spend-tracker) |
 | **Expense Reports**: Receipts pile up in email and reimbursements take weeks. | Expensify | 5–100 people | Full spec; build test pending | [expense-reports.md](blueprints/expense-reports.md) | [page](https://personalsoftwarefactory.com/blueprints/expense-reports) |
+| **Timesheets**: Every month-end I chase people for their hours before I can invoice. | Harvest | 5–100 people | Full spec; build test pending | [timesheets.md](blueprints/timesheets.md) | [page](https://personalsoftwarefactory.com/blueprints/timesheets) |
 | **Time-Off Tracker**: I can never tell who's out next week until they're already gone. | Timetastic | 5–100 people | Full spec with working demo; independent build test pending | [pto-tracker.md](blueprints/pto-tracker.md) | [page](https://personalsoftwarefactory.com/blueprints/pto-tracker) |
 | **Hiring Pipeline**: We're hiring for three roles and tracking candidates in a spreadsheet. | Greenhouse | 5–75 people | Full spec with working demo; independent build test pending | [hiring-pipeline.md](blueprints/hiring-pipeline.md) | [page](https://personalsoftwarefactory.com/blueprints/hiring-pipeline) |
 | **Employee Onboarding**: Every new hire's first week depends on who remembers what. | BambooHR | 5–150 people | Full spec; build test pending | [employee-onboarding.md](blueprints/employee-onboarding.md) | [page](https://personalsoftwarefactory.com/blueprints/employee-onboarding) |
@@ -39,7 +40,7 @@ The full catalog, with live demos and test results, is at https://personalsoftwa
 - [How to build an internal tool with AI that your team can rely on](https://personalsoftwarefactory.com/guides/how-to-build-internal-tools-with-ai)
 - [Build or buy: when to replace a SaaS tool with one you build with AI](https://personalsoftwarefactory.com/guides/build-vs-buy-saas)
 - [A spec template for AI app builders](https://personalsoftwarefactory.com/guides/ai-app-spec-template)
-- [What 18 business SaaS tools cost a 10-person team](https://personalsoftwarefactory.com/guides/saas-pricing-for-small-teams)
+- [What 19 business SaaS tools cost a 10-person team](https://personalsoftwarefactory.com/guides/saas-pricing-for-small-teams)
 
 ## Terms
 
