@@ -54,7 +54,7 @@ CRM sync (v1 has finance enter closed deals; CSV import is a variation), multi-s
 | Rep | Anyone on a commission plan | See their own statement for any period, their own deals, and their plan's rates. Use the what-if calculator for themselves. Nothing else; reps never change inputs. |
 | Finance admin | Finance lead, head of ops | Everything: add, edit and cancel deals; manage reps, quotas and plans; add adjustments; see every statement and the payouts summary; approve a period; open the next period; export CSV. |
 
-Reps cannot see each other's statements or payouts, and the server refuses it, not just the menu (R11). Any finance admin can approve; v1 has one approval step.
+Reps cannot see each other's statements or payouts, and the server refuses it, not just the menu (R11). Any finance admin can approve; v1 has one approval step. The first finance admin is created at setup; after that, finance admins are added and deactivated on the Reps page with the role Finance and no plan or quota, using the same rep_added and rep_updated events.
 
 ## 5. Data model
 
@@ -63,6 +63,7 @@ All timestamps are UTC ISO strings. IDs are strings.
 **Person**
 - id
 - name (required, unique)
+- email (required, unique, case-insensitive; the address the person signs in with)
 - title (e.g. "Account Executive")
 - role: rep | finance
 - plan_id (reps only; references Plan; the plan used for open periods)
@@ -156,7 +157,7 @@ AE Standard plan: 0% to 50% of quota at 5%, 50% to 100% at 10%, 100%+ at 15% (ac
 
 | Action | Who | From | To | Side effects |
 |---|---|---|---|---|
-| Open next period | Finance | (none) | open | Creates the month after the latest period. Event `period_opened`. Several periods may be open at once (October waiting for approval while November deals arrive). |
+| Open next period | Finance | (none) | open | Creates the month after the latest period, or the current calendar month if there are no periods yet. Event `period_opened`. Several periods may be open at once (October waiting for approval while November deals arrive). |
 | Approve | Finance | open | approved | Only if every earlier period is approved (R6). Calculates every rep's statement and stores it in `snapshot`. Sets approved_by, approved_at. Event `period_approved` with the total. |
 
 There is no "unapprove". Mistakes found after approval are fixed with an adjustment or a clawback in an open period (R7).
@@ -181,9 +182,9 @@ R1 to R5 are in section 6.
 - **R8. Plan and quota changes** apply to open periods immediately and never to approved ones. The history records the old and new values.
 - **R9. Cancelling a deal in an open period** removes it from the calculation. No clawback is needed because nothing was paid.
 - **R10. Cancelling a deal in an approved period** leaves that period exactly as approved. For each rep whose snapshot line for that deal paid more than $0, create a clawback adjustment of minus exactly that line's commission, in the earliest open period (or one finance picks). Do not recalculate the old period's tiers: the clawback reverses what that deal paid, nothing more. If no period is open, refuse with "Open a period first. The clawback has to land in an open period." The cancel form previews the clawback lines before finance confirms.
-- **R11. Visibility.** A rep sees only their own statement and the deals they are credited on. Opening another rep's statement, by link or by API, returns "You can only see your own statement." The payouts summary, reps, plans, history and export are finance only.
-- **R12. What if.** A rep enters a deal amount (and optionally a split %) for an open period. The calculator credits it after every deal already in the period, using R2 to R5, and shows the tier slices, the extra commission, and attainment and payout before and after. Nothing is saved.
-- **R13. Export** is finance only and only for approved periods, so payroll never receives a number that can still move. One row per rep: period, rep, plan, quota, credited_bookings, attainment_pct, deal_commission, adjustments, payout, approved_by, approved_at. Money columns are plain numbers with two decimals (3611.25), no currency symbols or thousands separators.
+- **R11. Visibility.** A rep sees only their own statement and the deals they are credited on. Opening another rep's statement, by link or by API, returns "You can only see your own statement." The payouts summary, reps, plans, history and export are finance only; a rep who opens or requests them gets "Only finance can see this."
+- **R12. What if.** A rep enters a deal amount (and optionally the % credited to another rep, like split_pct on a deal; the rep's own credit follows R2) for an open period. The calculator credits it after every deal already in the period, using R2 to R5, and shows the tier slices, the extra commission, and attainment and payout before and after. Nothing is saved.
+- **R13. Export** is finance only and only for approved periods, so payroll never receives a number that can still move. One row per rep: period, rep, plan, quota, credited_bookings, attainment_pct, deal_commission, adjustments, payout, approved_by (the approver's name), approved_at (UTC ISO timestamp). Money columns are plain numbers with two decimals (3611.25), no currency symbols or thousands separators.
 - **R14. History.** Every change writes exactly one event (a cancellation with two clawbacks writes three). Events are never edited or deleted.
 - **R15. Display.** Money shows thousands separators and two decimals only when cents are non-zero ($4,300 / $2,161.25). Negative amounts show a minus sign (-$925).
 
@@ -194,7 +195,7 @@ Finance sees: Payouts, Deals, Reps, Plans, History. A rep sees: My statement, My
 1. **Payouts** (finance home). Period switcher (August 2026 · Approved, September 2026 · Approved, October 2026 · Open). Totals: payout total, reps, status. Table: rep, plan, quota, credited, attainment, commission, adjustments, payout; each row opens the statement. Buttons: Approve and lock (open periods; asks for confirmation and shows the total), Export CSV (approved periods only; for an open period it explains why not), Open next period.
 2. **Statement** (one rep, one period). Header: rep, plan, period, status badge (Open or Approved by Ana on Oct 2). Four numbers: credited bookings, attainment with a progress bar against quota, commission, payout. "How you're paid": the plan's rate card. **Deal lines**, each showing deal, close date, amount, share ("80% of $72,500, split with Rosa Diaz"), the range it covers ("$0 → $58,000 of a $60,000 quota"), and one row per tier slice ("Tier 1 (0% to 50%) · $30,000 at 5% = $1,500"; accelerator slices are labelled). When a slice was rounded, show the exact value too ("$2,161.245, rounded to $2,161.25"). **Adjustments** with reason; clawbacks name the deal and the period it was paid in. Finance on an open period gets an Add adjustment form.
 3. **Deals.** Period filter. Table: number, deal, close date, rep (and split), amount, status. Finance: Add deal. Deal page: details, credit per rep, Edit (open periods), Cancel with a reason and a preview of any clawbacks.
-4. **Reps** (finance). Name, title, plan, monthly quota, editable inline. Add rep.
+4. **Reps** (finance). Name, title, sign-in email, role, plan, monthly quota, editable inline. Add person.
 5. **Plans** (finance). Each plan's tiers with an editor (start %, rate %) and a live example: "A rep with a $60,000 quota who closes $75,000 earns $6,750."
 6. **What if** (reps for themselves; finance picks a rep). Amount, optional split %, period (open periods only). Result: the tier slices for the new deal, "+$3,650", attainment 96.6% → 138.3%, payout $4,300 → $7,950.
 7. **History** (finance). Every event, newest first, with who and when.
@@ -256,7 +257,7 @@ There are no scheduled jobs. Periods are calendar months, and the only thing tha
 
 Adjustments: Harbor clawback (above), and Dana's +$300 for Tom in October, "Q4 kickoff SPIF: first multi-year deal of the quarter".
 
-Periods: August 2026 approved by Ana on Sep 3, September 2026 approved by Ana on Oct 2, October 2026 open. Build the seed by running the real actions in order (add deals, approve August, and so on), so the snapshots are produced by the same code as everything else.
+Periods: August 2026 approved by Ana on Sep 3, September 2026 approved by Ana on Oct 2, October 2026 open. From Phase 3 on, build the seed by running the real actions in order (add deals, approve August, and so on), so the snapshots are produced by the same code as everything else.
 
 Resulting payouts (your build must match these to the cent):
 
@@ -268,7 +269,7 @@ Resulting payouts (your build must match these to the cent):
 
 ## 14. Build plan
 
-Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app.
+Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app. Start each phase's checks from a fresh load of the seed (the Reset seed button); checks within a phase run in order on the same data.
 
 ### Phase 1: Foundation
 
@@ -276,10 +277,10 @@ Send these prompts one at a time after pasting this file. Each phase ends with c
 Using the Commission Calculator blueprint above, build Phase 1 only.
 
 1. Set up the data model from section 5 exactly (Person, Plan with tiers, Period, Deal, Adjustment, Event) with a real database. Money is integer cents, rates are integer basis points. Never store money as a float.
-2. Add sign-in with the platform's built-in auth. A signed-in email must match an active Person; anyone else sees "Ask finance to add you." Add an "Act as" switcher visible only in development so I can test as each person.
-3. Build Reps and Plans (section 9, screens 4 and 5) for finance, with the tier validation from section 5: first tier at 0%, starts strictly increasing, rates 0% to 100%, at most 6 tiers.
+2. Add sign-in with the platform's built-in auth. A signed-in email must match an active Person; anyone else sees "Ask finance to add you." Add an "Act as" switcher and a "Reset seed" button, both visible only in development, so I can test as each person and start each phase's checks from the seed.
+3. Build Reps and Plans (section 9, screens 4 and 5) for finance, without the Plans screen's live example for now, with the tier validation from section 5: first tier at 0%, starts strictly increasing, rates 0% to 100%, at most 6 tiers.
 4. Build Deals (screen 3): list by period, add and edit with an optional split. Enforce the deal rules in section 5 and R7 for approved periods, on the server.
-5. Load the seed data from section 13, including the periods and their statuses. (Approving and snapshots come in Phase 3; for now load the seed periods' statuses as given.)
+5. Load the seed data from section 13, including the periods and their statuses. (Approving, cancelling and adjustments come in Phase 3; for now load the seed periods' statuses, the #1002 cancellation and the two October adjustments as given. Phase 3 rebuilds the seed with the real actions.)
 6. Write one Event per change (R14).
 
 Do not calculate commissions yet. When you're done, list what you built and anything in the spec you had to interpret.
@@ -296,12 +297,15 @@ Do not calculate commissions yet. When you're done, list what you built and anyt
 ### Phase 2: The calculation and statements
 
 ```
-Build Phase 2 of the Commission Calculator blueprint: the calculation and statements.
+Using the Commission Calculator blueprint above, build Phase 2 only. This phase is the calculation and the statements.
 
 1. Implement section 6 (R1 to R5) as one pure function that takes a rep's deals, adjustments, plan and quota and returns a Statement (section 5). Integer math only, rounding exactly as R3. Add unit tests for every row of the worked-examples table and the rounding example.
 2. Build the Statement screen (section 9, screen 2) with every deal line's tier slices, the exact value when a slice was rounded, and adjustments.
 3. Build the Payouts screen (screen 1) without the Approve and Export buttons for now. For open periods calculate live.
-4. Approved seed periods: until Phase 3 adds snapshots, calculate them live too.
+4. Approved seed periods: until Phase 3 adds snapshots, calculate them live too, counting deals that were cancelled after the period was approved (they were paid in it), so August shows $10,060.
+5. Add the live example to the Plans screen, using the same calculation function.
+
+When you're done, list what you built and anything in the spec you had to interpret.
 ```
 
 **Acceptance checks**
@@ -314,7 +318,7 @@ Build Phase 2 of the Commission Calculator blueprint: the calculation and statem
 ### Phase 3: Approve, lock, clawbacks and export
 
 ```
-Build Phase 3 of the Commission Calculator blueprint.
+Using the Commission Calculator blueprint above, build Phase 3 only.
 
 1. Approve and lock (R6, R7): store every rep's statement as the period snapshot; approved periods are always read from the snapshot. Re-check the period status inside the same transaction as every write.
 2. Open next period.
@@ -322,6 +326,9 @@ Build Phase 3 of the Commission Calculator blueprint.
 4. Manual adjustments on the Statement screen for finance (open periods only).
 5. Plan and quota changes reach open periods only (R8).
 6. Export CSV for approved periods (R13) and the History screen (R14).
+7. Rebuild the seed with the real actions (add deals, approve August and September, cancel #1002, add the October adjustments), so the snapshots come from the same code.
+
+When you're done, list what you built and anything in the spec you had to interpret.
 ```
 
 **Acceptance checks**
@@ -330,17 +337,19 @@ Build Phase 3 of the Commission Calculator blueprint.
 - [ ] Ana changes AE Standard's second tier from 10% to 12%. Cy's October commission becomes $4,860; his September statement still shows $4,060.
 - [ ] Ana opens November 2026, then tries to approve November and gets "Approve October 2026 first."
 - [ ] Ana approves October. It shows Approved by Ana Lima, the Approve button is gone, and adding a deal dated 2026-10-20 is refused as locked.
-- [ ] Export CSV on September downloads payouts-2026-09.csv with a header and 4 rows; Rosa's row ends 3611.25 with approver Ana Lima. On an open period, export is refused with a reason.
+- [ ] Export CSV on September downloads payouts-2026-09.csv with a header and 4 rows; Rosa's row has payout 3611.25 and approved_by Ana Lima. On an open period, export is refused with a reason.
 - [ ] History lists the cancellation, both clawbacks, the adjustment, the plan change and the approval, with who did each.
 
 ### Phase 4: Rep statements and the what-if calculator
 
 ```
-Build Phase 4 of the Commission Calculator blueprint: what reps see.
+Using the Commission Calculator blueprint above, build Phase 4 only. This phase is what reps see.
 
 1. Reps land on their own statement (section 9, screen 2) with a period switcher, see My deals (only deals they are credited on) and the What if screen (screen 6).
-2. Enforce R11 on the server: a rep asking for another rep's statement, the payouts summary or the export is refused with the messages in section 8.
+2. Enforce R11 on the server: a rep asking for another rep's statement, the payouts summary or the export is refused with the messages in R11.
 3. Implement R12 using the same calculation function as statements, so the what-if can never disagree with the real statement.
+
+When you're done, list what you built and anything in the spec you had to interpret.
 ```
 
 **Acceptance checks**
@@ -362,3 +371,28 @@ Build Phase 4 of the Commission Calculator blueprint: what reps see.
 - Email each rep their statement when the period is approved.
 - Manager overrides: a sales manager earns a small rate on their team's credited bookings.
 - SPIF rules (for example $500 per new logo above $50,000) instead of manual adjustment lines.
+
+## 16. Build notes from our test build
+
+We built this blueprint by sending the four phase prompts above, in order, to an AI builder (Claude, working in Type), then checked every acceptance item in a real browser.
+
+**Result:** 24 of 24 acceptance checks passed in one final browser run on a freshly seeded database, plus 48 automated tests (every row of the worked-examples table and the rounding example, section 13's payouts to the cent, the business rules, approval and cancellation, permissions, the CSV and the what-if). Every screen was also checked 390 pixels wide, as finance and as a rep, with no sideways scrolling.
+
+**Gaps the build found, now fixed in this spec:**
+1. Sign-in had to match an email to a Person, but Person had no email. Added the email field (section 5) and screen 4.
+2. Phase 1 asked for the Plans screen's live example while saying not to calculate yet. The example moved to Phase 2.
+3. Nothing added or removed finance admins. Added to section 4.
+4. The Phase 1 seed needed a cancellation and adjustments that only exist from Phase 3. Phase 1 now loads them as given and Phase 3 rebuilds the seed with the real actions.
+5. Some checks change data that later phases' checks rely on. Each phase's checks now start from a fresh seed (section 14).
+6. Calculating approved August live left out deal #1002, cancelled after approval, giving $8,860 instead of $10,060. Phase 2 now counts deals cancelled after approval.
+7. The CSV check didn't match R13's column order, and approved_by was an ID. R13 now exports the approver's name, and the check names the payout column.
+8. Open next period was undefined when no period exists. Section 7 now opens the current month.
+9. Phase 4 referred to refusal messages that didn't exist. Added "Only finance can see this." to R11.
+10. The what-if split % could mean either rep's share. R12 now matches split_pct on a deal.
+
+**What we did not test:**
+- Production sign-in. Every browser check used the development "Act as" switcher.
+- Two people writing at the same moment. Every write re-checks the period status inside its transaction, but we did not run a multi-session test.
+- Importing the CSV into a real payroll system.
+- Other browsers and real phones. We tested in Chromium, including a 390-pixel-wide window.
+- Hosting. The test build ran on SQLite on one server. For a hosted deploy, use a managed Postgres (or your platform's database) and the same schema.

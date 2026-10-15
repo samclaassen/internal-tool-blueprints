@@ -43,7 +43,7 @@ Email sync and open tracking, sequences, marketing contacts and forms, multiple 
 
 ## 3. Scope of v1
 
-- One team, one currency (set once by an admin; default USD). Deal values are stored as integer cents.
+- One team, one currency, set with a TEAM_CURRENCY configuration value (default USD). Deal values are stored as integer cents.
 - One pipeline with fixed stages (section 7).
 - Follow-up and close dates are calendar dates (no time of day), interpreted in one team time zone (a configuration value such as a `TEAM_TIME_ZONE` environment variable; default America/New_York). "Today" means today in that time zone.
 - Web app that works on a phone. One email per person per day (the digest). No other notifications.
@@ -132,12 +132,12 @@ Follow-ups
 Ownership and permissions
 - **R9.** Every company, contact and open deal has an active owner. New records default to the person creating them.
 - **R10.** Only the record's owner or an admin can edit it, change its owner, reschedule its follow-up, archive or unarchive it, or (for deals) move its stage, mark it won or lost, or reopen it. The refusal message names the owner: "Only Sam Okafor (the owner) or an admin can change this contact."
-- **R11.** Changing a contact's owner or follow-up date writes a system activity ("Owner changed from Jo Park to Maya Chen", "Follow-up moved from Oct 10 to Oct 20").
+- **R11.** Changing a contact's owner or follow-up date writes a system activity ("Owner changed from Jo Park to Maya Chen", "Follow-up moved from Oct 10 to Oct 20"), including the follow-up change made by logging an activity (R5).
 
 Duplicates and validation
 - **R12.** Contact email is unique across all contacts, archived included, compared trimmed and case-insensitive. The error names the existing contact: "Kim Olsen already uses kim@olsen.example."
 - **R13.** Company names are unique (case-insensitive, trimmed). When a contact form or an import row names a company that does not exist, the company is created, owned by the contact's owner. When it matches an existing company (ignoring case), that company is used.
-- **R14.** Archiving a contact who has open deals is refused: "Kim Olsen has 1 open deal. Close it or move it to another contact first." Unarchiving sets `next_follow_up` to today if the stored date is in the past.
+- **R14.** Archiving a contact who has open deals is refused: "Kim Olsen has 1 open deal. Close it or move it to another contact first." Unarchiving sets `next_follow_up` to today if the stored date is missing or in the past.
 
 Deals
 - **R15.** A deal needs a title, a contact who is not archived, a value of $0 or more, and an expected close date. When an expected close date is set or changed on an open deal, it must be today or later. A deal is created in an open stage only.
@@ -172,7 +172,7 @@ Search, import and export
 | Move | Owner or admin | open stage | another open stage | System activity "Moved from Proposal to Negotiation" |
 | Mark won | Owner or admin | open stage | won | `closed_on` = today; system activity |
 | Mark lost | Owner or admin | open stage | lost | Reason required (R17); `closed_on` = today; system activity with the reason |
-| Reopen | Owner or admin | won or lost | an open stage | Clears `closed_on` and `lost_reason`; system activity. If the expected close is now in the past the deal shows "Past close date" until it is updated |
+| Reopen | Owner or admin | won or lost | an open stage | Refused if the contact is archived: "Unarchive Ruth Adams before reopening this deal." Clears `closed_on` and `lost_reason`; system activity. If the expected close is now in the past the deal shows "Past close date" until it is updated |
 
 Moving a deal to the stage it is already in is refused: "Bluebird annual plan is already in Proposal."
 
@@ -202,12 +202,12 @@ Moving Bluebird annual plan from Proposal to Negotiation: Proposal becomes $9,80
 
 1. **Today** (home). For the signed-in person, with a Me / Everyone toggle. Three sections: Overdue (red, most overdue first, "Overdue 3 days"), Due today, and Deals to watch (their open deals that are past close date or closing in the next 7 days). Each contact row has a Log activity button that opens the log form for that contact. Shows a one-line note when today's digest was sent ("Digest sent for Oct 14: 2 overdue, 0 due today, 1 deal"). Empty state: "Nothing due today. Nice."
 2. **Contacts.** Table: name (with title and company), owner, open deal (most advanced stage and value), last activity ("Call · 10 days ago"), next follow-up (badge: "Overdue 3d" red, "Today" amber, or a date). Filters: Mine / Everyone / a specific owner; All / Overdue / Due today / Archived. Summary line: "3 overdue · 2 due today". Buttons: New contact, Export CSV, Import (admins).
-3. **Contact detail.** Name, title, company link, email, phone, owner, follow-up status. **Log activity** card: type (Call, Email, Meeting, Note), date it happened (default today), note, optional deal (open deals of this contact), next follow-up with quick picks. Timeline (newest first, system entries muted, delete for the author or admins). Deals list with New deal. Actions for owner or admin: Edit, Reschedule follow-up, Archive or Unarchive.
+3. **Contact detail.** Name, title, company link, email, phone, owner, follow-up status. **Log activity** card: type (Call, Email, Meeting, Note), date it happened (default today), note, optional deal (open deals of this contact), next follow-up with quick picks. Timeline (newest first, system entries muted, delete for the author or admins). Deals list with New deal. Actions: Edit, Reschedule follow-up, Archive or Unarchive. Everyone sees them (a colleague may be covering); when anyone other than the owner or an admin uses one, the server refuses with the R10 message.
 4. **New / edit contact.** Name, email, phone, title, company (pick an existing one or type a new name), owner, next follow-up (default today).
 5. **Companies.** Table: name, domain, owner, active contacts, open deal value, earliest next follow-up among its contacts. New company.
 6. **Company detail.** Fields, contacts (with follow-up badges), deals, and the combined recent timeline of its contacts. Edit for owner or admin.
 7. **Pipeline.** Open tab: one column per open stage with header "Proposal · 2 · $27,800 · weighted $16,680", cards sorted by expected close (title, company, value, owner, expected close; "Past close date" in red). Each card has a "Move to" control (works on a phone; drag and drop is optional). Page header: open pipeline total, weighted total, won this month, number past close date. Mine / Everyone filter. New deal. Closed tab: won and lost deals with closed date and lost reason.
-8. **Deal detail.** Title, contact, company, owner, value, stage, probability, expected close, closed date, lost reason. Actions for owner or admin: Edit, Move to stage, Mark won, Mark lost (reason), Reopen. History: the deal's activities and stage changes.
+8. **Deal detail.** Title, contact, company, owner, value, stage, probability, expected close, closed date, lost reason. Actions (everyone sees them; the server refuses anyone but the owner or an admin with the R10 message): Edit, Move to stage, Mark won, Mark lost (reason), Reopen. History: the deal's activities and stage changes.
 9. **Search.** One box in the top bar. Results grouped into Contacts, Companies and Deals, each linking to its page.
 10. **Import** (admins). Paste box with the expected columns shown. Check button shows a preview table: each row's line number, values, and a status (Ready, Duplicate, or Error with the message). Import button imports the Ready rows and shows the summary.
 11. **Team** (admins). People with email, admin flag and active status. Add person (name, email, admin). Deactivate with a required "Give their records to" picker, showing how many contacts, companies and open deals will move.
@@ -247,19 +247,20 @@ Expected preview: line 2 Ella Brooks Ready (owner Sam Okafor, follow-up today, e
 
 ### Export
 
-- **Contacts CSV** (`contacts-YYYY-MM-DD.csv`): Name, Email, Phone, Title, Company, Owner, Next follow-up, Follow-up status (overdue, today, upcoming, archived), Last activity, Open deals, Open deal value. Values in dollars without the currency sign (`18000.00`).
+- **Contacts CSV** (`contacts-YYYY-MM-DD.csv`): Name, Email, Phone, Title, Company, Owner, Next follow-up, Follow-up status (overdue, today, upcoming, archived), Last activity, Open deals, Open deal value. Values are plain amounts in the team currency without a symbol (`18000.00`).
 - **Deals CSV** (`deals-YYYY-MM-DD.csv`): Title, Company, Contact, Owner, Stage, Value, Probability, Weighted value, Expected close, Closed on, Lost reason.
+- Formats: dates are `YYYY-MM-DD`. Last activity is the date of the latest call, email, meeting or note. Open deals is the number of open deals and Open deal value their total. Probability is a whole percentage (`60%`); Value and Weighted value are plain amounts (`10800.00`).
 - Both export the rows in the current view (R21). Quote any value containing a comma, quote or line break, and double inner quotes.
 
 ## 10. Daily digest (the only notification and the only scheduled job)
 
-Runs once a day at 08:00 in the team time zone (on Vercel: a cron hitting `/api/cron/digest` protected by a `CRON_SECRET` header; accept an optional `today` override in development).
+Runs once a day at 08:00 in the team time zone. On Vercel, schedule `/api/cron/digest` at `0 12,13 * * *` (UTC) and let the handler run only when it is 08:00 in the team time zone, so daylight saving does not move it. Vercel sends `Authorization: Bearer <CRON_SECRET>`; refuse anything else with 401. In development, accept a `today` override, and make the clock control's +1 day run the job for the new day.
 
 For each active person:
 1. Count their overdue contacts, their contacts due today, and their open deals that are past close date or closing within 7 days.
 2. If all three are zero, send nothing.
 3. If a DigestLog row already exists for this person and date, send nothing (the job is safe to run twice).
-4. Otherwise write the DigestLog row, then send one email: subject "3 follow-ups due today" (overdue plus due today), body listing each contact with company and how overdue, then the deals, each linking to its page. If sending fails, keep the row with the error and retry on the next run.
+4. Otherwise write the DigestLog row, then send one email: subject "3 follow-ups due today" (overdue plus due today; "1 deal to watch today" when there are no follow-ups), body listing each contact with company and how overdue, then the deals, each linking to its page. If sending fails, keep the row with the error and retry on the next run.
 
 There are no other scheduled jobs and no other notifications (no email per activity or per stage change). Overdue status is always computed from today's date, never stored.
 
@@ -308,7 +309,7 @@ Contacts (T is the day the seed is loaded):
 | Zoe Carter | Independent consultant | (none) | Maya | T+7 |
 | Marcus Lee | Office manager | Olsen & Co | Dana | T+9 |
 | Felix Wong | Engineering manager | Ridgeway | Lee | T+14 |
-| Ruth Adams | Former buyer | Kestrel | Jo | archived |
+| Ruth Adams | Former buyer | Kestrel | Jo | archived (no follow-up date) |
 
 Emails are first name at the company domain (priya@bluebird.example); Zoe Carter is zoe@carter.example.
 
@@ -333,7 +334,7 @@ Give every contact one to three past activities (calls, emails, meetings, notes)
 
 ## 13. Build plan
 
-Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app.
+Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app. Start each phase's checks from a fresh load of the seed (the reset button); checks within a phase run in order on the same data.
 
 ### Phase 1: Foundation, team, companies and contacts
 
@@ -342,10 +343,10 @@ Using the Simple CRM blueprint above, build Phase 1 only.
 
 1. Set up the data model from section 5 (Person, Company, Contact, Deal, Activity, DigestLog) with a real database.
 2. Add sign-in with the platform's built-in auth or Google sign-in limited to our company domain. A signed-in email must match an active Person; anyone else sees "Ask an admin to add you."
-3. Build Team (screen 11), Companies (5, 6) and Contacts (2, 4) with create and edit. Enforce rules R1 to R4 and R9 to R14 and R19 on the server, not only in the UI.
+3. Build Team (screen 11), Companies (5, 6) and Contacts (2, 4) with create and edit. Enforce rules R1 to R4, R9 to R13 and R19 on the server, not only in the UI (R14 comes with Archive in Phase 2).
 4. Sort the contacts list exactly as R3, with the Mine / Everyone / owner filters and the All / Overdue / Due today / Archived filters.
 5. Load the seed data from section 12, with dates relative to today.
-6. Add a small "act as" switcher visible only in development, so I can test as different people, and a development-only control that moves "today" forward one day.
+6. Add a small "act as" switcher visible only in development, so I can test as different people, a development-only control that moves "today" forward one day, and a development-only button that resets the data to the seed.
 
 Do not build activities, deals, import or export yet. When you're done, list what you built and anything in the spec you had to interpret.
 ```
@@ -357,18 +358,20 @@ Do not build activities, deals, import or export yet. When you're done, list wha
 - [ ] Creating a contact with email kim@olsen.example is refused with "Kim Olsen already uses kim@olsen.example."
 - [ ] Creating a contact with a follow-up date of yesterday is refused. Creating "Lena Fox" with company "Lumen Dental" (new) and follow-up today creates both, and Lumen Dental appears in Companies owned by the creator.
 - [ ] Acting as Lee, opening Priya Shah's edit form and saving is refused with "Only Sam Okafor (the owner) or an admin can change this contact."
-- [ ] Acting as Dana, deactivating Jo Park with records going to Maya Chen moves Leo Martins, Ruth Adams, Kestrel and the Kestrel starter deal to Maya. Jo no longer appears in owner pickers.
+- [ ] Acting as Dana, deactivating Jo Park with records going to Maya Chen moves Leo Martins, Ruth Adams, Kestrel and the Kestrel starter deal to Maya; the confirmation says 2 contacts, 1 company and 1 open deal moved to Maya Chen (Phase 3 shows the deal itself). Jo no longer appears in owner pickers.
 
 ### Phase 2: Activities, follow-ups, Today and search
 
 ```
-Build Phase 2 of the Simple CRM blueprint: activities, follow-ups, the Today screen and search.
+Using the Simple CRM blueprint above, build Phase 2 only. This phase is activities, follow-ups, the Today screen and search.
 
 1. Contact detail (screen 3) with the Log activity card and timeline. Implement R5 to R8 and R11 exactly. Logging an activity and setting the next follow-up happen in one database transaction.
 2. Reschedule follow-up and Archive / Unarchive for the owner or an admin (R4, R10, R14).
 3. Today screen (screen 1) for the signed-in person with the Me / Everyone toggle.
 4. Search (screen 9) exactly as R20.
 5. Write unit tests for follow-up status, the R3 sort order (use the worked example in section 7), and the R5 date rule.
+
+When you're done, list what you built and anything in the spec you had to interpret.
 ```
 
 **Acceptance checks**
@@ -383,12 +386,14 @@ Build Phase 2 of the Simple CRM blueprint: activities, follow-ups, the Today scr
 ### Phase 3: Deals and pipeline
 
 ```
-Build Phase 3 of the Simple CRM blueprint: deals and the pipeline board.
+Using the Simple CRM blueprint above, build Phase 3 only. This phase is deals and the pipeline board.
 
 1. Deals with create, edit, move, won, lost and reopen exactly as the lifecycle table in section 7 and rules R15 to R18. Enforce owner-or-admin on the server.
 2. Pipeline screen (screen 7) with per-stage count, total and weighted total, the header totals, the Mine / Everyone filter, the "Move to" control on each card, and the Closed tab.
 3. Deal detail (screen 8). Show open deals on the contact and company pages, and offer the contact's open deals in the Log activity form.
 4. Write unit tests for the board totals using the worked example in section 7.
+
+When you're done, list what you built and anything in the spec you had to interpret.
 ```
 
 **Acceptance checks**
@@ -403,12 +408,14 @@ Build Phase 3 of the Simple CRM blueprint: deals and the pipeline board.
 ### Phase 4: Import, export and the daily digest
 
 ```
-Build Phase 4 of the Simple CRM blueprint: CSV import by paste, CSV export and the daily digest.
+Using the Simple CRM blueprint above, build Phase 4 only. This phase is CSV import by paste, CSV export and the daily digest.
 
 1. Import screen (screen 10) exactly as section 9: header matching, comma or tab separator, quoted values, per-row checks in the stated order, preview, then import of Ready rows with the summary line. Admins only (R21).
 2. Export Contacts CSV and Deals CSV with the columns in section 9, exporting the current view.
-3. The daily digest job in section 10 at /api/cron/digest with a CRON_SECRET header and a development-only "today" override. If no email provider is configured, log the emails instead of sending.
+3. The daily digest job in section 10 at /api/cron/digest, protected by CRON_SECRET, with a development-only "today" override. If no email provider is configured, log the emails instead of sending.
 4. Write unit tests for the CSV parser (quotes, commas, tabs, line breaks) and for every row of the sample paste.
+
+When you're done, list what you built and anything in the spec you had to interpret.
 ```
 
 **Acceptance checks**
@@ -427,3 +434,28 @@ Build Phase 4 of the Simple CRM blueprint: CSV import by paste, CSV export and t
 - Update existing contacts by email during import (HubSpot's "create and update").
 - Business-day follow-up picks that skip weekends.
 - A "rotting" flag for deals with no activity in N days.
+
+## 15. Build notes from our test build
+
+We built this blueprint by sending the four phase prompts above, in order, to an AI builder (Claude, working in Type), then checked every acceptance item in a real browser.
+
+**Result:** 27 of 27 acceptance checks passed in one final browser run on a freshly seeded database, with no page or server errors, plus 91 automated tests (follow-up status and the sort order from the worked example, the follow-up date rule, board totals, the CSV parser and every row of the sample paste). Every screen was also checked 390 pixels wide with no sideways scrolling. The build found one real bug along the way (a crash on the New deal page), fixed before the final run.
+
+**Gaps the build found, now fixed in this spec:**
+1. Screen 3 hid owner-only actions while the checks expected a non-owner to try them and see the R10 message. The actions are now visible to everyone and refused on the server.
+2. Phase 1 asked for archiving (R14) and a deal check before archiving and deals existed. R14 moved to Phase 2, and the Phase 1 check reads the confirmation instead.
+3. R14 didn't say what unarchiving does when there is no stored follow-up date, as for Ruth Adams. It now sets today.
+4. The currency was "set once by an admin" with no screen for it. It is now a configuration value, and exports are plain amounts.
+5. It was unclear whether logging an activity also writes a "Follow-up moved" entry. R11 now says it does.
+6. Reopening a closed deal whose contact is archived was undefined. It is now refused.
+7. The digest's 08:00 schedule moves with daylight saving on a UTC scheduler, the cron header wasn't named, the clock control didn't say it runs the job, and the subject could read "0 follow-ups due today". Section 10 now covers all four.
+8. Several export columns had no format. Section 9 now defines them.
+
+The checks also assume fresh data per phase (Phase 4 expects 4 overdue contacts, which is no longer true after Phase 2 moves the clock), so the build plan now says to reset the seed before each phase's checks.
+
+**What we did not test:**
+- Production sign-in. Google sign-in was built, but every check used the development sign-in and "act as" switcher.
+- Sending email. Digests were checked in the logged outbox, not delivered.
+- The scheduled 08:00 run. The digest endpoint was called directly with its secret and a development date.
+- Hosting. The test build ran on SQLite on one server. On a serverless host, use a managed Postgres (or your platform's database) and the same schema.
+- Other browsers and real phones. We tested in Chromium, including its phone emulation.

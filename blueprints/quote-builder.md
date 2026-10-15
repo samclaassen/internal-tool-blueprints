@@ -53,7 +53,7 @@ Drag-and-drop document designer, rich media, legally binding e-signatures with s
 | Manager | Sales lead, finance lead | Everything a rep can do, on any quote. Approve or reject discount approvals on quotes they do not own and did not submit. Manage the price list, templates and settings. |
 | Client | The buyer, outside the company | Open the quote link, accept by typing their name, or decline with an optional reason. No sign-in. |
 
-Everyone inside the company sees all quotes (it is a small team and deals get handed over). Only the actions above are restricted, and they are checked on the server.
+Everyone inside the company sees all quotes (it is a small team and deals get handed over). Only the actions above are restricted, and they are checked on the server. v1 has no team screen: people are added, changed and deactivated by whoever runs the app (in the database or your platform's user management). Deactivated people cannot sign in and get no approval notifications; their quotes keep them as owner.
 
 ## 5. Data model
 
@@ -119,7 +119,7 @@ All timestamps are UTC. Dates without a time (valid_until, issued_on, due_on) ar
 
 **Approval**
 - id, quote_id, requested_by, requested_at
-- discount_bp, total_cents (the numbers the manager approved)
+- discount_bp (the total discount at request time, rounded half up to a whole basis point, for display only: section 6, step 10 decides approval), total_cents (the total the manager approved)
 - status: pending | approved | rejected | cancelled
 - decided_by, decided_at, comment (nullable)
 
@@ -182,8 +182,8 @@ Compute totals in this order. Round to the nearest cent at each step, halves rou
 | Decline | Client | sent, viewed | declined | decline_reason (optional), declined_at; notify owner; event `declined` |
 | Expire | Daily job, or the client opening an out-of-date link | sent, viewed | expired | expired_at; notify owner; event `expired` |
 | Extend | Owner or manager | approved, sent, viewed | same | New valid_until; expiry_reminder_for cleared; event `extended`. The approval stays valid |
-| Back to draft | Owner or manager | pending_approval, approved, sent, viewed | draft | Pending approval cancelled or approval cleared; public_token cleared so the old link stops working; view tracking reset; event `withdrawn` (or `approval_cancelled`) |
-| Duplicate | Rep or manager | any | new draft | New number, owner = the person duplicating, same client and lines (same prices and discounts), fresh valid_until; events `duplicated` on both |
+| Back to draft | Owner or manager | pending_approval, approved, sent, viewed | draft | The latest approval, pending or approved, becomes `cancelled`; public_token cleared so the old link stops working; view_count set to 0 and first_viewed_at, last_viewed_at and expiry_reminder_for cleared (the next send sets a new token and sent_at); event `withdrawn` (or `approval_cancelled`) |
+| Duplicate | Rep or manager | any | new draft | New number, owner = the person duplicating; copies the client, title, notes, lines (same prices and discounts), quote discount, tax rate and payment terms; valid_until = today + validity days; events `duplicated` on both |
 | Create invoice | Owner or manager | accepted, no invoice yet | accepted | Invoice with the next invoice number; event `invoiced` |
 
 **Final states:** accepted, declined, expired. Nothing changes a quote in a final state except creating its invoice (accepted only). To quote again, duplicate it.
@@ -199,11 +199,11 @@ Compute totals in this order. Round to the nearest cent at each step, halves rou
 - **R7.** Quote numbers and invoice numbers are sequential, assigned at creation, never reused and never changed. Quotes are never deleted, so there are no gaps.
 - **R8.** Only the quote's owner or a manager can edit, request approval, send, extend, take back to draft or invoice it. Anyone inside the company can view and duplicate any quote.
 - **R9.** Editing is only possible in draft. A quote needs a client and at least one line to request approval or send. At most 50 lines.
-- **R10.** valid_until must be today or later and at most 365 days ahead when saving, sending or extending. An extension must be later than the current date. A quote is valid through the end of its valid_until day (company time zone; UTC in v1) and expired from the next day.
+- **R10.** valid_until must be today or later and at most 365 days ahead when saving, sending or extending. An extension must be later than the quote's current valid_until (it cannot shorten a quote; to shorten, take it back to draft and edit it). A quote is valid through the end of its valid_until day (company time zone; UTC in v1) and expired from the next day.
 - **R11.** Accepting needs the client's typed full name (2 to 100 characters, at least one letter) and the "I accept" box ticked. It records the name and the time. It is refused once today is after valid_until, even if the daily job has not run yet.
 - **R12.** Views are counted only from the client link, only while the quote is sent or viewed. Opening the quote inside the app never counts as a view.
 - **R13.** One invoice per accepted quote. The invoice copies the lines and totals exactly (no recalculation, even if prices changed since). due_on = issued_on + the quote's payment terms days.
-- **R14.** Every action writes exactly one event. Events are never edited or deleted.
+- **R14.** Every action writes one event on each quote it changes, with two exceptions: Duplicate writes `duplicated` on both the original and the copy (the copy has no `created` event), and only the first client view writes `viewed` (later views update view_count and last_viewed_at only). Events are never edited or deleted.
 - **R15.** Changing the price list, a client's tax rate or terms, or Settings never changes existing quotes. Archiving a product removes it from pickers only.
 - **R16.** Templates contain only price-list items. Applying a template adds its lines at today's prices, after any existing lines. Items that have since been archived are skipped with a message ("Skipped 1 archived item: Legacy setup fee").
 
@@ -265,7 +265,7 @@ The quote list shows "Expires in N days" for open quotes, "Expires today" on the
 - Two managers decide the same approval on stale screens: the second gets "This approval was already decided." (check status in the same transaction as the update).
 - The client clicks Accept twice: the second click shows the accepted confirmation; it does not write a second event.
 - The threshold is lowered while a quote is awaiting approval: the manager still decides; an approved quote stays approved.
-- Every manager owns the quote or requested it: nobody can approve it. Show "No other manager can approve this. Ask an admin to add a manager." on request.
+- Every manager owns the quote or requested it: nobody could approve it, so Request approval is refused with "No other manager can approve this. Ask an admin to add a manager." and the quote stays in draft.
 - A quote with a 100% line discount (a free item) is allowed; it counts toward the total discount.
 - Quantity with more than 2 decimals, a negative price, or a discount over 100%: refused with a field error.
 
@@ -273,13 +273,13 @@ The quote list shows "Expires in N days" for open quotes, "Expires today" on the
 
 Seller: Northwind, 18 Mill Road, Portland, OR 97205, sales@northwind.example. Threshold 15%, validity 30 days, default tax 8%, default terms Net 30. Dates below are relative to today (T).
 
-| Person | Role |
-|---|---|
-| Dana Ruiz (Sales manager) | manager |
-| Ana Lima (Finance lead) | manager |
-| Jo Park (Account executive) | rep |
-| Lee Park (Account executive) | rep |
-| Maya Chen (Account executive) | rep |
+| Person | Email | Role |
+|---|---|---|
+| Dana Ruiz (Sales manager) | dana@northwind.example | manager |
+| Ana Lima (Finance lead) | ana@northwind.example | manager |
+| Jo Park (Account executive) | jo@northwind.example | rep |
+| Lee Park (Account executive) | lee@northwind.example | rep |
+| Maya Chen (Account executive) | maya@northwind.example | rep |
 
 | Client | Contact | Terms | Tax |
 |---|---|---|---|
@@ -346,7 +346,7 @@ When you're done, list what you built and anything in the spec you had to interp
 ### Phase 2: Quotes and pricing
 
 ```
-Build Phase 2 of the Quote Builder blueprint: quotes, the editor and templates.
+Using the Quote Builder blueprint above, build Phase 2 only. This phase is quotes, the editor and templates.
 
 1. Implement the pricing math in section 6 as a pure function with unit tests for every row of the worked-examples table, including the boundary and rounding rows.
 2. Build screens 1 to 4 and 10 from section 9: the quote list with tiles and filters, New quote, the editor with live totals, the internal quote page, and Templates.
@@ -355,6 +355,8 @@ Build Phase 2 of the Quote Builder blueprint: quotes, the editor and templates.
 5. Load the seed quotes from section 14 with their history.
 
 Do not build approvals, sending or the client page yet.
+
+When you're done, list what you built and anything in the spec you had to interpret.
 ```
 
 **Acceptance checks**
@@ -370,12 +372,14 @@ Do not build approvals, sending or the client page yet.
 ### Phase 3: Approval, sending and the client page
 
 ```
-Build Phase 3 of the Quote Builder blueprint: discount approval, sending and the client page.
+Using the Quote Builder blueprint above, build Phase 3 only. This phase is discount approval, sending and the client page.
 
 1. Implement Request approval, Approve, Reject, Send, client view, Accept and Decline from section 7, with rules R4 to R6, R11 and R12. Enforce every permission on the server.
 2. Build the Approvals screen (screen 7) and the approval box and actions on the quote page.
 3. Build the client page (screen 5) exactly as section 11 describes: token lookup, no sign-in, noindex, view counting, and Accept / Decline as POSTs that re-check status inside a transaction.
 4. Send the notifications in section 10 for these actions through the outbox. If no email provider is configured, log emails instead of sending.
+
+When you're done, list what you built and anything in the spec you had to interpret.
 ```
 
 **Acceptance checks**
@@ -393,13 +397,15 @@ Build Phase 3 of the Quote Builder blueprint: discount approval, sending and the
 ### Phase 4: Expiry, print and invoices
 
 ```
-Build Phase 4 of the Quote Builder blueprint.
+Using the Quote Builder blueprint above, build Phase 4 only.
 
 1. The daily job in section 12 at /api/cron/daily, protected by a CRON_SECRET header, with a "now" override in development. Show the countdowns on the quote list.
 2. Extend and Back to draft from section 7, with R6 and R10.
 3. The print view (screen 6) with print CSS for the quote page, the client page and the invoice.
 4. Create invoice (R13) and the Invoices screens (screen 11), with Download CSV: one row per line with invoice number, issued, due, client, item, qty, unit price, discount %, line total, and the invoice totals on every row.
 5. Managers: Save as template on the quote page.
+
+When you're done, list what you built and anything in the spec you had to interpret.
 ```
 
 **Acceptance checks**
@@ -420,3 +426,28 @@ Build Phase 4 of the Quote Builder blueprint.
 - Collect a deposit with Stripe Checkout on acceptance.
 - Push the invoice to QuickBooks or Xero instead of a CSV.
 - Multiple currencies, with the currency fixed per client.
+- A Team screen in Settings where managers add people, change roles and deactivate them.
+
+## 17. Build notes from our test build
+
+We built this blueprint by sending the four phase prompts above, in order, to an AI builder (Claude, working in Type), then checked every acceptance item in a real browser.
+
+**Result:** 29 of 29 acceptance checks passed in one final browser run on a freshly seeded database, plus 47 automated tests (every row of the pricing worked examples, including both boundary rows and the rounding row). Where a check implies a server-side refusal, the browser script also made the request directly and saw it refused.
+
+**Gaps the build found, now fixed in this spec:**
+1. Sign-in matches on email, but the seed people had no emails. Section 14 now lists them.
+2. Nothing said how people are added or deactivated. Section 4 now says v1 has no team screen and how people are managed; a Team screen is listed under variations.
+3. Duplicate didn't say whether the quote discount, tax rate, terms, title and notes are copied, and a check depends on it. Section 7 now lists everything copied.
+4. R14's "exactly one event" contradicted Duplicate and repeat client views. R14 now states both exceptions.
+5. Approval stored the discount as whole basis points while section 6 says never to round. The stored figure is now display-only and rounded half up.
+6. When no other manager could approve, the spec showed a message but didn't say whether the request went through. It is now refused.
+7. R10's "later than the current date" could mean today or the current valid-until. It now means the current valid-until.
+8. Back to draft didn't say what "approval cleared" and "view tracking reset" change. Section 7 now lists the fields.
+
+**What we did not test:**
+- Production sign-in. Every check used the development "Act as" switcher.
+- Sending email. Emails went to the outbox, not delivered.
+- The scheduled daily job. It was run through its endpoint with the secret and a development date.
+- The browser's own print dialog. The check confirmed the Print button calls the browser's print function and that the print layout shows only the quote; page breaks for very long quotes were not checked.
+- Two people acting at the same moment (two managers approving, two Accept clicks). Covered by unit tests and a repeated Accept, not parallel browser sessions.
+- Hosting. The test build ran on SQLite on one server. For a hosted deploy, use a managed Postgres (or your platform's database) and the same schema.
