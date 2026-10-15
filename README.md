@@ -35,6 +35,7 @@ The full catalog, with live demos and test results, is at https://personalsoftwa
 - [How to build an internal tool with AI that your team can rely on](https://personalsoftwarefactory.com/guides/how-to-build-internal-tools-with-ai)
 - [Build or buy: when to replace a SaaS tool with one you build with AI](https://personalsoftwarefactory.com/guides/build-vs-buy-saas)
 - [A spec template for AI app builders](https://personalsoftwarefactory.com/guides/ai-app-spec-template)
+- [What 14 business SaaS tools cost a 10-person team](https://personalsoftwarefactory.com/guides/saas-pricing-for-small-teams)
 
 ## Terms
 
