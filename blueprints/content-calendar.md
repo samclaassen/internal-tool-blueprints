@@ -51,7 +51,7 @@ Publishing to social networks, AI writing, best-time scheduling, social inboxes 
 | Role | Who | Can do |
 |---|---|---|
 | Writer | Everyone on the team | Add ideas to the backlog. Own pieces. On pieces they own: edit, move to a date, start writing, send for review, withdraw from review, mark published, reopen. Comment on any piece. Delete ideas they added. |
-| Editor | One or more people | Everything a writer can do, on any piece. Approve or request changes on pieces in review that they do not own. Assign pieces to other people. Manage channels and campaigns. |
+| Editor | One or more people | Everything a writer can do, on any piece, except Withdraw, which stays with the owner. Approve or request changes on pieces in review that they do not own. Assign pieces to other people. Manage channels and campaigns. |
 
 Everyone can see every piece. Only the actions above are restricted, and they are enforced on the server, not only by hiding buttons.
 
@@ -120,7 +120,7 @@ The normal path is Idea → Writing → In review → Scheduled → Published. P
 | Start writing | Owner or editor | Idea | Writing | Activity `started_writing` |
 | Park as idea | Owner or editor | Writing | Idea | Activity `parked` |
 | Send for review | Owner or editor | Writing | In review | Needs a publish date of today or later and a draft link (R4). Sets reviewer_id and submitted_at. Notify the reviewer |
-| Withdraw | Owner | In review | Writing | Clears reviewer and submitted_at |
+| Withdraw | Owner (an editor who isn't the owner uses Request changes instead) | In review | Writing | Clears reviewer and submitted_at |
 | Request changes | Editor who is not the owner | In review | Writing | Comment of 3+ characters required. Notify the owner with the comment |
 | Approve | Editor who is not the owner | In review | Scheduled | Publish date must be today or later. Sets approved_by and approved_at. Notify the owner |
 | Reopen | Owner or editor | Scheduled | Writing | Clears the approval. The piece must be reviewed again |
@@ -139,7 +139,7 @@ Any other transition is refused. Published is final: a published piece can only 
 - **R4.** Sending for review needs a publish date that is today or later and a draft link. Messages: "Pick a publish date before sending for review.", "The publish date has passed. Move it to today or later first.", "Add a draft link before sending for review."
 - **R5.** Requesting changes needs a comment of at least 3 characters. The piece returns to Writing and any approval is cleared.
 - **R6.** Approving needs a publish date of today or later ("The publish date has passed. Move it to today or later before approving.").
-- **R7.** Moving a piece to a date before today is refused: "Pick today or a later date." Published pieces cannot be moved or edited.
+- **R7.** Moving a piece to a date before today is refused: "Pick today or a later date." Published pieces cannot be moved or edited. Editing the title, channel, draft link or notes of a piece that is In review or Scheduled is refused: "This piece is In review. Withdraw it (or Reopen a scheduled piece) before changing it." Owner, campaign and date changes are allowed.
 - **R8.** Only Idea and Writing pieces can be unscheduled (moved back to the backlog). For In review and Scheduled: "A piece in review or scheduled needs a publish date. Send it back to Writing first."
 - **R9.** Mark published is refused before the publish date: "This piece is scheduled for Oct 24. If it went out early, move it to today first." This keeps the calendar truthful.
 - **R10.** Moving a piece keeps its status. A Scheduled piece stays Scheduled: the approval covers the content, not the date. Moving clears reminded_for and overdue_notified_for, so reminders apply again to the new date.
@@ -155,7 +155,7 @@ Any other transition is refused. Published is final: a published piece can only 
 
 "Today" is the current date in the team time zone. Days are counted as calendar days, so a piece due tomorrow is 1 day away whether it is 9 am or 11 pm.
 
-**Daily job** (runs every day at 08:00 team time; on Vercel use a cron hitting `/api/cron/daily` protected by a `CRON_SECRET` header). For each piece:
+**Daily job** (runs every day at 08:00 team time; on Vercel use a cron hitting `/api/cron/daily` protected by a `CRON_SECRET` header. Vercel Cron runs in UTC, so schedule it hourly and have it do nothing before 08:00 team time; it is safe to run again, so later runs that day send nothing). For each piece:
 1. If it is due soon (R11) and reminded_for is not its publish_on: notify the owner, set reminded_for, write a `reminded` activity.
 2. If it is overdue (R12) and overdue_notified_for is not its publish_on: notify the owner, set overdue_notified_for, write an `overdue` activity.
 
@@ -215,12 +215,12 @@ Worked example, today Tue Oct 13, "Q4 pricing launch" runs Oct 10 to Oct 31:
 2. **Pipeline.** A toggle between Board and List. Board: five columns by status with counts; cards show title, channel, owner, date and flags. List: a table sorted by date (unscheduled last) with filters for status, channel, owner and campaign.
 3. **Backlog.** A quick-add form at the top (title, channel) that anyone can use; the new idea is owned by its author. Below, all unscheduled pieces, newest first, each with a date field and a Schedule button.
 4. **Review queue** (editors). Pieces in review that the viewer does not own, oldest submission first: title, owner, publish date, days waiting, draft link, Approve button. Request changes opens the piece because it needs a comment.
-5. **Piece detail.** Title, channel, status, flags (Overdue, Due soon, Outside campaign dates), owner, reviewer, approval, publish date, campaign, draft link, notes. Workflow buttons only for actions the viewer may take (section 6). Move to date. Edit form. Comments and the activity log, newest last.
+5. **Piece detail.** Title, channel, status, flags (Overdue, Due soon, Outside campaign dates), owner, reviewer, approval, publish date, campaign, draft link, notes. Workflow buttons only for actions the viewer may take (section 6). Move to date is shown on every unpublished piece; if the viewer isn't the owner or an editor, the server refuses with the R13 message. The Edit form is shown only to the owner and editors; others see who owns the piece. Comments and the activity log, newest last.
 6. **New piece.** Title, channel, owner (writers see only themselves), publish date (optional; empty means backlog), campaign, draft link, notes. Always created as Idea.
 7. **Campaigns.** List with dates, goal, piece counts and progress. Campaign page with its pieces and, for editors, Edit and Move campaign.
 8. **Inbox.** The viewer's notifications, newest first, with an unread count in the navigation and Mark all read.
 9. **Weekly digest.** The digest as it would go out today (section 9) and the date of the next Monday send.
-10. **Settings.** Channels (name and color; editors can add, rename, recolor and deactivate) and the default reviewer. Writers see this screen read-only.
+10. **Settings.** Channels (name and color; editors can add, rename, recolor and deactivate), the default reviewer, and People: name, email, role and active. Editors can add a person, change a role and deactivate someone; the last active editor and the default reviewer cannot be demoted or deactivated, and someone who owns unpublished pieces must hand them over first. Writers see this screen read-only.
 
 ## 12. Notifications
 
@@ -251,14 +251,16 @@ Write every notification to the outbox first, then send the email. A failed emai
 
 ## 14. Seed data
 
-| Person | Role |
-|---|---|
-| Maya Chen | Editor (default reviewer) |
-| Dana Ruiz | Editor |
-| Jo Park | Writer |
-| Lee Park | Writer |
-| Sam Okafor | Writer |
-| Ana Lima | Writer |
+| Person | Email | Role |
+|---|---|---|
+| Maya Chen | maya@yourcompany.com | Editor (default reviewer) |
+| Dana Ruiz | dana@yourcompany.com | Editor |
+| Jo Park | jo@yourcompany.com | Writer |
+| Lee Park | lee@yourcompany.com | Writer |
+| Sam Okafor | sam@yourcompany.com | Writer |
+| Ana Lima | ana@yourcompany.com | Writer |
+
+Replace yourcompany.com with your own email domain.
 
 Channels: Blog (#2c5ac9), Newsletter (#1f7a4d), LinkedIn (#0e7490), X (#3f3f46), YouTube (#c2410c).
 
@@ -290,7 +292,7 @@ Counts: 5 Idea, 5 Writing, 2 In review, 4 Scheduled, 3 Published. Every piece ex
 
 ## 15. Build plan
 
-Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app.
+Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app. Start each phase's checks from a fresh load of the seed (the reset button); checks within a phase run in order on the same data.
 
 ### Phase 1: Foundation
 
@@ -316,7 +318,7 @@ Do not build pieces or the calendar yet. When you're done, list what you built a
 ### Phase 2: Pieces, calendar, backlog and pipeline
 
 ```
-Build Phase 2 of the Content Calendar blueprint: pieces and the views of them.
+Using the Content Calendar blueprint above, build Phase 2 only. This phase is pieces and the views of them.
 
 1. Build screens 1, 2, 3, 5 and 6 from section 11: Calendar, Pipeline (board and list), Backlog, Piece detail and New piece.
 2. Implement Add, Edit, Move to date, Back to backlog and Delete from section 6, with rules R7, R8, R10, R13, R14, R16 and R17. Enforce permissions on the server, not only by hiding buttons.
@@ -324,6 +326,8 @@ Build Phase 2 of the Content Calendar blueprint: pieces and the views of them.
 4. Write one Activity row for every action and show the activity log on the piece page.
 
 No drag and drop: use the Move to date control so it works the same on a phone.
+
+When you're done, list what you built and anything in the spec you had to interpret.
 ```
 
 **Acceptance checks**
@@ -334,18 +338,20 @@ No drag and drop: use the Move to date control so it works the same on a phone.
 - [ ] Moving it to yesterday is refused with "Pick today or a later date."
 - [ ] As Jo, Lee's "Ridgeway onboarding story" shows no workflow buttons, and moving it is refused with "Only the owner or an editor can change this piece."
 - [ ] As Jo, the New piece owner field offers only Jo; as Maya it lists everyone.
-- [ ] Pipeline board shows Idea 5, Writing 5, In review 2, Scheduled 4, Published 3, and the list filtered to Blog shows only Blog pieces.
+- [ ] On fresh seed data, the pipeline board shows Idea 5, Writing 5, In review 2, Scheduled 4, Published 3, and the list filtered to Blog shows only Blog pieces.
 
 ### Phase 3: Review and publishing
 
 ```
-Build Phase 3 of the Content Calendar blueprint: the status workflow.
+Using the Content Calendar blueprint above, build Phase 3 only. This phase is the status workflow.
 
 1. Implement every transition in section 6 and rules R1 to R6 and R9. Put the transition rules in one pure function module with unit tests for each row of the section 6 table.
 2. Show only the workflow buttons the viewer may use on the piece page, and refuse anything else on the server.
 3. Build the Review queue (section 11, screen 4) for editors, with Approve on each row.
 4. Build the Inbox (screen 8) and write notifications from section 12 for review requests, approvals, requested changes, assignments and comments. Email can be logged instead of sent for now.
 5. Do the status check and the update in one transaction.
+
+When you're done, list what you built and anything in the spec you had to interpret.
 ```
 
 **Acceptance checks**
@@ -353,19 +359,21 @@ Build Phase 3 of the Content Calendar blueprint: the status workflow.
 - [ ] As Jo, her piece in review shows Withdraw and no Approve button.
 - [ ] As Maya, Request changes with an empty comment is refused; with "Tighten the intro" the piece goes back to Writing and Jo sees the comment in her inbox.
 - [ ] Jo sends it again and Maya approves it from the Review queue. It is Scheduled and shows "Approved by Maya Chen".
-- [ ] As Maya, her own "Behind the scenes: how we plan content", once dated, linked and sent for review, goes to Dana; Maya sees no Approve button on it, and Dana can approve it.
+- [ ] As Maya, her own "Behind the scenes: how we plan content", once started, dated, linked and sent for review, goes to Dana; Maya sees no Approve button on it, and Dana can approve it.
 - [ ] Marking "Harbor webinar recap" published is refused because its date is in the future; marking "Launch thread: new pricing" published works and the calendar shows it as Published.
 - [ ] The activity log of "5 reporting mistakes we see every quarter" lists sent for review, changes requested (with the comment), sent for review and approved, each with who and when.
 
 ### Phase 4: Reminders, overdue, digest and campaigns
 
 ```
-Build Phase 4 of the Content Calendar blueprint.
+Using the Content Calendar blueprint above, build Phase 4 only.
 
 1. The daily job in section 8 (due-soon reminders, overdue notices, Monday digest) at /api/cron/daily, protected by a CRON_SECRET header. Accept an optional "now" override in development, and add a development-only "+1 day" button that moves the app clock forward one day and runs the job.
 2. The Weekly digest preview screen (section 9) and the digest email.
 3. Campaign pages with Move campaign (section 10, R15) and the "Outside campaign dates" warning (R16).
 4. Send emails from the Notification outbox. If no email provider is configured, log them.
+
+When you're done, list what you built and anything in the spec you had to interpret.
 ```
 
 **Acceptance checks** (start from fresh seed data)
@@ -385,3 +393,25 @@ Build Phase 4 of the Content Calendar blueprint.
 - A second approval step for legal or a client on selected channels.
 - Drag and drop on desktop, calling the same Move to date action.
 - Per-channel publishing cadence with a warning when a week has a gap.
+
+## 17. Build notes from our test build
+
+We built this blueprint by sending the four phase prompts above, in order, to an AI builder (Claude, working in Type), then checked every acceptance item in a real browser.
+
+**Result:** 27 of 27 acceptance checks passed in one final browser run, with the data reset to the seed before each phase's checks, plus 63 automated tests.
+
+**Gaps the build found, now fixed in this spec:**
+1. Sign-in told strangers to ask an editor to add them, but no screen managed people. Settings now has People, with rules for the last editor and the default reviewer.
+2. The seed people had no email addresses. Section 14 now lists them.
+3. The piece page didn't say who sees Move to date and Edit, and a check needs a writer to try a move and be refused. Screen 5 now says.
+4. A Phase 2 check expected the seed's board counts after an earlier check added an idea. Each phase's checks now start from fresh seed data, and the check says so.
+5. Section 4 let editors withdraw any piece, while section 6 said owner only. Withdraw is now the owner's, and editors use Request changes.
+6. A daily job "at 08:00 team time" can't be one UTC cron schedule. Section 8 now says to run it hourly and skip until 08:00.
+7. A Phase 3 check skipped the Start writing step the rules require. The check now includes it.
+8. A piece in review or scheduled could still be edited without another review. R7 now refuses those edits; the test build followed the earlier wording and allows them.
+
+**What we did not test:**
+- Production sign-in. Google sign-in was built, but every check used the development "Act as" switcher.
+- Sending email. Emails were logged in the outbox, not delivered.
+- The scheduled daily job. Its endpoint was called directly, and days passing were simulated with the development clock.
+- Several server processes writing at once. The test build ran on SQLite in one process. For a hosted deploy, use a managed Postgres (or your platform's database) and the same schema.

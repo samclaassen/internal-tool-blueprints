@@ -72,7 +72,7 @@ All IDs are strings. Timestamps are UTC.
 - id, email (required, unique, stored lowercase), name (optional, max 100), created_at
 
 **Ticket**
-- id, number (integer, sequential from 1001, never reused)
+- id, number (integer, sequential from 1001, never reused: taken from a stored counter, last_ticket_number, that deleting tickets never lowers)
 - subject (required, 1 to 150 characters), requester_id, channel: email | web | agent
 - status: new | open | pending | on_hold | solved | closed
 - priority: low | normal | high | urgent (default normal)
@@ -100,7 +100,9 @@ All IDs are strings. Timestamps are UTC.
 **Notification** (outbox)
 - id, kind: acknowledgement | public_reply | assignment
 - to_email, ticket_id (nullable), subject, body, message_id_header, in_reply_to_header (nullable)
-- status: pending | sent | logged | failed, error (nullable), created_at, sent_at
+- status: pending | sent | logged | failed, error (nullable), attempts (integer, default 0), created_at, sent_at
+
+**FormSubmission** (rate limit for the support form): id, ip_hash (SHA-256 of the IP address with a server secret), created_at.
 
 ## 6. Ticket lifecycle
 
@@ -119,11 +121,13 @@ All IDs are strings. Timestamps are UTC.
 
 No action sets a ticket back to New, and no person can set Closed. A closed ticket cannot be changed in any way.
 
+Events written by each action (R15): create writes `created`; assign writes `assigned` (and `status_changed` when New becomes Open); a public reply writes `replied`, plus `assigned` when it assigns the replier and `status_changed` when the status moves; an internal note writes `note_added`; a status change writes `status_changed`; a priority change writes `priority_changed`; a requester reply writes `requester_replied`, plus `reopened` (from Solved) or `status_changed` (from Pending or On-hold); a follow-up writes `follow_up_created` on the new ticket; the job writes `closed`; R14 writes `requester_deleted`.
+
 ## 7. First-response targets
 
 - **R5.** On creation, first_response_due_at = created_at + the target for the ticket's priority. Changing the priority before the first response recalculates it from created_at. After the first response, the target no longer changes.
 - The first response is the first public reply by an agent. Internal notes, the acknowledgement email and status changes do not count.
-- Each ticket without a first response shows its target state: **Overdue** when now is past first_response_due_at, **Due soon** when less than 25% of its target time remains, otherwise **Due in** the remaining time ("Due in 1 h 10 min"). Tickets with a first response show "Responded in 2 h 5 min" (the time between created_at and first_response_at).
+- Each ticket without a first response shows its target state: **Overdue** when now is past first_response_due_at, **Due soon** when 25% or less of its target time remains, otherwise **Due in** the remaining time ("Due in 1 h 10 min"). Tickets with a first response show "Responded in 2 h 5 min" (the time between created_at and first_response_at). Durations are shown in whole minutes, as "2 h 5 min" ("21 h" when the minutes are 0): Overdue by and Responded in round down, Due in rounds up.
 - Targets count calendar hours, 24 hours a day. Business hours are a variation.
 
 ### Worked examples (seed data in section 14; T is the moment the seed is loaded)
@@ -138,16 +142,16 @@ No action sets a ticket back to New, and no person can set Closed. A closed tick
 
 ## 8. Business rules
 
-- **R1. New and Open.** A ticket is New until it is assigned or gets its first public reply, and never returns to New. Assigning a New ticket makes it Open.
+- **R1. New and Open.** A ticket is New until it is assigned, gets its first public reply, or an agent changes its status. It never returns to New. Assigning a New ticket makes it Open.
 - **R2. Status choices.** Agents can set Open, Pending, On-hold or Solved. They can never set New or Closed. A ticket on Pending waits for the requester; On-hold waits for someone else and is shown to the requester as Open.
-- **R3. Requester replies.** A requester email that belongs to a ticket (R11) adds a requester message. On Pending, On-hold or Solved the ticket becomes Open. On a Closed ticket it creates a new ticket with the same requester and subject, follow_up_of set to the closed ticket, status New and its own first-response target, and the closed ticket stays unchanged.
+- **R3. Requester replies.** A requester email that belongs to a ticket (R11) adds a requester message. On Pending, On-hold or Solved the ticket becomes Open. On a Closed ticket it creates a new ticket with the same requester and subject, follow_up_of set to the closed ticket, status New and its own first-response target, and the closed ticket stays unchanged. If the ticket's assignee is no longer active, the reopened ticket is unassigned.
 - **R4. Solving needs an owner.** A ticket can be solved only if it has an assignee: "Assign this ticket before solving it."
 - **R6. One assignee.** A ticket has at most one assignee, who must be an active agent. Deactivating an agent with tickets that are not solved or closed is refused: "Reassign Jo Park's 2 open tickets first."
 - **R7. Internal notes stay internal.** Notes are never emailed, never quoted in replies, and never included in anything the requester receives.
-- **R8. Replies by email.** Every public reply is written to the outbox as an email to the requester, from support_email, with the subject "Re: {subject} [#{number}]", a new Message-ID header, and In-Reply-To set to the last email in the thread. The body is the reply only; it never includes notes, other requesters' details or the assignee's email address.
-- **R9. Canned replies** insert their body into the reply box with placeholders filled in. The agent can edit before sending. They never send on their own.
+- **R8. Replies by email.** Every public reply is written to the outbox as an email to the requester, from support_email, with the subject "Re: {subject} [#{number}]", a new Message-ID header, and In-Reply-To set to the newest Message-ID among the requester's emails, the acknowledgement and earlier public replies (internal notes are not emails). The body is the reply only; it never includes notes, other requesters' details or the assignee's email address.
+- **R9. Canned replies** insert their body into the reply box with placeholders filled in. The agent can edit before sending. They never send on their own. If the requester has no name, {requester_first_name} is "there".
 - **R10. Validation.** Subjects 1 to 150 characters, messages 1 to 20,000 characters, requester emails valid and stored lowercase. Message text is shown as text, never as HTML.
-- **R11. Threading.** An inbound email belongs to a ticket if its subject contains "[#{number}]" for an existing ticket with the same requester email, or if its In-Reply-To or References headers match a Message-ID the app sent or received for that ticket. Otherwise it creates a new ticket.
+- **R11. Threading.** An inbound email belongs to a ticket only if it comes from that ticket's requester and either its subject contains "[#{number}]" or its In-Reply-To or References headers match a Message-ID the app sent or received for that ticket. Otherwise it creates a new ticket.
 - **R12. No duplicates.** An inbound email whose Message-ID was already received creates nothing (the endpoint returns 200 with the existing ticket number).
 - **R13. Stale replies.** The reply box remembers the ticket's version when it was opened. If the ticket changed since then (someone else replied, added a note or changed it), sending is stopped with "Ben Cho replied 2 minutes ago. Review the ticket before sending." The agent's draft is kept. Sending again after reviewing goes through.
 - **R14. Deleting a requester.** An admin can delete a requester's data on request: their tickets, messages and outbox rows are removed, and one `requester_deleted` event is kept with the admin, the time and the number of tickets, but no email address, name or text.
@@ -155,13 +159,13 @@ No action sets a ticket back to New, and no person can set Closed. A closed tick
 
 ## 9. Screens
 
-1. **Queues** (home). A sidebar with Unassigned (New or Open with no assignee), Mine (assigned to me, not Solved or Closed), All open (New, Open, On-hold), Pending, and Solved (solved in the last 30 days), each with a count. The list shows number, subject, requester, status, priority, assignee, the first-response state (section 7) and the last update. Unassigned and Mine sort by first_response_due_at (overdue first), then by updated_at, oldest first. A search box matches the number, subject, requester email and message text.
+1. **Queues** (home). A sidebar with Unassigned (New or Open with no assignee), Mine (assigned to me, not Solved or Closed), All open (New, Open, On-hold), Pending, and Solved (status Solved or Closed, solved in the last 30 days), each with a count. The list shows number, subject, requester, status, priority, assignee, the first-response state (section 7) and the last update. Unassigned, Mine, All open and Pending list tickets still waiting for a first response first, by first_response_due_at (overdue first), then the rest by updated_at, oldest first. Solved lists the most recently solved first. A search box matches the number, subject, requester email and message text.
 2. **Ticket.** Subject, number, requester (with a link to their history), status, priority, assignee (with "Take it"), follow-up link if any, the first-response state, then the thread: requester messages, public replies and internal notes (notes visibly marked "Internal"). The reply box has a Public reply / Internal note switch, a canned reply picker, and a submit button that sets the status ("Submit as Open", "Submit as Pending", "Submit as On-hold", "Submit as Solved").
 3. **Requester.** Name, email and every ticket they opened.
 4. **New ticket** (agent). Requester email, name, subject, first message (sent as a public reply), priority.
 5. **Support form** (public, /support). Name, email, subject, message, and a hidden honeypot field; at most 5 submissions per IP hash per hour. On success: "Thanks. Your request number is #1042. We've emailed you a copy."
 6. **Reports.** For each of the last 8 weeks (Monday to Sunday, team time zone): tickets created, tickets solved, median first-response time, and the share of first responses within target.
-7. **Admin: Agents**, **Admin: Settings** (targets, auto-close days, acknowledgement template), **Canned replies**, **Admin: Outbox**.
+7. **Admin: Agents**, **Admin: Settings** (targets, auto-close days, acknowledgement template), **Canned replies**, **Admin: Outbox**, and **Admin: Deletion log**, which lists each requester_deleted event with the admin, the time and the number of tickets (never the requester's email, name or text).
 
 ## 10. Notifications
 
@@ -171,13 +175,13 @@ No action sets a ticket back to New, and no person can set Closed. A closed tick
 | Public reply | Requester | "Re: {subject} [#{number}]" (R8) |
 | Assigned to someone else | The new assignee | "Assigned to you: [#{number}] {subject}" |
 
-Write every email to the outbox first, then send it. With no provider configured, set status logged. Failed sends are retried by the job up to 5 times. A notification failure never blocks the action that caused it.
+Write every email to the outbox first, then send it. With no provider configured, set status logged. Failed sends are retried by the job up to 5 more times (6 attempts in all), then left as failed in the outbox. A notification failure never blocks the action that caused it.
 
 ## 11. Inbound email and the scheduled job
 
-**Inbound endpoint.** `POST /api/inbound/email`, called by your email provider's inbound webhook (most providers can post parsed email as JSON, or you can adapt their format in one small function). Require the header `Authorization: Bearer <INBOUND_SECRET>` and compare it in constant time; a wrong or missing secret returns 401 and saves nothing. JSON body: `message_id` (required), `from_email` (required), `from_name`, `subject`, `text` (required), `in_reply_to`, `references` (array), `received_at`. Apply R11 and R12. Strip quoted earlier replies below a line starting with "On ... wrote:" when it is clearly a quote; keep the full text otherwise. Ignore emails sent from support_email itself (they are the app's own replies coming back).
+**Inbound endpoint.** `POST /api/inbound/email`, called by your email provider's inbound webhook (most providers can post parsed email as JSON, or you can adapt their format in one small function). Require the shared secret either as `Authorization: Bearer <INBOUND_SECRET>` or as the password of HTTP Basic auth (for providers that can only put credentials in the webhook URL), compared in constant time; a wrong or missing secret returns 401 and saves nothing. When adapting a provider's payload, take message_id, in_reply_to and references from the email's own headers, not the provider's internal message ID. For a new ticket, the subject is the email's subject without any "[#number]" tags, cut to 150 characters ("(no subject)" if empty); message text over 20,000 characters is cut, not refused. JSON body: `message_id` (required), `from_email` (required), `from_name`, `subject`, `text` (required), `in_reply_to`, `references` (array), `received_at`. Apply R11 and R12. Strip quoted earlier replies below a line starting with "On ... wrote:" when it is clearly a quote; keep the full text otherwise. Ignore emails sent from support_email itself (they are the app's own replies coming back).
 
-**Scheduled job** (hourly, protected by a CRON_SECRET header, with a development-only "run job now" control):
+**Scheduled job** (hourly, requiring `Authorization: Bearer <CRON_SECRET>` compared in constant time, 401 otherwise, with a development-only "run job now" control):
 1. **Close** every Solved ticket whose solved_at is auto_close_days or more ago: status closed, closed_at set, event `closed`.
 2. **Retry** failed notifications.
 
@@ -185,6 +189,7 @@ All time reads go through one function that adds the development clock offset.
 
 ## 12. Reports
 
+- Tickets solved = tickets whose solved_at falls in the week (Solved or Closed now).
 - Median first-response time is computed over tickets created in the week that have a first response, in minutes, shown as "2 h 5 min". Weeks with none show "–".
 - Within target = tickets created in the week whose first response came on or before first_response_due_at, divided by tickets created in the week that have a first response, as a whole percent.
 - Export CSV of the current queue or search: number, subject, requester email, status, priority, assignee, created, first response, solved, closed. No message text.
@@ -202,7 +207,7 @@ All time reads go through one function that adds the development clock offset.
 
 Settings: company "Northwind", support email support@northwind.example, time zone America/New_York, default targets, auto-close after 4 days, acknowledgement template "Hi {requester_first_name}, we've received your request #{ticket_number} ({subject}). We'll reply as soon as we can. Northwind support".
 
-Agents: Dana Ruiz (admin), Jo Park, Ben Cho. All active.
+Agents: Dana Ruiz, dana@northwind.example (admin); Jo Park, jo@northwind.example; Ben Cho, ben@northwind.example. All active.
 
 Canned replies: "Password reset steps" ("Hi {requester_first_name}, you can reset your password from the sign-in page with 'Forgot password'. If the email doesn't arrive within 5 minutes, check spam and reply here. {agent_first_name}") and "Billing date change" (a short reply about changing the billing date).
 
@@ -219,11 +224,13 @@ Tickets (T is when the seed is loaded; all messages plain text):
 | 1007 | Where do I download invoices? | Lee Grant, lee@pinelabs.example | Solved (T-5 days) | Low | Jo Park | T-6 days | T-6 days + 3 h | |
 | 1008 | Login loop on Safari | Max Ford, max@bluebird.example | Closed (solved T-14 days, closed T-10 days) | Normal | Ben Cho | T-15 days | T-15 days + 2 h | |
 
-Each seeded message has a Message-ID of the form "<{ticket number}.{position}@northwind.example>", where position counts the ticket's messages from 1. For example, #1006 has Rosa's question (<1006.1@northwind.example>) and Ben's reply that solved it (<1006.2@northwind.example>).
+All seeded tickets arrived by email. Each ticket has the requester's first message at its created time; tickets with a first response have the agent's public reply at that time; #1003 also has Kim's later message, and #1004 Ben's internal note. Message text is up to the builder.
+
+Each seeded email (internal notes are not emails) has a Message-ID of the form "<{ticket number}.{position}@northwind.example>", where position counts the ticket's messages from 1. For example, #1006 has Rosa's question (<1006.1@northwind.example>) and Ben's reply (<1006.2@northwind.example>), sent as Pending at T-3 days + 1 h; Ben set it to Solved at T-2 days.
 
 ## 15. Build plan
 
-Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app.
+Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app. Start each phase's checks from a fresh load of the seed (the reset button); checks within a phase run in order on the same data. Phase 2's durations assume its checks start within a minute of the reset.
 
 ### Phase 1: Foundation
 
@@ -304,9 +311,9 @@ When you're done, list what you built and anything in the spec you had to interp
 **Acceptance checks** (reset to seed data first)
 - [ ] Running the job closes #1007 (solved 5 days ago) and leaves #1006 Solved; after moving the clock forward 2 days and running it again, #1006 is Closed too.
 - [ ] A closed ticket shows no reply box or status control, and a direct request to change it is refused.
-- [ ] Reports for the current week show the number of tickets created and solved and a median first-response time, and a week with no responses shows "–".
+- [ ] Reports for the current week show the number of tickets created and solved and a median first-response time, and a week with no responses shows "–". (Load the seed between Tuesday and Friday so the seeded tickets fall in the current week after the 2-day clock move; otherwise check last week's row.)
 - [ ] Exporting All open downloads a CSV with #1001, #1002, #1003 and #1004 and no message text.
-- [ ] Dana deletes Max Ford's data: #1001 and #1008 disappear, their outbox rows are gone, and the requester_deleted event contains no email address or name.
+- [ ] Dana replies to #1001 (so the outbox has an email to max@bluebird.example), then deletes Max Ford's data: #1001 and #1008 disappear, their outbox rows are gone, and the requester_deleted event contains no email address or name.
 
 ## 16. Variations
 
@@ -317,3 +324,38 @@ When you're done, list what you built and anything in the spec you had to interp
 - Simple automatic assignment (round robin among agents who are in).
 - A small help center: articles linked from the support form.
 - Slack notifications for urgent tickets.
+
+## 17. Build notes from our test build
+
+We built this blueprint by sending the four phase prompts above, in order, to an AI builder (Claude, working in Type), then checked every acceptance item in a real browser, with the direct requests the checks call for.
+
+**Result:** 24 of 24 acceptance checks passed in one final browser run on a fresh database, with the data reset to the seed before each phase's checks, plus 64 automated tests. Inbound email was tested with requests in the endpoint's JSON shape, and a unit test also posts Postmark's documented example payload.
+
+**Gaps the build found, now fixed in this spec (21, the most of any build so far):**
+1. The seed agents had no emails and the seeded tickets had no messages. Section 14 now gives both.
+2. #1006 couldn't have been solved by Ben's reply, which came a day earlier. The seed now says the reply was sent as Pending and Ben solved it later.
+3. Section 5 had nowhere to store the support form's rate limit, a ticket number counter that survives deletion, or email retry attempts. Added.
+4. The worked example for #1001 sat exactly on the Due soon boundary. Due soon is now "25% or less".
+5. Duration rounding wasn't defined, though checks quote exact values. Section 7 now says how to round.
+6. Only Phase 4 said to reset the seed before its checks. Every phase now does.
+7. R1 said a ticket stays New until assigned or replied to, while section 6 let an agent change its status. R1 now includes status changes.
+8. The Solved queue didn't say whether it includes Closed tickets. It does.
+9. Queue sort orders were ambiguous. Section 9 now defines each.
+10. The events each action writes weren't listed. Section 6 now lists them.
+11. Canned replies had no fallback for a requester without a name. It is "there".
+12. "The last email in the thread" could pick an internal note. R8 now names the right messages.
+13. Common email providers can't send the required Bearer header. The endpoint now also accepts HTTP Basic auth.
+14. Threading by email headers had no sender check, contradicting an edge case. R11 now requires the ticket's requester; the test build followed the earlier wording.
+15. Reopening a solved ticket whose assignee had been deactivated left it with an inactive assignee. It is now unassigned.
+16. How an inbound subject and long text become a ticket wasn't defined. Section 11 now says.
+17. No screen showed the requester deletion event a check inspects. Added the Deletion log.
+18. A deletion check couldn't fail on fresh seed data, which has no outbox rows. The check now creates one first.
+19. A report check depended on the weekday the seed was loaded. The check now says so.
+20. "Tickets solved" in reports had two readings. Section 12 now defines it.
+21. The cron header and the number of retries weren't named. Sections 10 and 11 now say.
+
+**What we did not test:**
+- Production sign-in. Google sign-in was built, but every check used the development "sign in as" switcher.
+- Real email, in and out. Outgoing emails were logged in the outbox; inbound email was tested with direct requests and a provider's documented example.
+- The hourly schedule. The job endpoint and "run job now" were tested, not a real scheduler.
+- Hosting. The test build ran on SQLite on one server; secure cookies over HTTPS and the IP rate limit behind a real proxy were not tested.
