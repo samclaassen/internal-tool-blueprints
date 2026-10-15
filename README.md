@@ -1,0 +1,36 @@
+# Internal tool blueprints for AI app builders
+
+Specs for the internal tools a small team can build with an AI app builder (Claude, ChatGPT, Cursor, Lovable, Replit or Type) instead of paying per seat for SaaS. Each blueprint is one Markdown file: the problem, what the paid product does and what this leaves out, roles, data model, business rules with worked examples, screens, edge cases, seed data, and a build plan split into phases, each with a prompt and acceptance checks.
+
+These are mirrored from **[Personal Software Factory](https://personalsoftwarefactory.com)**, where each blueprint also has a labelled drawing, a live demo, build-or-buy notes and, once tested, the results of an independent build test. How testing works: https://personalsoftwarefactory.com/how-we-test
+
+## How to use a blueprint
+
+1. Open the blueprint's `.md` file and paste the whole thing into your AI builder as context.
+2. Send the Phase 1 prompt from its Build plan section. Build only that phase.
+3. Run the phase's acceptance checks by clicking through the app. Fix anything that fails.
+4. Repeat for each phase. Read what the builder says it had to interpret; that is where specs have gaps.
+
+## Blueprints
+
+| Blueprint | Replaces | Team size | Status | Spec | Page |
+|---|---|---|---|---|---|
+| **Simple CRM**: We pay for a giant CRM and use about ten percent of it. | HubSpot | 1–15 people | Full spec with working demo; independent build test pending | [simple-crm.md](blueprints/simple-crm.md) | [page](https://personalsoftwarefactory.com/blueprints/simple-crm) |
+| **Commission Calculator**: Every month-end we spend two days arguing over the commission spreadsheet. | QuotaPath | 3–30 reps | Full spec with working demo; independent build test pending | [commission-calculator.md](blueprints/commission-calculator.md) | [page](https://personalsoftwarefactory.com/blueprints/commission-calculator) |
+| **Quote Builder**: Writing a custom quote takes an hour, every single time. | PandaDoc | 1–20 people | Full spec with working demo; independent build test pending | [quote-builder.md](blueprints/quote-builder.md) | [page](https://personalsoftwarefactory.com/blueprints/quote-builder) |
+| **Content Calendar**: Our content plan lives in four different docs and nobody trusts any of them. | CoSchedule | 2–15 people | Full spec with working demo; independent build test pending | [content-calendar.md](blueprints/content-calendar.md) | [page](https://personalsoftwarefactory.com/blueprints/content-calendar) |
+| **Approval Workflow**: Purchase requests get lost in Slack, and nobody knows who approved what. | Kissflow | 5–100 people | Build-tested 2026-10-12, 34/34 acceptance checks passed | [approval-workflow.md](blueprints/approval-workflow.md) | [page](https://personalsoftwarefactory.com/blueprints/approval-workflow) |
+
+More blueprints are being rewritten and tested; the full catalog is at https://personalsoftwarefactory.com/blueprints.
+
+## Guides
+
+- [How to build an internal tool with AI that your team can rely on](https://personalsoftwarefactory.com/guides/how-to-build-internal-tools-with-ai)
+- [Build or buy: when to replace a SaaS tool with one you build with AI](https://personalsoftwarefactory.com/guides/build-vs-buy-saas)
+- [A spec template for AI app builders](https://personalsoftwarefactory.com/guides/ai-app-spec-template)
+
+## Terms
+
+The blueprints are free to copy and adapt for your own team. If you share or publish them, please link to https://personalsoftwarefactory.com. Product names are trademarks of their owners and are used only to describe what each blueprint is an alternative to. Personal Software Factory is independent and not affiliated with any vendor named here.
+
+Found a gap in a spec? Open an issue, or use the form at https://personalsoftwarefactory.com/how-we-test.
