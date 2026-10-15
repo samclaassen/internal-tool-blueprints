@@ -1,4 +1,4 @@
-<!-- Mirrored from https://personalsoftwarefactory.com/blueprints/status-page . The page has the drawing, a live demo, build-or-buy notes and test results. Free to copy and adapt for your own team. -->
+<!-- Mirrored from https://personalsoftwarefactory.com/blueprints/status-page . The page has a labelled drawing and build-or-buy notes. Free to copy and adapt for your own team. -->
 
 # Status Page
 

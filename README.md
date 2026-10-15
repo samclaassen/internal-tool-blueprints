@@ -2,7 +2,7 @@
 
 Specs for the internal tools a small team can build with an AI app builder (Claude, ChatGPT, Cursor, Lovable, Replit or Type) instead of paying per seat for SaaS. Each blueprint is one Markdown file: the problem, what the paid product does and what this leaves out, roles, data model, business rules with worked examples, screens, edge cases, seed data, and a build plan split into phases, each with a prompt and acceptance checks.
 
-These are mirrored from **[Personal Software Factory](https://personalsoftwarefactory.com)**, where each blueprint also has a labelled drawing, a live demo, build-or-buy notes and, once tested, the results of an independent build test. How testing works: https://personalsoftwarefactory.com/how-we-test
+These are mirrored from **[Personal Software Factory](https://personalsoftwarefactory.com)**, where each blueprint also has a labelled drawing and build-or-buy notes, many have a live demo, and tested ones show the results of an independent build test. How testing works: https://personalsoftwarefactory.com/how-we-test
 
 ## How to use a blueprint
 
@@ -37,7 +37,7 @@ These are mirrored from **[Personal Software Factory](https://personalsoftwarefa
 | **Invoice Reminders**: Every Friday I go through the overdue list and write the same polite emails by hand. | Chaser | 2–50 people | Full spec; build test pending | [invoice-reminders.md](blueprints/invoice-reminders.md) | [page](https://personalsoftwarefactory.com/blueprints/invoice-reminders) |
 | **Document Requests**: Every year-end we chase clients for the same twelve documents, one email at a time. | Content Snare | 2–50 people | Full spec; build test pending | [document-requests.md](blueprints/document-requests.md) | [page](https://personalsoftwarefactory.com/blueprints/document-requests) |
 | **Contract Tracker**: We found out the contract had renewed for another year when the invoice arrived. | ContractSafe | 5–200 people | Full spec; build test pending | [contract-tracker.md](blueprints/contract-tracker.md) | [page](https://personalsoftwarefactory.com/blueprints/contract-tracker) |
-| **Time-Off Tracker**: I can never tell who's out next week until they're already gone. | Timetastic | 5–100 people | Full spec with working demo; independent build test pending | [pto-tracker.md](blueprints/pto-tracker.md) | [page](https://personalsoftwarefactory.com/blueprints/pto-tracker) |
+| **Time-Off Tracker**: I can never tell who's out next week until they're already gone. | Timetastic | 5–100 people | Build-tested 2026-10-15, 32/32 acceptance checks passed | [pto-tracker.md](blueprints/pto-tracker.md) | [page](https://personalsoftwarefactory.com/blueprints/pto-tracker) |
 | **Hiring Pipeline**: We're hiring for three roles and tracking candidates in a spreadsheet. | Greenhouse | 5–75 people | Full spec with working demo; independent build test pending | [hiring-pipeline.md](blueprints/hiring-pipeline.md) | [page](https://personalsoftwarefactory.com/blueprints/hiring-pipeline) |
 | **Employee Onboarding**: Every new hire's first week depends on who remembers what. | BambooHR | 5–150 people | Full spec; build test pending | [employee-onboarding.md](blueprints/employee-onboarding.md) | [page](https://personalsoftwarefactory.com/blueprints/employee-onboarding) |
 | **Shift Scheduling**: The schedule lives in a spreadsheet and every change happens by text. | When I Work | 10–100 staff | Full spec; build test pending | [shift-scheduling.md](blueprints/shift-scheduling.md) | [page](https://personalsoftwarefactory.com/blueprints/shift-scheduling) |
@@ -53,10 +53,12 @@ The full catalog, with live demos and test results, is at https://personalsoftwa
 
 ## Guides
 
-- [How to build an internal tool with AI that your team can rely on](https://personalsoftwarefactory.com/guides/how-to-build-internal-tools-with-ai)
-- [Build or buy: when to replace a SaaS tool with one you build with AI](https://personalsoftwarefactory.com/guides/build-vs-buy-saas)
 - [A spec template for AI app builders](https://personalsoftwarefactory.com/guides/ai-app-spec-template)
-- [What 19 business SaaS tools cost a 10-person team](https://personalsoftwarefactory.com/guides/saas-pricing-for-small-teams)
+- [Build or buy: when to replace a SaaS tool with one you build with AI](https://personalsoftwarefactory.com/guides/build-vs-buy-saas)
+- [How to build an internal tool with AI that your team can rely on](https://personalsoftwarefactory.com/guides/how-to-build-internal-tools-with-ai)
+- [What 34 business SaaS tools cost a 10-person team (October 2026)](https://personalsoftwarefactory.com/guides/saas-pricing-for-small-teams)
+- [The hidden limits in SaaS pricing: caps, minimums and metered features in 34 tools](https://personalsoftwarefactory.com/guides/saas-pricing-limits)
+- [What AI app builders get wrong: 80 spec gaps from 8 build tests](https://personalsoftwarefactory.com/guides/what-ai-builders-get-wrong)
 
 ## Terms
 

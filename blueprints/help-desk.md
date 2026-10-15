@@ -1,4 +1,4 @@
-<!-- Mirrored from https://personalsoftwarefactory.com/blueprints/help-desk . The page has the drawing, a live demo, build-or-buy notes and test results. Free to copy and adapt for your own team. -->
+<!-- Mirrored from https://personalsoftwarefactory.com/blueprints/help-desk . The page has a labelled drawing, build-or-buy notes and the build-test results. Free to copy and adapt for your own team. -->
 
 # Help Desk
 

@@ -1,4 +1,4 @@
-<!-- Mirrored from https://personalsoftwarefactory.com/blueprints/pto-tracker . The page has the drawing, a live demo, build-or-buy notes and test results. Free to copy and adapt for your own team. -->
+<!-- Mirrored from https://personalsoftwarefactory.com/blueprints/pto-tracker . The page has a labelled drawing, a live demo, build-or-buy notes and the build-test results. Free to copy and adapt for your own team. -->
 
 # Time-Off Tracker
 
@@ -104,7 +104,7 @@ All timestamps are UTC. Leave dates are calendar dates (`YYYY-MM-DD`, no time, n
 - adjustment (half-days, may be negative, default 0)
 - adjustment_note (required when adjustment is not 0)
 
-When a balance is needed for a year that has no row, create it with entitlement = the person's annual_allowance, carried_over 0 and adjustment 0.
+When a balance is needed for a year that has no row, use entitlement = the person's annual_allowance, carried_over 0 and adjustment 0. Write the row only when something is saved for that year (a request, an allowance change, or the carry-over from closing the previous year); viewing a year never creates a row.
 
 **YearClose** (a row means the year is closed)
 - year (integer, unique), carry_over_cap (the cap that was used), closed_by, closed_at
@@ -236,11 +236,11 @@ Compute these from the rows every time. Never keep a running balance that action
 - **R10. Decisions.** Declining needs a reason of at least 3 characters. An approval note is optional. A pending request can be decided at any time while its year is open, even after its start date. Check the status inside the same transaction as the update: the second of two simultaneous decisions fails with "This request was already decided."
 - **R11. Cancelling.** The person can cancel their pending request at any time, and their approved leave while its start date is today or later. After that: "This leave has started. Ask an admin to cancel it." An admin can cancel any pending or approved request; cancelling someone else's leave needs a reason of at least 3 characters. Cancelling gives the days back at once.
 - **R12. Day counts are fixed.** `days`, the LeaveDay rows and counts_against_allowance are set when a request is saved and never recalculated. Later changes to holidays, working days or leave types affect new requests only.
-- **R13. History.** Every action writes exactly one Event row (closing a year writes one per person). Events are never edited or deleted, and there is no UI or API to do so.
+- **R13. History.** Every request action and allowance change writes exactly one Event row (closing a year writes one per person). Changes to people, teams, leave types, holidays and settings are not recorded as events in v1. Events are never edited or deleted, and there is no UI or API to do so.
 - **R14. Closed years.** Once a year is closed (section 9), nothing in it changes: no requests or recordings with dates in it, no decisions, no cancellations, no allowance edits. "2026 is closed."
 - **R15. People.** A person can't be their own approver: "Someone can't approve their own leave." Only active people can be picked as approvers. There must always be at least one active admin. Deactivated people can't sign in and disappear from Who's out, the calendar, the digest and the feed; their records stay.
 - **R16. Privacy.** Everyone signed in sees who is off, the leave type, the dates and whether it is pending or approved. Notes, decline and cancel reasons, history and balances are visible only to the person, their approver and admins. The server enforces this, not only the screens.
-- **R17. Display.** Days: "5 days", "1 day", "0.5 days", "1.5 days", "0 days", "-1 day" (plain hyphen for minus). Dates: "Mon 2 Nov", with the year added when it isn't the current year. Ranges use an en dash with spaces: "Mon 2 – Fri 6 Nov", "Mon 30 Nov – Fri 4 Dec".
+- **R17. Display.** Days: "5 days", "1 day", "0.5 days", "1.5 days", "0 days", "-1 day" (plain hyphen for minus). Dates: "Mon 2 Nov", with the year added when it isn't the current year. Ranges use an en dash with spaces: "Mon 2 – Fri 6 Nov", "Mon 30 Nov – Fri 4 Dec". In a message that already names the year (such as "Decide or cancel 1 pending request in 2026 first: …"), dates in that year omit the year.
 
 ## 9. Year end and carry-over
 
@@ -275,12 +275,12 @@ After closing, Rosa's 2027 balance is 30 total, 5 pending (4–8 Jan) and 25 ava
 
 Navigation: Who's out, Team calendar, My time off, Approvals (approvers and admins), Admin (admins), My settings. Admin pages show "Admins only" to everyone else, and the server refuses their actions.
 
-1. **Who's out** (home). "Out today": approved leave that takes a session today, one line each: "Tom Bennett · Design · Annual leave · Tue 13 – Fri 16 Oct · back Mon 19 Oct". "Out next week (Mon 19 – Sun 25 Oct)": approved leave that takes a session in next Monday-to-Sunday week, same format. "Waiting for approval next week": pending requests in that week, listed apart so pending leave never looks confirmed. Also a balance line for the signed-in person ("Available: 10 of 20 days") and, for approvers and admins, "2 requests waiting for you". Empty states: "Nobody is out today." and "Nobody is out next week."
+1. **Who's out** (home). "Out today": approved leave that takes a session today, one line each: "Tom Bennett · Design · Annual leave · Tue 13 – Fri 16 Oct · back Mon 19 Oct". "Out next week (Mon 19 – Sun 25 Oct)": approved leave that takes a session in next Monday-to-Sunday week, same format. "Waiting for approval next week": pending requests in that week, listed apart so pending leave never looks confirmed. Pending requests that take a session today are listed under "Waiting for approval today" (shown only when there are any), so leave that has started without a decision never looks confirmed or disappears. Also a balance line for the signed-in person ("Available: 10 of 20 days") and, for approvers and admins, "2 requests waiting for you". Empty states: "Nobody is out today." and "Nobody is out next week."
    - Back on: the first date after the end date that is one of the person's working days, not a public holiday and not covered by their other approved leave. If the last day is morning only, they are back that afternoon ("back Thu 24 Dec, afternoon").
 2. **Team calendar.** One month at a time. Rows are active people grouped by team; columns are the days of the month with weekday initial and date. Cells:
    - Leave: the type code, plus " am" or " pm" for a half day, plus "?" while pending (with a dashed border): "AL", "AL am", "AL?", "SK". Two half days on one date show both, morning first.
-   - Public holiday: "PH" in every row; the column header shows the holiday name on hover or tap.
-   - A day the person doesn't work: grey, no text.
+   - Public holiday: "PH" in every row, including on days the person doesn't work; the column header shows the holiday name on hover or tap.
+   - Any other day the person doesn't work: grey, no text.
    - Today's column is highlighted.
    Clicking a leave cell shows the person, type, dates, days and status (and the note for those allowed to see it, R16). Filter by team (All or one team). Buttons: previous month, next month, Today. On a phone the name column stays fixed and the days scroll sideways.
 3. **New request.** Leave type (active types only), first day and its half, last day and its half (section 6), note. A live preview from the server: days, skipped dates with reasons, "Available after: 5 days" for types that count, and "Also out" warnings for others in the same team with pending or approved leave on any of the same dates. Errors appear inline and the form keeps what was typed. Admins also get a "For" picker to record leave for someone else.
@@ -290,9 +290,9 @@ Navigation: Who's out, Team calendar, My time off, Approvals (approvers and admi
 7. **Admin → People.** Name, email, team, approver, admin, working days, annual allowance, borrow limit, active. Create, edit, deactivate; add and rename teams here. A row whose approver is inactive shows "Approver inactive: admins decide."
 8. **Admin → Leave types.** Name, code, color, counts against allowance, needs approval, active, order. Deactivated types can't be picked for new requests; existing requests keep theirs.
 9. **Admin → Holidays.** Pick a year; list date, weekday and name; add, edit, delete. When a holiday falls on dates already booked, show "2 existing requests include this date; their day counts don't change." with links (R12).
-10. **Admin → Allowances.** Pick a year. One row per active person: entitlement, carried over, adjustment and note, total, approved, pending, available. Entitlement and adjustment are editable while the year is open; each change writes an `allowance_changed` event. The carry-over cap setting. The year-end banner, preview and Close button (section 9).
+10. **Admin → Allowances.** Pick a year. One row per active person, plus inactive people who have an Allowance row for that year (marked "Inactive"; they are left out when the year is closed): entitlement, carried over, adjustment and note, total, approved, pending, available. Entitlement and adjustment are editable while the year is open; each change writes an `allowance_changed` event. The carry-over cap setting. The year-end banner, preview and Close button (section 9).
 11. **Admin → Outbox.** Every notification, newest first: time, recipient, kind, subject, status (queued, sent, logged, failed) and error. Click a row to read the body.
-12. **Admin → Export.** Pick a year. "Requests CSV" (`time-off-requests-2026.csv`): one row per request starting that year, ordered by start date then name: person, email, team, leave_type, start_date, start_half, end_date, end_half, days, counts_against_allowance, status, requested_at, decided_by, decided_at, decision_note, cancelled_at. "Balances CSV" (`time-off-balances-2026.csv`): one row per person with an Allowance row that year: person, email, team, year, entitlement, carried_over, adjustment, approved, pending, available. Days are decimals (3.5), dates are `YYYY-MM-DD`, and fields with commas, quotes or line breaks are quoted.
+12. **Admin → Export.** Pick a year. "Requests CSV" (`time-off-requests-2026.csv`): one row per request starting that year, ordered by start date then name: person, email, team, leave_type, start_date, start_half, end_date, end_half, days, counts_against_allowance, status, requested_at, decided_by, decided_at, decision_note, cancelled_at. "Balances CSV" (`time-off-balances-2026.csv`): one row per person with an Allowance row that year: person, email, team, year, entitlement, carried_over, adjustment, approved, pending, available. Days are decimals (3.5), dates are `YYYY-MM-DD`, timestamps (requested_at, decided_at, cancelled_at) are UTC in ISO 8601 (`2026-10-09T13:00:00Z`), counts_against_allowance is `yes` or `no`, missing values are left empty, and fields with commas, quotes or line breaks are quoted.
 13. **My settings.** The person's calendar feed link (section 13) with Copy, Preview and Regenerate.
 
 All screens must work on a phone.
@@ -360,7 +360,7 @@ Example: Tom's 13–16 Oct leave becomes `DTSTART;VALUE=DATE:20261013`, `DTEND;V
 - A person's working days change: existing requests keep their counts; new ones use the new week.
 - The approver is away: any admin can decide (R9). Changing the person's approver moves their pending requests to the new approver.
 - An approver is deactivated: their people's requests go to admins until a new approver is set, and Admin → People flags those people.
-- A pending request reaches its start date: it can still be decided (R10), and Who's out keeps it under "Waiting for approval".
+- A pending request reaches its start date: it can still be decided (R10), and Who's out lists it under "Waiting for approval today".
 - Two decisions at once: the second fails with "This request was already decided." (R10).
 - Two requests at once for the last days: the Allowance row lock lets only one through (R8).
 - An admin lowers an entitlement below what is already approved: allowed. Available goes negative, existing leave is untouched, and new requests are refused until it recovers.
@@ -540,3 +540,26 @@ When you're done, list what you built and anything in the spec you had to interp
 - Show "Away" instead of the leave type to colleagues, for privacy.
 - Two-way sync that writes events into each person's own Google or Outlook calendar instead of a subscribed feed.
 - Editing a pending request, and partial cancellation when someone comes back early.
+
+## 18. Build notes from our test build
+
+We built this blueprint by sending the four phase prompts above, in order, to an AI builder (Claude, working in Type), then checked every acceptance item in a real browser, resetting to the seed data before each phase's checks. Where a check says something is refused, the person saw the reason on screen and a direct request got an error with nothing changed.
+
+**Result:** 32 of 32 acceptance checks passed in one final browser run on a fresh database, plus 71 automated tests. We then ran the full browser suite and the automated tests again ourselves, with the same result.
+
+**Gaps the build found, now fixed in this spec:**
+1. Admin → Allowances listed active people only, but a Phase 1 check expects the row of a person an earlier check deactivated. It now also lists inactive people who have an Allowance row that year, marked "Inactive".
+2. R13 said every action writes one event, but there was no event type for changes to people, teams, leave types, holidays or settings. R13 now says which actions are recorded.
+3. "Create the row when a balance is needed" meant that just viewing last year created Allowance rows, which then blocked closing the current year. Section 5 now says viewing never writes.
+4. The team calendar didn't say whether a public holiday or a day the person doesn't work wins. "PH" wins, as the Christmas Day check expects.
+5. A pending request that has started had nowhere to appear on Who's out. It is now listed under "Waiting for approval today".
+6. R17 adds the year to dates outside the current year, but the year-end refusal message was checked without it. Dates in a message that already names the year now omit it.
+7. The export didn't define the format of timestamps or of the yes/no column. Screen 12 now does.
+
+**What we did not test:**
+- Production sign-in. Google sign-in was built, but every check used the development "sign in as" switcher.
+- Sending email. Emails were logged in the outbox, not delivered.
+- Subscribing to the calendar feed from Google, Outlook or Apple Calendar. Only the feed's contents were checked.
+- The hourly job on a real scheduler. Its endpoint was called directly with its secret.
+- Simultaneous writes from several server processes.
+- Hosting. The test build ran on SQLite on one server. For a hosted deploy, use a managed Postgres (or your platform's database) and the same schema.
