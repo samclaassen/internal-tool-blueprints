@@ -25,8 +25,10 @@ These are mirrored from **[Personal Software Factory](https://personalsoftwarefa
 | **Project Status Board**: Every Monday I rebuild the same status report from scratch. | Monday.com | 5–50 people | Full spec with working demo; independent build test pending | [project-status-board.md](blueprints/project-status-board.md) | [page](https://personalsoftwarefactory.com/blueprints/project-status-board) |
 | **SaaS Spend Tracker**: Nobody knows how many software tools we're actually paying for. | Zylo | 10–200 people | Full spec with working demo; independent build test pending | [saas-spend-tracker.md](blueprints/saas-spend-tracker.md) | [page](https://personalsoftwarefactory.com/blueprints/saas-spend-tracker) |
 | **Time-Off Tracker**: I can never tell who's out next week until they're already gone. | Timetastic | 5–100 people | Full spec with working demo; independent build test pending | [pto-tracker.md](blueprints/pto-tracker.md) | [page](https://personalsoftwarefactory.com/blueprints/pto-tracker) |
+| **Hiring Pipeline**: We're hiring for three roles and tracking candidates in a spreadsheet. | Greenhouse | 5–75 people | Full spec with working demo; independent build test pending | [hiring-pipeline.md](blueprints/hiring-pipeline.md) | [page](https://personalsoftwarefactory.com/blueprints/hiring-pipeline) |
+| **Customer Feedback Inbox**: Customer feedback is scattered across email, calls and support tickets. | Productboard | 3–50 people | Full spec with working demo; independent build test pending | [feedback-inbox.md](blueprints/feedback-inbox.md) | [page](https://personalsoftwarefactory.com/blueprints/feedback-inbox) |
 
-More blueprints are being rewritten and tested; the full catalog is at https://personalsoftwarefactory.com/blueprints.
+The full catalog, with live demos and test results, is at https://personalsoftwarefactory.com/blueprints.
 
 ## Guides
 
