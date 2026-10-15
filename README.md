@@ -44,6 +44,7 @@ These are mirrored from **[Personal Software Factory](https://personalsoftwarefa
 | **Help Desk**: Support requests land in a shared inbox and nobody knows who is answering what. | Zendesk | 2–25 people | Build-tested 2026-10-15, 24/24 acceptance checks passed | [help-desk.md](blueprints/help-desk.md) | [page](https://personalsoftwarefactory.com/blueprints/help-desk) |
 | **Status Page**: When something breaks, half our support queue is people asking if it's down. | Statuspage | 2–50 people | Full spec; build test pending | [status-page.md](blueprints/status-page.md) | [page](https://personalsoftwarefactory.com/blueprints/status-page) |
 | **NPS Surveys**: We send an NPS survey once a year from a form tool, and nobody reads the comments. | Delighted | 2–100 people | Full spec; build test pending | [nps-surveys.md](blueprints/nps-surveys.md) | [page](https://personalsoftwarefactory.com/blueprints/nps-surveys) |
+| **Feature Requests**: Feature requests arrive in emails, calls and chats, and we can't say what customers want most. | Canny | 2–50 people | Full spec; build test pending | [feature-requests.md](blueprints/feature-requests.md) | [page](https://personalsoftwarefactory.com/blueprints/feature-requests) |
 
 The full catalog, with live demos and test results, is at https://personalsoftwarefactory.com/blueprints.
 
