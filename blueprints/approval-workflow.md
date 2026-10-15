@@ -172,12 +172,13 @@ Run this when a request is submitted or resubmitted. It must be deterministic: t
 - **R10.** Nobody approves the same request twice. When the next step is about to activate, if the person who would act (after delegation) already approved an earlier step in this round, mark the step `skipped` with skip_reason "Already approved at step N", write a `skipped` event, and move on. This happens after escalation, delegation or reassignment hands a step to someone who also owns a later step.
 - **R11.** Reporting lines cannot loop. Admin → People rejects a manager change that would make someone their own manager, directly or indirectly.
 - **R12.** Reassignment, escalation and deactivation all restart the step's reminder clock (`activated_at` = now, `last_reminded_at` = empty).
+- **R13.** Refusals. When someone tries an action they aren't allowed to take, from a screen or by calling the server directly, nothing changes and they see the reason, for example "You're not the approver for this step." Endpoints that aren't page actions (Slack, export) answer with HTTP 403 and the same reason.
 
 ## 9. Screens
 
 1. **My requests** (home). Table of the signed-in person's requests: number, title, amount, status badge, current step ("Waiting on Ana · Finance · 2d"), last updated. Button: New request. Empty state: "No requests yet."
 2. **New / edit request.** Fields from section 5 with inline validation. Buttons: Save draft, Submit. Before submitting, show a preview of the approval chain the rules will produce ("This will go to: Maya (Manager) → Ana (Finance)"). This preview is the single most useful feature; build it.
-3. **Request detail.** Header: number, title, amount, status. Body: justification, vendor, link, needed-by. **Approval chain** as a vertical timeline: each step with name, assignee (and "delegated from / escalated from" when relevant), status, time taken. Action bar appropriate to the viewer (Approve / Reject / Send back for the assignee; Edit / Resubmit / Cancel for the requester; Reassign for admins). Comments thread. **Audit log** (collapsed by default): every event, actor, time, comment.
+3. **Request detail.** Header: number, title, amount, status. Body: justification, vendor, link, needed-by. **Approval chain** as a vertical timeline: each step with name, assignee (and "delegated from / escalated from" when relevant; when a delegated step later escalates, both: "Dana Ruiz, escalated from Sam Okafor (delegated from Maya Chen)"), status, time taken. Action bar appropriate to the viewer (Approve / Reject / Send back for the assignee; Edit / Resubmit / Cancel for the requester; Reassign for admins). Comments thread. **Audit log** (collapsed by default): every event, actor, time, comment.
 4. **Approvals inbox.** Requests where the signed-in person is the active assignee, oldest first, showing age. Approve directly from the row for small requests; others open the detail.
 5. **All requests.** Filterable list (status, category, requester, date range) for everyone. Admins get an Export CSV button.
 6. **Admin: people.** Name, email, manager, admin flag, Slack status (linked / not found), out-of-office and delegate, active.
@@ -219,7 +220,7 @@ Reject and Send back stay in the web app because they require a comment.
 2. The body is `application/x-www-form-urlencoded` with a `payload` field containing JSON of `type: "block_actions"`.
 3. Find the step from the button `value`. Find the person whose `slack_user_id` equals `payload.user.id`.
 4. Apply the same rules as the web app (R1, R2). Never trust the button alone.
-5. Respond 200 within 3 seconds. Then update the original message by POSTing to `payload.response_url` with `replace_original: true`, replacing the buttons with the outcome ("Approved by Maya Chen at 09:14" or "Already approved by Maya at 09:14" or "You're not the approver for this step"). `response_url` works up to 5 times within 30 minutes.
+5. Respond 200 within 3 seconds. Then update the original message by POSTing to `payload.response_url` with `replace_original: true`, replacing the buttons with the outcome ("Approved by Maya Chen, Oct 13 at 09:14" or "Already approved by Maya Chen, Oct 13 at 09:14" or "You're not the approver for this step"), with the date and time written as in step 6. `response_url` works up to 5 times within 30 minutes.
 6. Write times with Slack's date token, e.g. `<!date^1791842045^{date_short_pretty} at {time}|fallback>`, so every viewer sees their own time zone.
 7. If the Slack user isn't linked to anyone, reply "Your Slack account isn't linked to the approvals app. Ask an admin to check Admin → People."
 
@@ -290,7 +291,7 @@ Do not build requests or approvals yet. When you're done, list what you built an
 ### Phase 2: Requests and routing
 
 ```
-Build Phase 2 of the Approval Workflow blueprint: requests, routing and decisions.
+Using the Approval Workflow blueprint above, build Phase 2 only. This phase is requests, routing and decisions.
 
 1. Implement the routing algorithm in section 6 as a pure function with unit tests for every row of the worked-examples table.
 2. Build screens 1 to 5 from section 9, including the approval-chain preview on the request form.
@@ -299,6 +300,8 @@ Build Phase 2 of the Approval Workflow blueprint: requests, routing and decision
 5. Do the status check and the update in one database transaction so two people cannot decide the same step.
 
 Skip notifications for now; just write rows to the Notification table.
+
+When you're done, list what you built and anything in the spec you had to interpret.
 ```
 
 **Acceptance checks** (sign in as each person with the switcher)
@@ -314,7 +317,7 @@ Skip notifications for now; just write rows to the Notification table.
 ### Phase 3: Notifications and Slack
 
 ```
-Build Phase 3 of the Approval Workflow blueprint: notifications and Slack.
+Using the Approval Workflow blueprint above, build Phase 3 only. This phase is notifications and Slack.
 
 1. Send the notifications in section 10 from the Notification outbox. Email can use any provider we have; if none is configured, log emails instead of sending.
 2. Implement the Slack integration in section 11 exactly: user lookup by email, DM with Approve and Open buttons, and the interactions endpoint with signature verification, permission checks and response_url message updates.
@@ -322,23 +325,27 @@ Build Phase 3 of the Approval Workflow blueprint: notifications and Slack.
 4. Show Slack status per person in Admin → People.
 
 Tell me the exact Slack app settings I need to enter.
+
+When you're done, list what you built and anything in the spec you had to interpret.
 ```
 
 **Acceptance checks**
 - [ ] With Slack connected, submitting Jo's request DMs Maya within a few seconds.
-- [ ] Maya taps Approve in Slack. The message changes to "Approved by Maya Chen at …" and the web app shows the step approved.
+- [ ] Maya taps Approve in Slack. The message changes to "Approved by Maya Chen" with the date and time, and the web app shows the step approved.
 - [ ] Tapping Approve again on an old message says it was already approved.
-- [ ] Without Slack configured, nothing breaks; notifications show as logged.
+- [ ] Without Slack configured, nothing breaks; notifications are recorded with the status logged.
 
 ### Phase 4: Delegation, reminders, escalation, export
 
 ```
-Build Phase 4 of the Approval Workflow blueprint.
+Using the Approval Workflow blueprint above, build Phase 4 only.
 
 1. My settings: out-of-office until date and delegate (section 9, screen 8).
 2. Delegation, reminders and escalation exactly as section 12, run by a scheduled job at /api/cron/tick protected by a CRON_SECRET header. Make the job accept an optional "now" override in development so I can test time-based behaviour without waiting.
 3. Admin reassign action (section 7) with required comment.
 4. Export CSV on the All requests page for admins: number, title, requester, category, amount, status, submitted_at, decided_at, approvers in order.
+
+When you're done, list what you built and anything in the spec you had to interpret.
 ```
 
 **Acceptance checks**
@@ -360,7 +367,9 @@ Build Phase 4 of the Approval Workflow blueprint.
 
 We built this blueprint by sending the four phase prompts above, in order, to an AI builder (Claude, working in Type), then checked every acceptance item in a real browser.
 
-**Result:** 34 of 34 acceptance checks passed, plus 38 automated tests (routing for every worked example, every lifecycle rule, the Slack endpoint, and notification delivery). The Slack signature check also passes against the example request in Slack's own documentation.
+**Result:** The final run on Oct 12 passed all 34 of its browser assertions, which together cover the 20 acceptance checks, plus 38 automated tests (routing for every worked example, every lifecycle rule, the Slack endpoint, and notification delivery). The Slack signature check also passes against the example request in Slack's own documentation.
+
+**Re-check on Oct 15:** we re-ran the same build on a fresh database and checked each of the 20 acceptance items by name, with 65 browser assertions, including a direct approve call made as Ana and a Slack direct message to Maya sent to a mock of Slack's API (it arrived 54 milliseconds after submit). All 20 items passed, and the 38 automated tests passed again. One stricter assertion failed: the server refuses Ana's direct approve call with an error message and no change, but not with an HTTP 4xx status. R13 now says what a refusal looks like.
 
 **Gaps the build found, now fixed in this spec:**
 1. Escalation could hand a step to someone who owned a later step, so they would be asked to approve twice. Added R10.
@@ -369,8 +378,14 @@ We built this blueprint by sending the four phase prompts above, in order, to an
 4. Reassignment and escalation didn't say whether the reminder clock restarts. Added R12.
 5. Slack times showed in UTC. Added Slack's date token (section 11, step 6).
 
+**Gaps the re-check found, now fixed in this spec:**
+6. "A direct API call is refused" didn't say what a refusal looks like. Added R13.
+7. "Notifications show as logged" didn't say where. The check now says they are recorded with the status logged.
+8. The Slack example "Approved by Maya Chen at 09:14" clashed with the date format in step 6. Section 11 now shows the text as it renders.
+9. The chain display for a delegated step that later escalates was undefined. Section 9 now shows both; the Oct 12 build shows only the delegation.
+
 **What we did not test:**
 - Production sign-in. We used the development "sign in as" switcher only.
-- A live Slack workspace. We tested with correctly signed requests and Slack's documented example, not by clicking in a real workspace.
+- A live Slack workspace. We tested with correctly signed requests, Slack's documented example and a mock of Slack's API, not by clicking in a real workspace.
 - Sending email. Emails were written to the outbox and logged, not delivered.
 - Hosting. The test build ran on SQLite on one server. For a hosted deploy, use a managed Postgres (or your platform's database) and the same schema.
