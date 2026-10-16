@@ -345,7 +345,7 @@ One comment on Bluebird from Sam, 2 days ago: "Waiting on the client's data expo
 
 ## 16. Build plan
 
-Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app.
+Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app. Start each phase's checks from a fresh load of the seed (the Reload seed data button); checks within a phase run in order on the same data.
 
 ### Phase 1: Foundation
 
@@ -435,7 +435,7 @@ When you're done, list what you built and anything in the spec you had to interp
 - [ ] Sam creates a client link on Bluebird. In a private window, without signing in, it shows Copperline, "Bluebird · Analytics rollout", the stage tracker at Setup, "2 of 5 done" and five tasks. "Verify access and permissions", Sam's comment, email addresses and overdue labels do not appear.
 - [ ] After the page is opened, Bluebird's link panel shows a "Last viewed" time. Signed in as Jo, Bluebird has no link actions and a direct request to create one is refused.
 - [ ] Sam revokes the link. Reloading the page shows "This link is not active. Ask your Copperline contact for a new one." A newly created link works; the old one stays inactive.
-- [ ] Dana creates a link for Kestrel: it shows "Live since" the go-live date 4 days ago and "5 of 5 done". With the clock moved 27 days forward, the same link shows the not-active page, and Kestrel is gone from the Live column unless "Show older live projects" is on.
+- [ ] Dana creates a link for Kestrel: it shows "Live since" the go-live date 4 days ago and "5 of 5 done". With the clock moved 27 days forward, the same link shows the not-active page, and Kestrel is gone from the Live column unless "Show older live projects" is on. Then move the clock back 27 days.
 - [ ] Handoffs lists the six seeded handoffs newest first: Harbor Studio Setup → Training (Sam Okafor → Maya Chen, 3 days ago) at the top, Kestrel Kickoff → Setup (12 days ago) at the bottom.
 - [ ] Signed in as Dana, Projects → Export CSV downloads four rows. Bluebird's has stage "setup", progress_percent 33 and overdue 2; Kestrel's has days_to_live 10. Signed in as Jo, there is no Export button and a direct request is refused.
 

@@ -191,7 +191,7 @@ Managers can export a week as CSV (person or "Open", position, date, start, end,
 
 ## 14. Seed data
 
-Settings: location "Harbor Café", time zone America/New_York. Dates below assume today is Thursday, October 15, 2026. When loading, shift them so the published week is the current week and the draft week is next week.
+Settings: location "Harbor Café", time zone America/New_York. Dates below assume today is Thursday, October 15, 2026. When loading, shift them so the published week is the current week and the draft week is next week. Reset to seed data also sets the development clock to 09:00 on the Thursday of the current week, so the checks never fall on a shift that has already started.
 
 Positions: Barista, Kitchen, Shift lead.
 
@@ -226,7 +226,7 @@ Week of Oct 12 (published): the same assignments, except that Jo Park also works
 
 ## 15. Build plan
 
-Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app.
+Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app. Start the checks of Phases 1 and 2 from a fresh load of the seed (the reset button); Phase 3's checks continue from the end of Phase 2's, and Phase 4's from the end of Phase 3's. Checks within a phase run in order on the same data.
 
 ### Phase 1: Foundation
 
@@ -237,7 +237,7 @@ Using the Shift Scheduling blueprint above, build Phase 1 only.
 2. Add sign-in with the platform's built-in auth, Google sign-in limited to our company email domain, or email magic links if staff use personal email. A signed-in email must match an active Person; anyone else sees "Ask your manager to add you."
 3. Build People and positions, Availability, Time off, Templates and Settings (section 9, screens 4 and 5), with managers-only screens enforced on the server, and rules R5 and R8.
 4. Load the seed data from section 14, with dates relative to today.
-5. Add a "sign in as" switcher, a "move the clock forward" control and a "reset to seed data" button, all visible only in development.
+5. Add a "sign in as" switcher, a "move the clock forward" control and a "reset to seed data" button (which also sets the clock to 09:00 on the Thursday of the current week, team time; section 14), all visible only in development.
 
 Do not build the schedule grid yet. When you're done, list what you built and anything in the spec you had to interpret.
 ```
@@ -280,11 +280,11 @@ Using the Shift Scheduling blueprint above, build Phase 3 only.
 When you're done, list what you built and anything in the spec you had to interpret.
 ```
 
-**Acceptance checks**
+**Acceptance checks** (continue from the end of the Phase 2 checks)
 - [ ] Signed in as Lee Grant, My shifts shows Jo's swap request for Saturday Oct 17; accepting it puts it in Rosa's Requests, and Rosa's approval moves the shift to Lee and emails both.
 - [ ] Signed in as Ben, claiming the open Saturday Oct 24 shift is refused with "Ben would have 40 hours this week (35 maximum)."
-- [ ] Signed in as Lee, claiming the same shift puts the claim in Rosa's Requests; a later claim by Ana shows as "2nd in line"; approving Lee's claim assigns the shift to Lee and declines Ana's claim with an email to her.
 - [ ] Signed in as Mia Torres (Kitchen only), the open Barista shift is not offered, and a direct claim request for it is refused.
+- [ ] Signed in as Lee, claiming the same shift puts the claim in Rosa's Requests; a later claim by Ana shows as "2nd in line"; approving Lee's claim assigns the shift to Lee and declines Ana's claim with an email to her.
 - [ ] Ana asks to drop her Wednesday Oct 21 shift with a reason; after Rosa approves, the shift is open and announced to the baristas.
 - [ ] Rosa copies the week of Oct 19 into a draft for Oct 26; signed in as Ben, that week is not visible, and a direct request for its shifts is refused.
 
@@ -299,7 +299,7 @@ Using the Shift Scheduling blueprint above, build Phase 4 only.
 When you're done, list what you built and anything in the spec you had to interpret.
 ```
 
-**Acceptance checks**
+**Acceptance checks** (continue from the end of the Phase 3 checks)
 - [ ] Ben's calendar feed lists his published shifts with position and times and nothing from the draft week of Oct 26; after he regenerates the link, the old link returns Not found.
 - [ ] Exporting the week of Oct 19 downloads a CSV with one row per shift, hours and cost, with Ana's dropped Wednesday shift shown as Open.
 - [ ] The print view fits the week of Oct 19 on one landscape page.

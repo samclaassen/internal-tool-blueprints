@@ -197,7 +197,7 @@ Subscribers: sam@clientco.example (all components), lee@agency.example (API and 
 
 ## 15. Build plan
 
-Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app.
+Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app. Start each phase's checks from a fresh load of the seed (the reset button); checks within a phase run in order on the same data.
 
 ### Phase 1: Foundation and the public page
 
@@ -208,14 +208,14 @@ Using the Status Page blueprint above, build Phase 1 only.
 2. Add team sign-in with the platform's built-in auth or Google sign-in limited to our company email domain. Only active team members can open /admin; visitors never need to sign in.
 3. Build Settings, Team, and Components and groups (section 9, screen 7), and the public Status page, Incident pages and History (screens 1 to 3) with R1 to R3 and R11, readable without JavaScript.
 4. Load the seed data from section 14, with dates relative to today, including the StatusChange rows for both incidents.
-5. Add a "sign in as" switcher, a "move the clock forward" control and a "reset to seed data" button, all visible only in development.
+5. Add a "sign in as" switcher, a "move the clock forward" control and a "reset to seed data" button (which also sets the clock back to the real time), all visible only in development.
 
 When you're done, list what you built and anything in the spec you had to interpret.
 ```
 
 **Acceptance checks**
 - [ ] The public page shows "All systems operational", the five components in their two groups, and 90-day uptime of 99.96% for API, 99.93% for Email delivery and 100.00% for the other three.
-- [ ] API's bar for Sep 18 shows a major outage and links to INC-0013; Email delivery's bar for Oct 2 shows a partial outage.
+- [ ] API's bar for 27 days before the seed day (Sep 18 in the examples) shows a major outage and links to INC-0013; Email delivery's bar for 13 days before (Oct 2) shows a partial outage.
 - [ ] History lists INC-0014 and INC-0013 with every update in order, and the Database upgrade appears under upcoming maintenance.
 - [ ] Signed out, /admin asks for sign-in; signed in as Owen, Team and Settings are not offered, and direct requests to them are refused.
 
@@ -233,8 +233,7 @@ Do not send any emails yet. When you're done, list what you built and anything i
 **Acceptance checks**
 - [ ] Owen creates an incident from "Elevated API errors" and publishes it: it is numbered INC-0015, API shows partial outage and the banner reads "Partial outage".
 - [ ] Using the clock: 10 minutes later Owen posts an Identified update setting API to major outage (the banner reads "Major outage"); 20 minutes after that he resolves it. API returns to operational and its uptime shows 99.94%.
-- [ ] Moving the clock to Sunday 02:00 CDT sets Dashboard and API to under maintenance and the banner to "Under maintenance"; at 03:00 both return to operational and M-0003 shows completed.
-- [ ] During that maintenance, an incident setting API to partial outage shows API as partial outage; resolving it returns API to under maintenance until 03:00.
+- [ ] Moving the clock to M-0003's start (02:00 CDT, 3 days after the seed day; Sunday Oct 18 in the examples) sets Dashboard and API to under maintenance and the banner to "Under maintenance". An incident setting API to partial outage then shows API as partial outage, and resolving it returns API to under maintenance. At 03:00 both return to operational and M-0003 shows completed.
 - [ ] A published incident has no Delete action, and a direct delete request is refused; every change above appears in the Activity log with who did it, or "schedule".
 
 ### Phase 3: Subscribers, emails, feed and API

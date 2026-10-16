@@ -120,9 +120,9 @@ A transfer from one person to another is a check-in followed by a check-out, so 
 | Item | Holder | Warranty end | State on Oct 13 | Reminder |
 |---|---|---|---|---|
 | NW-0001 MacBook Pro 14 | Lee Park | Nov 2, 2026 | Ending soon (20 days) | Sent on the first job run |
-| NW-0002 MacBook Air 13 | Jo Park | Mar 15, 2027 | Covered | Due on Feb 13, 2027 |
+| NW-0002 MacBook Air 13 | Jo Park | T+153 days (Mar 15, 2027) | Covered | Due on T+123 days (Feb 13, 2027) |
 | NW-0005 iPhone 15 | Sam Okafor | Sep 30, 2026 | Expired | None (already expired when first seen) |
-| NW-0006 MacBook Air 13 | in repair | Jan 10, 2027 | Covered | Due on Dec 11, 2026 |
+| NW-0006 MacBook Air 13 | in repair | T+89 days (Jan 10, 2027) | Covered | Due on T+59 days (Dec 11, 2026) |
 
 Company value: NW-0001 $2,399 + NW-0002 $1,299 + NW-0003 $379 + NW-0004 $2,399 + NW-0005 $899 + NW-0006 $1,299 + NW-0008 $379 = $9,053 (NW-0007 is retired and not counted). Jo Park holds $1,678 (NW-0002 and NW-0003).
 
@@ -192,19 +192,19 @@ Items (T is when the seed is loaded; the examples assume Tue Oct 13, 2026):
 | Tag | Type | Make and model | Serial | Cost | Purchased | Warranty end | Status | Holder | Since |
 |---|---|---|---|---|---|---|---|---|---|
 | NW-0001 | Laptop | Apple MacBook Pro 14 | C02XK1 | $2,399 | Nov 2, 2023 | T+20 days (Nov 2, 2026) | assigned | Lee Park | Nov 6, 2023 |
-| NW-0002 | Laptop | Apple MacBook Air 13 | C02YP7 | $1,299 | Mar 15, 2024 | Mar 15, 2027 | assigned | Jo Park | Mar 18, 2024 |
-| NW-0003 | Monitor | Dell 27 monitor | CN0D27A | $379 | Mar 15, 2024 | Mar 15, 2027 | assigned | Jo Park | Mar 18, 2024 |
+| NW-0002 | Laptop | Apple MacBook Air 13 | C02YP7 | $1,299 | Mar 15, 2024 | T+153 days (Mar 15, 2027) | assigned | Jo Park | Mar 18, 2024 |
+| NW-0003 | Monitor | Dell 27 monitor | CN0D27A | $379 | Mar 15, 2024 | T+153 days (Mar 15, 2027) | assigned | Jo Park | Mar 18, 2024 |
 | NW-0004 | Laptop | Apple MacBook Pro 14 | C02ZQ3 | $2,399 | Oct 1, 2026 | Oct 1, 2029 | in_stock | | |
 | NW-0005 | Phone | Apple iPhone 15 | F17XR2 | $899 | Sep 30, 2024 | T-13 days (Sep 30, 2026) | assigned | Sam Okafor | Oct 2, 2024 |
-| NW-0006 | Laptop | Apple MacBook Air 13 | C02WM8 | $1,299 | Jan 10, 2024 | Jan 10, 2027 | in_repair | | |
+| NW-0006 | Laptop | Apple MacBook Air 13 | C02WM8 | $1,299 | Jan 10, 2024 | T+89 days (Jan 10, 2027) | in_repair | | |
 | NW-0007 | Laptop | Lenovo ThinkPad X1 | PF3K9 | $1,450 | Feb 1, 2021 | Feb 1, 2024 | retired ("Battery failure") | | |
-| NW-0008 | Monitor | Dell 27 monitor | CN0D27B | $379 | Mar 15, 2024 | Mar 15, 2027 | in_stock | | |
+| NW-0008 | Monitor | Dell 27 monitor | CN0D27B | $379 | Mar 15, 2024 | T+153 days (Mar 15, 2027) | in_stock | | |
 
 Assignment history: NW-0006 was held by Maya Chen from Jan 12, 2024 until it was sent to repair 5 days before the seed day ("Keyboard not responding"). NW-0004 has never been assigned.
 
 ## 15. Build plan
 
-Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app.
+Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app. Start each phase's checks from a fresh load of the seed (the reset button); checks within a phase run in order on the same data.
 
 ### Phase 1: Foundation and the register
 
@@ -215,7 +215,7 @@ Using the Equipment Tracker blueprint above, build Phase 1 only.
 2. Add sign-in with the platform's built-in auth or Google sign-in limited to our company email domain. A signed-in email must match an active Person; anyone else sees "Ask IT to add you."
 3. Build Items and Item (section 9, screens 1 and 2) for IT admins, with adding and editing items (R1, R4, R6, R11), and Admin: Types and Admin: Settings.
 4. Load the seed data from section 14, with dates relative to today.
-5. Add a "sign in as" switcher, a "move the clock forward" control and a "reset to seed data" button, all visible only in development.
+5. Add a "sign in as" switcher, a "move the clock forward" control and a "reset to seed data" button (which also sets the clock back to the real time), all visible only in development.
 
 Do not build check-out, check-in or asset checks yet. When you're done, list what you built and anything in the spec you had to interpret.
 ```
@@ -263,7 +263,7 @@ When you're done, list what you built and anything in the spec you had to interp
 
 **Acceptance checks** (reset to seed data first)
 - [ ] Running the job emails the IT admins one reminder for NW-0001 and none for NW-0005; running it again sends nothing new.
-- [ ] Moving the clock to 30 days before Mar 15, 2027 and running the job sends reminders for NW-0002, NW-0003 and NW-0008.
+- [ ] Moving the clock to 30 days before NW-0002's warranty end (T+123 days; Feb 13, 2027 in the examples) and running the job sends reminders for NW-0002, NW-0003 and NW-0008.
 - [ ] Starting an asset check emails Lee, Jo and Sam (the holders) once each; starting a second check while one is open is refused.
 - [ ] Jo answers "I have it" for NW-0002 and "I don't have it" for NW-0003 with the note "Left at the old office"; the IT admins are emailed "Disputed: NW-0003 Dell 27 monitor (Jo Park)".
 - [ ] Seven days after the check started, running the job reminds Lee and Sam only; closing the check shows 1 confirmed, 1 disputed and 2 unanswered.

@@ -1,4 +1,4 @@
-<!-- Mirrored from https://personalsoftwarefactory.com/blueprints/project-status-board . The page has a labelled drawing, a live demo and build-or-buy notes. Free to copy and adapt for your own team. -->
+<!-- Mirrored from https://personalsoftwarefactory.com/blueprints/project-status-board . The page has a labelled drawing, a live demo, build-or-buy notes and the build-test results. Free to copy and adapt for your own team. -->
 
 # Project Status Board
 
@@ -63,25 +63,25 @@ All timestamps are UTC. A date is a calendar date (YYYY-MM-DD) in the team time 
 
 **Person**
 - id
-- name (required)
-- email (required, unique, stored lowercase: "Someone with this email already exists.")
+- name (required: "Enter a name.")
+- email (required, unique, stored lowercase: "Someone with this email already exists."; an invalid address: "Enter a valid email address.")
 - is_admin (boolean, default false)
 - active (boolean, default true)
 
 **Settings** (exactly one row)
-- team_name (required, max 60 chars; used in the report title)
-- time_zone (IANA name picked from a list, default "America/New_York")
+- team_name (required, max 60 chars; used in the report title: "Enter a team name (up to 60 characters).")
+- time_zone (IANA name picked from a list, default "America/New_York"; anything else: "Choose a time zone from the list.")
 - update_weekday (1 = Monday to 7 = Sunday; default 1)
-- reminder_time ("HH:MM", 24-hour, default "09:00")
+- reminder_time ("HH:MM", 24-hour, default "09:00"; anything else for either time: "Enter times as HH:MM (24-hour).")
 - report_time ("HH:MM", default "15:00"). Must be later than reminder_time: "The report time must be later than the reminder time."
 - report_recipients (email addresses separated by commas; may be empty). Invalid entries: "Enter valid email addresses separated by commas."
 - last_reminder_week, last_report_week (nullable dates; written only by the scheduled job)
 
 **Project**
 - id
-- name (required, 1 to 100 chars after trimming, unique ignoring case; R8)
+- name (required, 1 to 100 chars after trimming, unique ignoring case; R8; blank or too long: "Enter a project name (up to 100 characters).")
 - owner_id (references an active Person; R10)
-- target_date (date, required; may be in the past)
+- target_date (date, required; may be in the past; missing or invalid: "Choose a target date.")
 - start_week (date, always a Monday: the current week when the project is created; never edited)
 - archived_at (nullable timestamp)
 - created_by, created_at
@@ -108,6 +108,7 @@ All timestamps are UTC. A date is a calendar date (YYYY-MM-DD) in the team time 
 - to_email, person_id (nullable; empty for recipients outside the team)
 - week_start (nullable), subject, body (plain text)
 - status: pending | sent | logged | failed, error (nullable)
+- attempts (integer, default 0; each send attempt adds 1)
 - created_at, sent_at (nullable)
 
 ## 6. Weeks and time
@@ -158,7 +159,7 @@ There is no delete for projects or updates in v1. Archive a project when it fini
 - **R14.** A report shows the health and note saved for its week, with each project's current owner and target date. Its last line says so.
 - **R15.** Every "today", "this week" and scheduled time uses the team time zone (section 6).
 - **R16.** A signed-in email must match an active Person. Anyone else sees "Ask an admin to add you."
-- **R17.** Only admins can open Admin pages ("Only admins can open this page."), change people or settings, read the outbox and email the report ("Only admins can email the report.").
+- **R17.** Only admins can open Admin pages ("Only admins can open this page."), change people or settings ("Only admins can change people or settings."), read the outbox ("Only admins can read the outbox.") and email the report ("Only admins can email the report.").
 
 ## 9. The board grid
 
@@ -197,7 +198,7 @@ The report for week W is built from saved data every time it is shown, copied or
 3. Within a group, order by target_date, then name.
 4. Line for a project with an update: "- {name} ({owner}, target {target date}): {note}". Insert ", past target date" after the date when R13 applies. Append " (was {health} last week)" only when the project has an update for the week before W with a different health.
 5. Line for a project without one: "- {name} ({owner}, target {target date}). Last update: {health}, week of {week}." using its latest update before W, or "No updates yet." if it has none.
-6. The first line is "{team_name} project status, week of {W}". The second counts the non-zero groups in the order blocked, at risk, on track, no update ("1 active project" in the singular). The last line is "Health and notes are written by each project's owner. Owners and target dates are current." If no project is expected, the body is "No active projects."
+6. The first line is "{team_name} project status, week of {W}". The second counts the non-zero groups in the order blocked, at risk, on track, no update ("1 active project" in the singular). The last line is "Health and notes are written by each project's owner. Owners and target dates are current." If no project is expected, the report is two lines: the first line as usual, then "No active projects." (no count line, groups or last line).
 
 ### Worked example (seed data, week of Oct 12, 2026, today = Tue Oct 13, 2026)
 
@@ -228,7 +229,7 @@ More cases:
 
 **Copy and email.** Copy report puts exactly this text on the clipboard and shows "Report copied". If the browser blocks the clipboard, select the text and show "Press Ctrl+C (Cmd+C on a Mac) to copy." Email report (admins only) sends the same text to the report recipients (section 12).
 
-**CSV export.** File project-status-history.csv with columns project, owner (current), week_of, health, note, posted_by, posted_at, archived. One row per project per week, from its start_week to the current week (for an archived project, to the week it was archived), sorted by project name, then week. Weeks without an update have health "No update" and empty note, posted_by and posted_at. posted_at is ISO 8601 UTC; archived is yes or no. Quote fields as RFC 4180 requires. The seed exports 15 rows: 13 updates and 2 "No update" rows for Hiring plan.
+**CSV export.** File project-status-history.csv with columns project, owner (current), week_of, health, note, posted_by, posted_at, archived. One row per project per week, from its start_week to the current week (for an archived project, to the week it was archived), sorted by project name, then week. Weeks without an update have health "No update" and empty note, posted_by and posted_at. posted_at is ISO 8601 UTC; archived is yes or no; week_of is the week's Monday as YYYY-MM-DD; owner and posted_by are person names; health is On track, At risk, Blocked or No update. Quote fields as RFC 4180 requires. The seed exports 15 rows: 13 updates and 2 "No update" rows for Hiring plan.
 
 ## 11. Screens
 
@@ -246,11 +247,11 @@ The development tools (section 16, Phases 1 and 4) appear only in development: A
 
 | Trigger | Recipient | Subject | Body |
 |---|---|---|---|
-| Weekly reminder (section 13) | Each person who owns a missing project in the current week | "Weekly update due today" | Their missing projects with a link to each, and "The report goes out today at 15:00 (America/New_York)." |
+| Weekly reminder (section 13) | Each person who owns a missing project in the current week | "Weekly update due today" | Their missing projects with a link to each, and "The report goes out today at 15:00 (America/New_York)." (left out when report_recipients is empty) |
 | Scheduled report (section 13) or Email report | Each address in report_recipients | The report's first line, e.g. "Fernway project status, week of Oct 12, 2026" | The plain-text report, then a link to the Report screen for that week |
 | Owner changed | The new owner, unless they made the change themselves | "You now own Hiring plan" | Who made the change and a link to the project page |
 
-Write every notification to the outbox first with status pending, then send it. If no email provider is configured, set status logged. If sending fails, set status failed with the error and retry on the next run of the scheduled job. A notification failure never blocks saving an update or a project change.
+Write every notification to the outbox first with status pending, then send it. If no email provider is configured, set status logged. If sending fails, set status failed with the error and retry on the next run of the scheduled job, up to 3 attempts in all. A notification failure never blocks saving an update or a project change.
 
 ## 13. Scheduled job
 
@@ -258,7 +259,7 @@ The job runs every hour (for example a cron calling /api/cron/tick with a CRON_S
 
 1. **Reminder.** If today is the update day (update_weekday), the time is at or after reminder_time, and last_reminder_week is not the current week: write one reminder for each person who owns a missing project this week (R6), listing all of their missing projects in that one email. Then set last_reminder_week to the current week, even if nobody needed a reminder.
 2. **Report.** If today is the update day, the time is at or after report_time, and last_report_week is not the current week: write the current week's report to each recipient, then set last_report_week. If the recipient list is empty, send nothing but still set last_report_week.
-3. **Retry** failed notifications.
+3. **Retry** failed notifications that have fewer than 3 attempts. After the third failed attempt the row stays failed and is shown in the Outbox for an admin.
 
 The job never catches up on a missed day. If it did not run on the update day, that week has no reminder and no scheduled report; an admin can still use Email report. Running the job again in the same week sends nothing new, apart from retries.
 
@@ -332,7 +333,7 @@ Totals: 4 projects and 13 updates; Hiring plan has no update for W-2 or W0. Past
 
 ## 16. Build plan
 
-Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app.
+Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app. Start each phase's checks from a fresh load of the seed (the reset button); checks within a phase run in order on the same data.
 
 ### Phase 1: Foundation
 
@@ -436,3 +437,27 @@ When you're done, list what you built and anything in the spec you had to interp
 - Groups (by team or client) with a roll-up line per group in the report.
 - An AI draft of the report's opening paragraph from the week's notes, edited by a person before it is sent.
 - A fourth label, Done, for a project's final week before it is archived.
+
+## 18. Build notes from our test build
+
+We built this blueprint by sending the four phase prompts above, in order, to an AI builder (Claude, working in Type), then checked every acceptance item in a real browser, resetting to the seed data before each phase's checks. Where a check says something is refused, the person saw the reason on screen and a direct request got an error with nothing changed.
+
+**Result:** 28 of 28 acceptance checks passed in one final browser run on a fresh database, plus 64 automated tests. The first final run passed 27: the update form confirmed a revision a moment before the history refreshed, so the builder fixed the app and ran the whole final sequence again. We then ran the full browser suite and the automated tests again ourselves, with the same result.
+
+**Gaps the build found, now fixed in this spec:**
+1. R17 gave no refusal message for a non-admin changing people or settings or reading the outbox. It now gives one for each.
+2. "The body is 'No active projects'" didn't say whether the title and last line stay. An empty report is now two lines.
+3. The CSV export didn't give the formats of week_of, owner, posted_by and health. It now does.
+4. The reminder said "The report goes out today at 15:00" even when there are no report recipients and the report is skipped. The sentence is now left out then.
+5. Failed emails were retried forever, with nothing counting the attempts. Notifications now count attempts and stop after 3.
+6. Several required fields had no refusal message. Section 5 now gives one for each.
+
+**Added after the test:** the build plan now says to start each phase's checks from a fresh load of the seed, which is how the test ran.
+
+**What we did not test:**
+- Production sign-in. The test build reads the signed-in email from a header set by a sign-in proxy, but every check used the development "Act as" switcher.
+- Sending email. Emails were logged in the outbox, not delivered; retrying a failed email was covered by automated tests only.
+- The hourly job on a real scheduler. It was run from the development button and by calling its endpoint with and without the secret.
+- Time passing for real. Week rollover and send times were tested with the development clock.
+- Two people saving the same project at once, and several copies of the app on one database.
+- Hosting. The test build ran on SQLite on one server. For a hosted deploy, use a managed Postgres (or your platform's database) and the same schema.

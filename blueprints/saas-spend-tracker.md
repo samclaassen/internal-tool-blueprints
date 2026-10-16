@@ -1,4 +1,4 @@
-<!-- Mirrored from https://personalsoftwarefactory.com/blueprints/saas-spend-tracker . The page has a labelled drawing, a live demo and build-or-buy notes. Free to copy and adapt for your own team. -->
+<!-- Mirrored from https://personalsoftwarefactory.com/blueprints/saas-spend-tracker . The page has a labelled drawing, a live demo, build-or-buy notes and the build-test results. Free to copy and adapt for your own team. -->
 
 # SaaS Spend Tracker
 
@@ -99,7 +99,7 @@ All timestamps are UTC. renews_on and ended_on are calendar dates with no time. 
 - actor_id (nullable; empty means the daily job)
 - type: created | edited | renewed | auto_renewed | status_changed | reminder_queued
 - source: form | csv | job
-- changes (JSON: field → {from, to}, e.g. {"seats_used": {"from": 14, "to": 12}})
+- changes (JSON: field → {from, to}, e.g. {"seats_used": {"from": 14, "to": 12}}; a status_changed event made after the notice deadline also holds "late_notice": true)
 - reason (nullable text)
 - created_at
 
@@ -196,7 +196,7 @@ An annual tool rolls a year at a time: on Dec 2, Zoom moves from Dec 1, 2026 to 
 | Mark cancelling | Owner or admin | active | cancelling | Reason required (R19). Late-notice warning (below). Event `status_changed` |
 | Undo cancelling | Owner or admin | cancelling | active | Only while renews_on is today or later. Event `status_changed` |
 | Mark cancelled | Owner or admin | active, cancelling | cancelled | Reason required. ended_on = the earlier of today and renews_on. Event `status_changed` |
-| Restore | Admin | cancelled | active | A new renews_on, today or later, is required, and the name must be free (R13). Clears ended_on and status_reason. Event `status_changed` |
+| Restore | Admin | cancelled | active | A new renews_on, today or later, is required, and the name must be free (R13). If the owner is no longer active, a new active owner is required too (R16): "Maya Chen is no longer active. Choose a new owner." Clears ended_on and status_reason. Event `status_changed` |
 | Auto-renew | Daily job | active | active | R8. Event `auto_renewed` |
 | Term ends | Daily job | cancelling | cancelled | R10. Event `status_changed` |
 
@@ -227,7 +227,7 @@ After every action by a person, the follow-up steps run for that tool: steps 2 t
 6. **Departments.** One row per department: active tools, annual run rate, unused seat cost, ending (count and annualized). A total row that equals the Inventory tiles. Clicking a department opens the Inventory filtered to it. Export CSV.
 7. **Notifications.** Everyone sees their own, newest first, each linking to its tool. Admins also get an "All (outbox)" tab: recipient, kind, tool, subject, status, attempts, last error, created and sent times.
 8. **Import CSV** (admins). Upload, preview, import (section 12).
-9. **Admin: People.** Name, email, admin, active, tools owned (active and cancelling). Add, edit, deactivate (R16).
+9. **Admin: People.** Name, email, admin, active, tools owned (active and cancelling). Add, edit, deactivate (R16) and reactivate. Reactivating sets active back to true; it does not give back tools that were reassigned.
 10. **Admin: Departments.** Add, rename and delete. Duplicate names are refused: "A department called Ops already exists." A department that has tools of any status cannot be deleted: "Ops has 2 tools. Move them first."
 11. **Admin: Settings.** Currency and time zone.
 
@@ -275,7 +275,7 @@ Export and import use the same column names. On import, headers match ignoring c
 
 ### Import (admins only, all or nothing)
 
-1. Upload a UTF-8 CSV file (a byte-order mark is fine) with a header row and at most 1,000 data rows. Blank lines are skipped. Line numbers count the header as line 1.
+1. Upload a UTF-8 CSV file (a byte-order mark is fine) with a header row and at most 1,000 data rows. Blank lines are skipped. Line numbers are the line of the file where a row starts, counting the header as line 1 (a quoted value with line breaks makes its row span several lines; blank lines are counted but skipped).
 2. Each row is matched to a current (active or cancelling) tool by name, ignoring case and surrounding spaces. A match is an update; no match creates a new active tool. Import cannot rename a tool, because the name is how rows are matched.
 3. For an update, a blank cell leaves that field unchanged. For a new tool, the required columns must be filled and blank optional cells take their defaults.
 4. Every row is checked with the same rules as the tool form (R13 to R15, with seats checked against the merged values for an update), plus: "Unknown or inactive owner: kim@northwind.example", "Unknown department: Marketing (add it in Admin: Departments first)", "Billing cycle must be monthly, quarterly or annual", "Invalid price: 12,50", "Invalid date: 11/30/2026 (use a real date in YYYY-MM-DD form)", and "This name appears twice in the file (lines 3 and 7)".
@@ -293,7 +293,7 @@ Slack,lee@northwind.example,Marketing,monthly,875.00,2030-01-10,yes,0,50,48
 Asana,sam@northwind.example,Engineering,monthly,100,2030-02-30,yes,0,10,12
 ```
 
-Expected preview against fresh seed data: line 2, 1Password, Create ($450 / quarter, $1,800 a year, Ben Cho, IT). Line 3, Update GitHub: seats purchased 30 → 35, nothing else. Line 4, Miro, Create ($1,000 a year, Jo Park, Design, no auto-renew, 30 days' notice). Line 5, Error: "Unknown department: Marketing (add it in Admin: Departments first)". Line 6, Errors: "Invalid date: 2030-02-30 (use a real date in YYYY-MM-DD form)" and "Seats used (12) cannot be more than seats purchased (10)". The 2030 dates only keep the sample in the future; any future date works.
+Expected preview against fresh seed data: line 2, 1Password, Create ($450 / quarter, $1,800 a year, Ben Cho, IT). Line 3, Update GitHub: seats purchased 30 → 35, nothing else. Line 4, Miro, Create ($1,000 a year, Jo Park, Design, no auto-renew, 30 days' notice). Line 5, Error: "Unknown department: Marketing (add it in Admin: Departments first)". Line 6, Errors: "Invalid date: 2030-02-30 (use a real date in YYYY-MM-DD form)" and "Seats used (12) cannot be more than seats purchased (10)." Messages shared with the tool form keep the form's wording and punctuation. The 2030 dates only keep the sample in the future; any future date works.
 
 ### Export
 
@@ -346,7 +346,7 @@ Starting numbers: annual run rate $31,320; 4 active tools; 141 of 190 seats used
 
 ## 15. Build plan
 
-Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app. In the checks, T is the day you last pressed Reset seed data, and T+19 means 19 days later.
+Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app. Start each phase's checks from a fresh load of the seed (the Reset seed data button); checks within a phase run in order on the same data. In the checks, T is the day you last pressed Reset seed data, and T+19 means 19 days later.
 
 ### Phase 1: Foundation
 
@@ -377,7 +377,7 @@ Using the SaaS Spend Tracker blueprint above, build Phase 2 only.
 
 1. Put R1 to R5 and the reminder date from R6 in one shared calculation module, with unit tests for every row of the worked examples in sections 6 and 7, including the rounding case.
 2. Build screens 1, 2, 3 and 6 from section 10: Inventory with tiles, search and filters; Tool detail; Add / edit tool with the live preview; Departments with totals. Show all three statuses in filters and badges; the status actions come in Phase 3.
-3. Implement add and edit with R13 to R15 and the stale-edit check in R18. Enforce R12 on the server: only admins add tools; owners edit only their own tools and cannot change owner or department. Cancelled tools are read-only (R19).
+3. Implement add and edit with R13 to R15 and the stale-edit check in R18. Enforce R12 on the server: only admins add tools; owners edit only their own tools and cannot change owner or department. Cancelled tools are read-only (R19). Save renewal dates as typed for now; rolling a past date forward (screen 3, R8) arrives with the follow-up steps in Phase 3.
 4. Write one HistoryEvent per change (R17) and show History on the tool detail page.
 
 Do not build renewals, reminders or CSV yet. When you're done, list what you built and anything in the spec you had to interpret.
@@ -400,7 +400,7 @@ Do not build renewals, reminders or CSV yet. When you're done, list what you bui
 Using the SaaS Spend Tracker blueprint above, build Phase 3 only.
 
 1. Implement every action in section 8 (record renewal, mark cancelling with the late-notice warning, undo cancelling, mark cancelled, restore) with R11 and R19. Check who may do what on the server.
-2. Build the daily job from section 11 (term end, auto-renewal, reminders, sending) at an endpoint protected by a secret, and run the follow-up steps for a single tool right after any change to it. Use the unique dedupe_key (R7) so overlapping runs cannot queue a reminder twice.
+2. Build the daily job from section 11 (term end, auto-renewal, reminders, sending) at an endpoint protected by a secret, and run the follow-up steps for a single tool right after any change to it, including the roll-forward message on the add / edit form (screen 3). Use the unique dedupe_key (R7) so overlapping runs cannot queue a reminder twice.
 3. Send notifications from the outbox (section 11). Email can use any provider we have; if none is configured, mark notifications logged instead of sending. Retry failures up to 5 times. Owner changes, including R16 reassignments, now write owner_assigned notifications.
 4. Build screens 4, 5 and 7 from section 10: Record renewal, Renewals, and Notifications with the admin outbox tab.
 5. Add Run daily job now to the development toolbar, and make every move of the clock run the daily job once.
@@ -450,3 +450,28 @@ When you're done, list what you built and anything in the spec you had to interp
 - Slack reminders as well as email, and contract files attached to each tool instead of a link.
 - Department budgets, with the remaining budget on the Departments screen.
 - Hide prices from people who are neither admins nor the tool's owner.
+
+## 17. Build notes from our test build
+
+We built this blueprint by sending the four phase prompts above, in order, to an AI builder (Claude, working in Type), then checked every acceptance item in a real browser, starting each phase's checks from Reset seed data. Where a check says something is refused, the person saw the reason on screen and a direct request got an error with nothing changed.
+
+**Result:** 31 of 31 acceptance checks passed in the recorded final browser run on a fresh database, plus 99 automated tests. A second recorded full browser run also passed all 31 checks. On October 16 we matched both runs' item-by-item evidence to this spec's 31 checklist items and re-ran the 99 automated tests, all passing. This review did not repeat the browser run. [Download the item-by-item acceptance evidence](https://personalsoftwarefactory.com/builds/saas-spend-tracker/acceptance-results.json), including both run timestamps and the testing limitations.
+
+**Gaps the build found, now fixed in this spec:**
+1. Admin: People could deactivate someone but never bring them back, and their email could not be added again. People can now be reactivated.
+2. The add and edit form rolls a past renewal date forward, but the steps that do it are built in Phase 3. The Phase 2 prompt now says to save dates as typed until then.
+3. A cancellation after the notice deadline records "late_notice", but the history model had no place for it. Section 5 now says where it goes.
+4. Restoring a cancelled tool whose owner had since been deactivated would create an active tool with an inactive owner. Restore now asks for a new owner in that case.
+5. The seat message had a full stop in R14 but not in the CSV preview, though both come from the same check. Both now match.
+6. CSV line numbers were ambiguous when a value spans several lines. Section 12 now says a line number is where the row starts.
+
+**Added after the test:** the build plan now says to start each phase's checks from a fresh load of the seed, which is how the test ran.
+
+**What we did not test:**
+- Production sign-in. Google sign-in was built, but every check used the development "sign in as" switcher.
+- Sending email. Emails were logged in the outbox, not delivered; retries and the failed status after 5 attempts were covered by automated tests only.
+- The daily job on a real scheduler. It ran from the development clock and by calling its endpoint with and without the secret.
+- Other time zones and currencies, beyond automated tests.
+- Overlapping job runs in separate processes.
+- Phones other than a 390-pixel-wide Chromium window.
+- Hosting. The test build ran on SQLite on one server. For a hosted deploy, use a managed Postgres (or your platform's database) and the same schema.

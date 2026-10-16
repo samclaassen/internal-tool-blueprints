@@ -1,4 +1,4 @@
-<!-- Mirrored from https://personalsoftwarefactory.com/blueprints/hiring-pipeline . The page has a labelled drawing, a live demo and build-or-buy notes. Free to copy and adapt for your own team. -->
+<!-- Mirrored from https://personalsoftwarefactory.com/blueprints/hiring-pipeline . The page has a labelled drawing, a live demo, build-or-buy notes and the build-test results. Free to copy and adapt for your own team. -->
 
 # Hiring Pipeline
 
@@ -51,7 +51,7 @@ Calendar scheduling, availability and self-scheduling (v1 records the interview 
 | Role | Who | Can do |
 |---|---|---|
 | Admin | People operations, one or more people | Everything below, for every role. Manage people, roles and settings. See every application, scorecard and note. Delete a candidate's data. Read the outbox. |
-| Hiring manager | The person set as a role's hiring manager | For their roles: see every application, move stages, add candidates, schedule interviews, reject, hire, write notes, export. See submitted scorecards, subject to R11. Edit the role and its attributes. |
+| Hiring manager | The person set as a role's hiring manager | For their roles: see every application, move stages, add candidates, schedule interviews, reject, hire, write notes, export. See submitted scorecards, subject to R11. Edit their role's title, department, location, description and attributes (screen 9); only admins create roles, change a role's status or change its hiring manager. |
 | Interviewer | Any active person assigned to an interview | See the applications they are assigned to (candidate details, answer, link, role attributes) and submit their own scorecards. See other scorecards on that application only after submitting their own (R11). Never see notes. |
 | Candidate | Anyone, without signing in | Apply to an open role. Withdraw their application through the private link. |
 
@@ -71,7 +71,7 @@ All IDs are strings. Timestamps are UTC. "Date" means a calendar date in the tea
 - privacy_notice (required text the candidate accepts, max 2,000 characters), privacy_version (integer, starts at 1; R15)
 - retention_days (integer, 30 to 730, default 180)
 - rejection_template (required text, max 2,000 characters, may use {candidate_first_name}, {role_title} and {company_name})
-- last_digest_on (nullable date; written only by the scheduled job)
+- last_digest_at (nullable timestamp; written only by the scheduled job)
 
 **Role** (a job)
 - id, title (required, 1 to 100 characters; unique ignoring case among roles that are not closed)
@@ -79,10 +79,12 @@ All IDs are strings. Timestamps are UTC. "Date" means a calendar date in the tea
 - description (required, 20 to 5,000 characters, Markdown)
 - hiring_manager_id (references an active Person)
 - status: open | paused | closed; opened_at, closed_at (nullable)
+- A new role is saved as paused unless it is opened in the same step, which R4 must allow. opened_at is empty until the role is first opened.
 
 **RoleAttribute** (the scorecard criteria for a role)
 - id, role_id, name (required, 2 to 60 characters, unique per role ignoring case), position (integer)
 - A role must have 3 to 6 attributes before it can be opened (R4).
+- An attribute that has ratings can be renamed or reordered but not removed: "Coachability already has ratings on scorecards, so it can't be removed. Rename it instead."
 
 **Candidate** (a person who applied or was added)
 - id, name (1 to 100), email (required, stored lowercase, unique among candidates that are not anonymized)
@@ -99,6 +101,7 @@ All IDs are strings. Timestamps are UTC. "Date" means a calendar date in the tea
 - reject_reason (nullable): requirements | chose_another | role_closed | no_response | other; close_note (optional, max 500)
 - applied_at, stage_changed_at, closed_at (nullable; set by hire, reject and withdraw)
 - withdraw_token (at least 128 random bits, URL-safe; R13)
+- anonymized_at (nullable timestamp; R14)
 
 **Interview**
 - id, application_id, kind: screen | interview
@@ -125,7 +128,10 @@ All IDs are strings. Timestamps are UTC. "Date" means a calendar date in the tea
 
 **Notification** (outbox)
 - id, kind, to_email, person_id (nullable; empty for candidates), application_id (nullable)
-- subject, body (plain text), status: pending | sent | logged | failed, error (nullable), created_at, sent_at
+- subject, body (plain text), status: pending | sent | logged | failed, error (nullable), attempts (integer, default 0; each send attempt adds 1), created_at, sent_at
+
+**ApplyAttempt** (the public form's rate limit, R5)
+- ip_hash (an HMAC of the IP address with a server secret), created_at. Rows older than a day are deleted.
 
 ## 6. Stages and lifecycle
 
@@ -144,6 +150,8 @@ The open stages run in order: Applied → Screen → Interview → Offer → Hir
 | Schedule interview | Admin or hiring manager | screen (kind screen) or interview (kind interview) | same | One pending scorecard per interviewer; each interviewer emailed |
 | Cancel interview | Admin or hiring manager | any open stage | same | Interview cancelled_at set; its pending scorecards cancelled; interviewers emailed |
 
+The notes required for Move back and Reopen are saved as Notes on the application (R12 applies), and the event records the note's id. A team withdrawal's note is saved as the close_note.
+
 Hired, and any anonymized application, are final: no action except notes (and none at all once anonymized). Any other move is refused.
 
 ## 7. Interviews and scorecards
@@ -151,11 +159,11 @@ Hired, and any anonymized application, are final: no action except notes (and no
 - An interview has one or more interviewers (1 to 4 active people). Scheduling creates one pending Scorecard for each.
 - An interviewer can submit only their own scorecard, only once, and only after the interview's starts_at. Before that the form says "You can submit feedback after the interview starts (Wed Oct 14, 10:00 EDT)."
 - To submit: rate at least one attribute (each attribute is 1 to 4 or Not assessed), write takeaways of 20 to 3,000 characters, and choose one of the five recommendations. No decision is a valid, explicit choice; there is no default.
-- A submitted scorecard cannot be edited or deleted. To add something later, write a note.
+- A submitted scorecard cannot be edited or deleted. To add something later, the interviewer asks the hiring manager to add a note (interviewers can't see or write notes, R12).
 - Each application shows a scorecard summary to people allowed to see scorecards: "3 of 3 submitted · Strong yes 1, Yes 2, No 0, Definitely not 0, No decision 0", plus each scorecard with its ratings, takeaways and recommendation. Cancelled scorecards are listed as cancelled and never counted.
 - The app never combines ratings into a score, a ranking or a recommendation of its own. The decision belongs to the hiring team.
 
-### Worked examples (seed data in section 13; today is Tue Oct 13, 2026, 12:00 in the team time zone)
+### Worked examples (seed data in section 13; today is Tue Oct 13, 2026, 08:00 in the team time zone, as after a reset)
 
 | Situation | Result |
 |---|---|
@@ -173,19 +181,19 @@ Hired, and any anonymized application, are final: no action except notes (and no
 - **R2. Server checks.** Every rule about who can do what is enforced on the server, for every action and every API call. Hiding a button is not a permission check.
 - **R3. One application per candidate per role.** Candidates are matched by email, trimmed and lowercased. Applying again to a role the candidate already has any application for creates nothing and shows the same thank-you page as a new application, so the form never reveals who has applied. Applying to a different role adds a new application for the same candidate.
 - **R4. Roles.** A role needs 3 to 6 attributes and a hiring manager to be opened. Only open roles appear on the careers page and accept applications; a paused or closed role's page says "This role isn't accepting applications right now." Closing a role with open applications requires the closer to reject them all with the reason "Role closed" (rejection emails optional) in the same action.
-- **R5. The public form.** Name 1 to 100 characters, a valid email up to 254, phone optional, link optional (https only, no username or password in it, up to 2,000), answer 1 to 2,000 characters, and the privacy checkbox ticked: "Please confirm you've read the privacy notice." The checkbox is never pre-ticked. Protect the form with a hidden honeypot field and at most 5 applications per IP hash per hour; store a hash of the IP with a server secret, never the IP itself.
+- **R5. The public form.** Name 1 to 100 characters, a valid email up to 254, phone optional, link optional (https only, no username or password in it, up to 2,000), answer 1 to 2,000 characters, and the privacy checkbox ticked: "Please confirm you've read the privacy notice." The checkbox is never pre-ticked. Protect the form with a hidden honeypot field and at most 5 applications per IP hash per hour; store a hash of the IP with a server secret (ApplyAttempt), never the IP itself. Every accepted submission counts, including duplicates; refused ones don't. Over the limit the form says "We've received several applications from your network in the last hour. Please try again later." and creates nothing.
 - **R6. One stage at a time.** Advance and move back change the stage by exactly one step. Anything else is refused: "Move one stage at a time."
-- **R7. Feedback before Offer.** Advancing from Interview to Offer requires at least one submitted scorecard on the application and no pending scorecards on interviews that are not cancelled. The refusal names who is missing: "2 scorecards are still pending (Ben Cho, Lee Park)."
+- **R7. Feedback before Offer.** Advancing from Interview to Offer requires at least one submitted scorecard on the application and no pending scorecards on interviews that are not cancelled. The refusal names who is missing: "2 scorecards are still pending (Ben Cho, Lee Park)." With no submitted scorecard it says "At least one submitted scorecard is needed before Offer."
 - **R8. Hiring.** Hire is allowed only from Offer, is final, and does not close the role (a role can hire more than one person). Closing the role is a separate action.
 - **R9. Rejection.** Reject requires a reason. Sending the rejection email is a choice made in the same dialog, defaulting to on for candidates who applied through the careers page and off for candidates the team added. The email uses the Settings template, and never includes ratings, takeaways, notes or the reject reason.
 - **R10. Scorecards.** Only the assigned interviewer submits, once, after starts_at, with the fields in section 7. A scorecard on a cancelled interview or a closed application is cancelled and cannot be submitted.
 - **R11. Feedback independence.** A person who has a pending scorecard on any interview of an application cannot see other people's submitted scorecards on that application, even if they are the hiring manager or an admin, until they submit their own. After submitting they see all submitted scorecards on the application. Admins and hiring managers with no scorecard on the application see all submitted scorecards. Interviewers never see scorecards on applications they are not assigned to.
 - **R12. Notes.** Notes are visible to admins and the role's hiring manager only, never to interviewers and never to candidates.
 - **R13. Withdraw link.** The confirmation email links to /withdraw/<withdraw_token>. The page shows the role and company only (no other personal data) and a Withdraw button with a confirmation. After withdrawing, or if the application is already closed, it says "Your application is no longer active." Unknown tokens show the same message.
-- **R14. Retention.** Every day the job anonymizes applications that were rejected or withdrawn more than retention_days ago: the answer, link and phone are cleared, notes and scorecard takeaways are deleted, and the event `anonymized` is written. When a candidate has no remaining application that is open, hired or inside the retention window, the candidate's name becomes "Anonymized candidate", their email and phone are cleared, and anonymized_at is set. Ratings, recommendations, stages, dates, source and reject reason are kept for reporting. Hired applications are not anonymized automatically.
+- **R14. Retention.** Every day the job anonymizes applications that were rejected or withdrawn more than retention_days ago: the answer, close note and interview locations are cleared, notes and scorecard takeaways are deleted, the application's outbox rows are deleted, the application's anonymized_at is set and the event `anonymized` is written. The same run deletes outbox rows older than retention_days, which covers digests that named the candidate. When a candidate has no remaining application that is open, hired or inside the retention window, the candidate's name becomes "Anonymized candidate", their email, phone and link are cleared, and the candidate's anonymized_at is set. Ratings, recommendations, stages, dates, source and reject reason are kept for reporting. Hired applications are not anonymized automatically.
 - **R15. Privacy notice.** Changing privacy_notice increases privacy_version and writes `settings_changed`. Existing applications keep the consent_version they accepted.
-- **R16. Delete now.** An admin can delete a candidate's data on request: the candidate, all their applications, interviews, scorecards, ratings, notes and outbox rows are removed, and one `candidate_deleted` event is written with the admin, the time and counts, but no personal data.
-- **R17. People changes.** Deactivating a person who is the hiring manager of an open or paused role, or who has pending scorecards, is refused and says what to reassign: "Reassign Sam Okafor's 1 open role and 1 pending scorecard first." There must always be at least one active admin.
+- **R16. Delete now.** An admin can delete a candidate's data on request, with "Delete now" on the Application page: the candidate, all their applications, interviews, scorecards, ratings, notes, outbox rows and the deleted applications' events are removed, and one `candidate_deleted` event is written with the admin, the time and counts, but no personal data.
+- **R17. People changes.** Deactivating a person who is the hiring manager of an open or paused role, or who has pending scorecards, is refused and says what to resolve first: "Sam Okafor manages 1 open role and has 1 pending scorecard. Give the role a new hiring manager, and submit the scorecard or cancel its interview, first." There must always be at least one active admin.
 - **R18. Events.** Every successful action writes the events in section 6. Events are never edited and are only removed by R16. They never contain candidate personal data.
 
 ## 9. Screens
@@ -194,14 +202,15 @@ Hired, and any anonymized application, are final: no action except notes (and no
 2. **Role page and form** (public, /careers/<role id>). Title, location, description, then the form from R5 with the privacy notice above the checkbox. On success: "Thanks, {first name}. We've received your application for {role}. We'll be in touch." (the same page for duplicates, R3).
 3. **Withdraw page** (public, R13).
 4. **Board** (home for admins and hiring managers; anyone else sees "You're not the hiring manager for any role." with a link to My interviews). A role filter (All my roles / each role), columns Applied, Screen, Interview, Offer, Hired with counts, and cards showing the candidate's name, role, source, days in stage and "2 of 3 scorecards" when interviews exist. Advance and move back from the card menu. A link to Closed applications.
-5. **Application** (detail). Candidate details, answer, link (opens in a new tab with rel="noopener noreferrer"), stage with actions, interviews with their scorecards and the summary (section 7, R11), notes (R12), and the activity log.
+5. **Application** (detail). Candidate details, answer, link (opens in a new tab with rel="noopener noreferrer"), stage with actions (including a "Move to stage" control listing the open stages; the server refuses anything but the next or previous stage, R6), "Delete now" for admins (R16, with a confirmation), interviews with their scorecards and the summary (section 7, R11), notes (R12), and the activity log.
 6. **Scorecard form.** The role's attributes with 1 to 4 or Not assessed, takeaways, the five recommendations. Read-only before starts_at.
 7. **My interviews** (home for interviewers). Upcoming interviews and pending scorecards, oldest interview first, then submitted ones from the last 30 days.
 8. **Closed applications.** Rejected and withdrawn applications with role, reason and closed date; anonymized ones show "Anonymized candidate". Reopen where allowed.
-9. **Admin: Roles.** List, create and edit roles with attributes and status (R4).
+9. **Admin: Roles.** List, create and edit roles with attributes and status (R4). A role's hiring manager can open the edit page of their own role (not the list) to change its title, department, location, description and attributes; status and hiring manager are admin-only.
 10. **Admin: People.** Add, edit, deactivate (R17).
 11. **Admin: Settings.** Company, time zone, careers intro, privacy notice (R15), retention days, rejection template with a preview.
 12. **Admin: Outbox.** Every notification with its status.
+13. **Admin: Activity.** Every event, newest first, including those without an application (candidate_deleted, role and settings changes).
 
 ## 10. Notifications
 
@@ -223,10 +232,10 @@ Write every notification to the outbox first, then send it. With no provider con
 
 The job runs every hour (for example a cron calling /api/cron/tick with a CRON_SECRET header) and reads "now" through one function that adds the development clock offset.
 
-1. **Digest.** At or after 08:00 in the team time zone, if last_digest_on is before today (or empty): for each hiring manager, list open applications for their roles received since the previous digest (on the very first run, in the previous 7 days), and their applications with no stage change for 14 or more days in Applied or Screen. Queue one email per hiring manager with anything to report. Set last_digest_on to today.
+1. **Digest.** At or after 08:00 in the team time zone, if last_digest_at is empty or on an earlier date: for each hiring manager, list open applications for their roles received since last_digest_at (on the very first run, in the previous 7 days), and their applications with no stage change for 14 or more days in Applied or Screen. Queue one email per hiring manager with anything to report. Set last_digest_at to now.
 2. **Scorecard reminders.** For each pending scorecard whose interview started 24 hours or more ago and whose reminded_at is empty: queue one reminder and set reminded_at.
 3. **Retention.** Apply R14 once per day, in the same run as the digest.
-4. **Retry** failed notifications, up to 5 attempts.
+4. **Retry** failed notifications until their attempts reach 5.
 
 A missed day is not caught up: the next run sends that day's digest. Running the job twice in the same hour sends nothing new.
 
@@ -270,11 +279,13 @@ Applications (emails are firstname.lastname@example.com; T is the day the seed i
 | Noor Haddad | Product Designer | Rejected (from Screen, reason chose_another) | careers_page | T-230 | none; closed T-200 |
 | Kai Brooks | Operations Lead | Withdrawn (from Screen, by the candidate) | careers_page | T-25 | none; closed T-10 |
 
+Reset to seed data also sets the development clock to 08:00 on T in the team time zone.
+
 Every submitted scorecard has takeaways of at least 20 characters. Ben Cho's takeaways for Sora Ito read "Strong discovery, asked good follow-ups. Written recap was thin." Careers-page applications have consent version 1. Mei Chen has one note from Maya: "Referred by Lee; portfolio link looks strong."
 
 ## 14. Build plan
 
-Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app.
+Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app. Start each phase's checks from a fresh load of the seed (the reset button); checks within a phase run in order on the same data.
 
 ### Phase 1: Foundation
 
@@ -285,7 +296,7 @@ Using the Hiring Pipeline blueprint above, build Phase 1 only.
 2. Add sign-in with the platform's built-in auth or Google sign-in limited to our company email domain. A signed-in email must match an active Person; anyone else sees "Ask an admin to add you."
 3. Build Admin: People, Admin: Roles (with attributes) and Admin: Settings (section 9, screens 9 to 11). Only admins can open them, and the server refuses admin actions from anyone else. Enforce R4 (3 to 6 attributes and a hiring manager to open a role, unique titles) and R17.
 4. Load the seed data from section 13, with dates relative to today.
-5. Add a "sign in as" switcher, a "move the clock forward" control and a "reset to seed data" button, all visible only in development, so I can test as different people and times.
+5. Add a "sign in as" switcher, a "move the clock forward" control and a "reset to seed data" button (which also sets the clock to 08:00 on the seed day, section 13), all visible only in development, so I can test as different people and times.
 
 Do not build the careers page, board or scorecards yet. When you're done, list what you built and anything in the spec you had to interpret.
 ```
@@ -304,7 +315,7 @@ Using the Hiring Pipeline blueprint above, build Phase 2 only.
 
 1. Build the public careers page, role pages with the application form, and the withdraw page (section 9, screens 1 to 3), with R3, R5 and R13. The form must work on a phone.
 2. Build the Board, the Application page (without interviews and scorecards for now), Closed applications and Add candidate (screens 4, 5 and 8).
-3. Implement every action in section 6 except the interview actions, with R1, R2, R4 (closing with open applications), R6, R8, R9, R12 and R18 enforced on the server.
+3. Implement every action in section 6 except the interview actions and Reopen, with R1, R2, R4 (closing with open applications), R6, R8, R9, R12 and R18 enforced on the server.
 4. Write the notifications for Apply, Reject and candidate withdrawal (section 10) to the outbox, and build Admin: Outbox (screen 12).
 
 When you're done, list what you built and anything in the spec you had to interpret.
@@ -352,8 +363,8 @@ When you're done, list what you built and anything in the spec you had to interp
 Using the Hiring Pipeline blueprint above, build Phase 4 only.
 
 1. Build the scheduled job from section 11 (digest, scorecard reminders, retention, retries), protected by a CRON_SECRET header, with a development-only "run job now" control that uses the development clock.
-2. Implement R14 and R16, and Reopen from section 6.
-3. Add CSV export of a role's applications for admins and its hiring manager: candidate name, stage, source, applied date, closed date, reject reason and the recommendation counts. No answers, notes or takeaways.
+2. Implement R14, R16 (with Delete now and Admin: Activity, section 9, screens 5 and 13) and Reopen from section 6.
+3. Add CSV export of a role's applications for admins and its hiring manager: candidate name, stage, source, applied date, closed date, reject reason and the recommendation counts. No answers, notes or takeaways. R11 applies: where the person exporting has a pending scorecard on an application, its count columns say "hidden".
 
 When you're done, list what you built and anything in the spec you had to interpret.
 ```
@@ -364,7 +375,7 @@ When you're done, list what you built and anything in the spec you had to interp
 - [ ] The job anonymizes Noor Haddad: Closed applications shows "Anonymized candidate · Product Designer · Rejected", her email is gone, and Kai Brooks is unchanged.
 - [ ] Dana uses Delete now on Kai Brooks: Kai's applications are gone, and the activity log's candidate_deleted entry contains no name or email.
 - [ ] Rejecting Jamie Kim and then reopening the application returns Jamie to Applied; reopening Noor Haddad is refused because she is anonymized.
-- [ ] Exporting Account Executive downloads a CSV with one row per application, recommendation counts for Sora Ito and Taylor Moss, and no takeaways or notes.
+- [ ] Dana exporting Account Executive downloads a CSV with one row per application, recommendation counts for Sora Ito and Taylor Moss, and no takeaways or notes.
 
 ## 15. Variations
 
@@ -376,3 +387,37 @@ When you're done, list what you built and anything in the spec you had to interp
 - An anonymous, optional demographic survey reported only in aggregate.
 - A referral form for employees that fills in source and referrer.
 - Slack notifications for hiring managers.
+
+## 16. Build notes from our test build
+
+We built this blueprint by sending the four phase prompts above, in order, to an AI builder (Claude, working in Type), then checked every acceptance item in a real browser, resetting to the seed data before each phase's checks. Where a check says something is refused, the person saw the reason on screen and a direct request got an error with nothing changed.
+
+**Result:** 29 of 29 acceptance checks passed in one final browser run on a fresh database, plus 65 automated tests. We then ran the full browser suite and the automated tests again ourselves, with the same result.
+
+**Gaps the build found, now fixed in this spec:**
+1. A new role had no starting status. It is saved as paused unless it is opened in the same step.
+2. Section 4 let hiring managers edit their roles, but the only role editor was admin-only. Sections 4 and 9 now say what a hiring manager can edit, and where.
+3. Nothing said whether an attribute that already has ratings can be removed. It can be renamed, not removed.
+4. R17 told admins to "reassign" a pending scorecard, but no action does that. The message now names what clears it.
+5. The checks depended on the time of day the seed was loaded. Reset to seed data now also sets the clock to 08:00.
+6. The form's rate limit had no field for the IP hash, no counting rule and no message. Section 5 and R5 now have them.
+7. The notes that Move back and Reopen require had nowhere to be stored. They are saved as notes on the application.
+8. Reopen was assigned to both Phase 2 and Phase 4. It is now in Phase 4 only.
+9. No screen offered a move of more than one stage, so the "Move one stage at a time" check couldn't be reached through the screens. The Application page now has a "Move to stage" control.
+10. Section 7 told interviewers to add to a submitted scorecard with a note, but interviewers can't write notes. They now ask the hiring manager.
+11. R7 had no message for an application with no submitted scorecard. It now does.
+12. R14 anonymizes applications one by one, but applications had no field to show it. They now have anonymized_at.
+13. R14 cleared the candidate's link and phone when one old application expired, even if another was still open, and missed the close note, interview locations and the outbox. It now covers each.
+14. The digest stored the date of its last run, but listing applications "since the previous digest" needs the time. It now stores a timestamp.
+15. Retries stopped after 5 attempts, with nothing to count them. Notifications now have an attempts count.
+16. The export's recommendation counts could reveal scorecards that R11 hides. They now say "hidden" for someone with a pending scorecard on that application, and the check names Dana as the person exporting.
+17. There was no screen for Delete now, or for events without an application. The Application page has Delete now, and Admin: Activity lists every event.
+18. Only Phase 4 said to reset to the seed data before its checks. The build plan now says it for every phase.
+
+**What we did not test:**
+- Production sign-in. Google sign-in was built, but every check used the development "sign in as" switcher.
+- Sending email. Emails were logged in the outbox, not delivered.
+- The hourly job on a real scheduler. It was run from the development control and by calling its endpoint with and without the secret.
+- Production deployment details: HTTPS, secure cookies and the form's rate limit behind a real proxy.
+- Two people moving the same candidate at the same moment from two browsers. This is covered by automated tests only.
+- Hosting. The test build ran on SQLite on one server. For a hosted deploy, use a managed Postgres (or your platform's database) and the same schema.

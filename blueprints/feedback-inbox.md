@@ -263,7 +263,7 @@ CSV export's shipment has one pending follow-up: Ridgeway.
 
 ## 15. Build plan
 
-Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app.
+Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app. Start each phase's checks from a fresh load of the seed (the reset button); checks within a phase run in order on the same data.
 
 ### Phase 1: Foundation
 
@@ -324,7 +324,7 @@ Do not build the follow-up list yet. When you're done, list what you built and a
 - [ ] Themes sorted by Evidence lists Single sign-on (2), CSV export (1), Slack alerts (1); Single sign-on shows 1 account, $2,400 and 2 votes.
 - [ ] Recording another vote for Harbor Studio on Single sign-on is refused with "Harbor Studio has already voted for Single sign-on."; its MRR stays $2,400.
 - [ ] Moving Tom Becker's call to Slack alerts makes Slack alerts 2 pieces of evidence and $2,549, while Single sign-on keeps $2,400.
-- [ ] Promoting Slack alerts without an owner is refused; promoting it with Maya as owner puts it in the Under review lane and the outbox has "You own Slack alerts on the roadmap" for Maya.
+- [ ] Signed in as Dana, promoting Slack alerts without an owner is refused; promoting it with Maya as owner puts it in the Under review lane and the outbox has "You own Slack alerts on the roadmap" for Maya.
 - [ ] Creating a theme "Dark mode", recording a vote for Ridgeway and promoting it is refused with "Link at least one piece of feedback before promoting this theme."
 - [ ] Signed in as Jo, changing Single sign-on's status is refused; signed in as Sam, moving it to In progress without a note is refused, and with the note "Work started" it moves lanes and the history shows both earlier entries plus the new one.
 - [ ] Signed in as Dana, moving Single sign-on to Planned emails Sam "Single sign-on is now Planned".
@@ -345,7 +345,7 @@ When you're done, list what you built and anything in the spec you had to interp
 **Acceptance checks** (reset to seed data first)
 - [ ] Follow-ups lists Ridgeway as pending for CSV export. Signed in as Maya, Send update queues one email to ella@ridgeway.example using the template, and the follow-up shows "Emailed by Maya Chen".
 - [ ] Sending the update to Ridgeway again is refused with a message saying it was already emailed and by whom.
-- [ ] Moving Single sign-on to Shipped with a note creates pending follow-ups for Acme Corp and Harbor Studio; Acme's Send update queues emails to priya@acme.example and tom@acme.example, and Harbor offers only Mark contacted.
+- [ ] Signed in as Sam, moving Single sign-on to Shipped with a note creates pending follow-ups for Acme Corp and Harbor Studio; Acme's Send update queues emails to priya@acme.example and tom@acme.example, and Harbor offers only Mark contacted.
 - [ ] Moving Single sign-on back to In progress cancels its pending follow-ups; shipping it again creates a new pending list.
 - [ ] Dana deletes Rosa Diaz's quote: it disappears everywhere, and its feedback_deleted activity entry contains no quote and no email address.
 - [ ] Exporting themes downloads a CSV whose Single sign-on row has evidence 2, accounts 1, MRR 2400.00 and votes 2; the feedback CSV has no email column.

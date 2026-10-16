@@ -157,7 +157,7 @@ Receiving more than is outstanding on a line is refused: "Ordered 8, 0 received;
 | Item becomes low (R4) | Every admin | "Low stock: Glass cleaner, 32 oz (11 left, reorder at 12)" |
 | Purchase order sent | Supplier | "Purchase order PO-0008 from Brightside Cleaning Co." (lines, quantities, unit costs, total, expected date) |
 | Purchase order cancelled after sending | Supplier | "Cancelled: purchase order PO-0008" |
-| Purchase order past its expected date and not fully received | The admin who created it | "PO-0007 from ProClean Wholesale is overdue" (once, the morning after the expected date) |
+| Purchase order past its expected date and not fully received | The admin who created it | "PO-0007 from ProClean Wholesale is overdue" (once, on the first daily job run after the expected date) |
 | Count submitted | Every admin | "Count C-0001 at Van 1 is ready to review (2 differences)" |
 
 Write every email to the outbox first, then send it. With no provider configured, set status logged. A daily job (protected by a CRON_SECRET header) sends overdue reminders and retries failed emails. A failed email never blocks the action that caused it.
@@ -208,11 +208,11 @@ Purchase orders:
 - PO-0006, Metro Paper Co., received 9 days ago into the Store room: trash bags 6 cases at $38.50 and paper towels 6 cases at $31.00, total $417.00.
 - PO-0007, ProClean Wholesale, created and sent by Marco 2 days ago, expected in 5 days: nitrile gloves 20 boxes at $9.80 and vacuum bags 8 packs at $14.20, total $309.60, nothing received.
 
-Movement history: an opening balance for each item and location 45 days ago, the PO-0006 receipt, and "use" movements by Priya at Van 1 and Tom at Van 2 spread over the last 30 days, totalling glass cleaner 18, nitrile gloves 9, mop heads 6, disinfectant 5, microfiber cloths 4, vacuum bags 3, paper towels 3 and trash bags 2. Choose the opening balances so the quantities come out exactly as in the table.
+Movement history: an opening balance for each item and location 45 days ago, the PO-0006 receipt, and "use" movements by Priya at Van 1 and Tom at Van 2 spread over the last 28 days, totalling glass cleaner 18, nitrile gloves 9, mop heads 6, disinfectant 5, microfiber cloths 4, vacuum bags 3, paper towels 3 and trash bags 2. Choose the opening balances so the quantities come out exactly as in the table.
 
 ## 15. Build plan
 
-Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app.
+Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app. Start the checks of Phases 1, 2 and 4 from a fresh load of the seed (the reset button); Phase 3's checks continue from the end of Phase 2's. Checks within a phase run in order on the same data.
 
 ### Phase 1: Foundation
 
@@ -223,7 +223,7 @@ Using the Inventory Tracker blueprint above, build Phase 1 only.
 2. Add sign-in with the platform's built-in auth or Google sign-in limited to our company email domain. A signed-in email must match an active Person; anyone else sees "Ask an admin to add you."
 3. Build People, Locations, Suppliers and Items (create, edit, photo upload, archive with R8 and R10), the Items list and the Item page (section 9, screens 1 and 2) without the Use, Move and Adjust buttons, enforcing R9 on the server.
 4. Load the seed data from section 14, with dates relative to today, including the movement history.
-5. Add a "sign in as" switcher, a "move the clock forward" control and a "reset to seed data" button, all visible only in development.
+5. Add a "sign in as" switcher, a "move the clock forward" control and a "reset to seed data" button (which also sets the clock back to the real time), all visible only in development.
 
 When you're done, list what you built and anything in the spec you had to interpret.
 ```
@@ -265,7 +265,7 @@ Using the Inventory Tracker blueprint above, build Phase 3 only.
 When you're done, list what you built and anything in the spec you had to interpret.
 ```
 
-**Acceptance checks**
+**Acceptance checks** (continue from the end of the Phase 2 checks)
 - [ ] After the Phase 2 checks, Reorder suggestions list glass cleaner, 24 bottles from ProClean Wholesale at $102.00, and do not list nitrile gloves; creating the draft makes PO-0008.
 - [ ] Sending PO-0008 emails orders@proclean.example with the line and the total and sets the expected date 5 days ahead.
 - [ ] Receiving 20 boxes of gloves on PO-0007 into the Store room leaves 24 there and 27 in total, clears the Low badge, and marks PO-0007 partially received.
@@ -289,7 +289,7 @@ When you're done, list what you built and anything in the spec you had to interp
 - [ ] Priya starts a count at Van 1 and never sees expected quantities; she enters microfiber cloths 1, nitrile gloves 3 and the seed quantity for everything else, and submits.
 - [ ] Dana sees two differences: microfiber cloths minus 1 (minus $18.00) and nitrile gloves plus 1 (plus $9.80); approving posts two count movements and Van 1's value becomes $189.10.
 - [ ] In a second count at Van 1, using 1 disinfectant there before approval flags that line "Changed during count", and approval waits until Dana recounts or confirms it.
-- [ ] After a reset, the usage report for the last 30 days shows 18 bottles of glass cleaner used, and the movement export includes every movement with its type, person and any purchase order or count number.
+- [ ] The usage report for the last 30 days shows 18 bottles of glass cleaner used, and the movement export includes every movement with its type, person and any purchase order or count number.
 
 ## 16. Variations
 

@@ -189,6 +189,8 @@ People team only: CSV of onboardings (new hire, title, manager, start date, stat
 
 Settings: company "Fernway", time zone America/New_York, IT owner Ben Cho, people owner Dana Ruiz, digest at 08:00.
 
+Reset to seed data also sets the development clock to 08:00 on the seed day in the team time zone.
+
 People: Dana Ruiz (people team), Ben Cho (IT), Sam Okafor (sales manager), Maya Chen (design lead), Ana Lima (account executive, buddy), Jo Park (designer, buddy). New hires (dates relative to the day the seed is loaded; the examples assume Tue Oct 13, 2026): Priya Nair (Account Executive, manager Sam Okafor, start date the second Monday after the seed day: Mon Oct 26), Leo Grant (Product Designer, manager Maya Chen, started on the Monday of the previous week: Mon Oct 5), Kai Brooks (Support Specialist, manager Dana Ruiz, start date the third Monday after the seed day: Mon Nov 2).
 
 Templates:
@@ -203,7 +205,7 @@ Onboardings:
 
 ## 15. Build plan
 
-Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app.
+Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app. Start each phase's checks from a fresh load of the seed (the reset button); checks within a phase run in order on the same data.
 
 ### Phase 1: Foundation
 
@@ -214,7 +216,7 @@ Using the Employee Onboarding blueprint above, build Phase 1 only.
 2. Add sign-in with the platform's built-in auth or Google sign-in limited to our company email domain. A signed-in email must match an active Person whose start date (if any) is today or earlier; anyone else sees "Ask the people team to add you." or, for a future new hire, "Your account opens on {start date}."
 3. Build Templates, Admin: People and Admin: Settings (section 9, screens 6 and 7) for the people team only, with R6 and R12 enforced on the server.
 4. Load the seed data from section 14, with dates relative to today, and the onboardings with their tasks as listed.
-5. Add a "sign in as" switcher, a "move the clock forward" control and a "reset to seed data" button, all visible only in development.
+5. Add a "sign in as" switcher, a "move the clock forward" control and a "reset to seed data" button (which also sets the clock to 08:00 on the seed day, team time; section 14), all visible only in development.
 
 Do not build the onboarding screens yet. When you're done, list what you built and anything in the spec you had to interpret.
 ```
@@ -261,7 +263,7 @@ When you're done, list what you built and anything in the spec you had to interp
 **Acceptance checks**
 - [ ] Signed in as Leo Grant, My first weeks shows his manager Maya Chen and buddy Jo Park, his own tasks, and "What others are doing for you" with titles, first names and done or not.
 - [ ] Leo completes "Complete security training" and it disappears from his overdue list.
-- [ ] Leo cannot see any check-in note or skip reason, and a direct request for his onboarding's check-in note is refused.
+- [ ] Signed in as Maya, completing Leo's 30-day check-in with a note works. Signed in as Leo again, he cannot see that note or any skip reason, and a direct request for his onboarding's check-in note is refused.
 - [ ] Leo opening Priya Nair's onboarding URL returns Not found.
 
 ### Phase 4: Job, digests and export
@@ -279,7 +281,7 @@ When you're done, list what you built and anything in the spec you had to interp
 - [ ] Running the job at 08:00 sends Jo Park no digest and sends Leo Grant one listing "Complete security training" as overdue; running it again the same day sends nothing new.
 - [ ] Moving the clock to 3 days before Priya Nair's start date and running the job emails Sam and Dana "Priya Nair starts in 3 days" with the open pre-start tasks, once.
 - [ ] Moving the clock to Priya Nair's start date and running the job changes her onboarding to In progress, and she can now sign in.
-- [ ] The tasks CSV lists every task with its owner and due date and contains no check-in notes.
+- [ ] After Maya completes Leo's 30-day check-in with a note, the tasks CSV lists every task with its owner and due date and does not contain that note.
 
 ## 16. Variations
 

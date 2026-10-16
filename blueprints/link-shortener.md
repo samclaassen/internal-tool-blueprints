@@ -175,14 +175,14 @@ Campaigns: spring-sale-2026 (Maya), webinar-may-2026 (Sana), q4-launch (Chris).
 | /spring | https://northwind.example/pricing | newsletter, email, spring-sale-2026 | Maya | 342 clicks (US 210, GB 61, CA 40, DE 31), plus 25 previews |
 | /spring-li | https://northwind.example/pricing | linkedin, paid-social, spring-sale-2026, content carousel-a | Maya | 128 clicks |
 | /flyer | https://northwind.example/demo | print, qr, q4-launch | Chris | 57 scans and 3 clicks |
-| /q4-podcast | https://northwind.example/launch | podcast, audio, q4-launch; expires Oct 18 | Chris | 19 clicks |
+| /q4-podcast | https://northwind.example/launch | podcast, audio, q4-launch; expires in 3 days (Oct 18 in the examples) | Chris | 19 clicks |
 | /webinar-may | https://northwind.example/webinars/may | newsletter, email, webinar-may-2026; expired Jun 1 | Sana | none (88 clicks before it expired, all older than 30 days) |
 
-Spread the seed clicks and scans evenly over the last 30 days. None of the seed links has a change history yet.
+Spread the seed clicks and scans evenly over the last 28 days, so they all stay inside the 30-day window. None of the seed links has a change history yet. Reset to seed data also sets the development clock to 09:00 on the seed day in the team time zone.
 
 ## 15. Build plan
 
-Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app.
+Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app. Start each phase's checks from a fresh load of the seed (the reset button); checks within a phase run in order on the same data.
 
 ### Phase 1: Foundation and the link builder
 
@@ -193,7 +193,7 @@ Using the Link Shortener blueprint above, build Phase 1 only.
 2. Add sign-in under /admin with the platform's built-in auth or Google sign-in limited to our company email domain. A signed-in email must match an active User; anyone else sees "Ask an admin to add you."
 3. Build Links, New link and Edit link (section 9, screens 1 and 2) with R1 to R3 and R8, and the admin screens in screen 5, all enforced on the server. Do not build redirects yet.
 4. Load the seed data from section 14, with dates relative to today, including the clicks.
-5. Add a "sign in as" switcher, a "move the clock forward" control and a "reset to seed data" button, all visible only in development.
+5. Add a "sign in as" switcher, a "move the clock forward" control and a "reset to seed data" button (which also sets the clock to 09:00 on the seed day, team time; section 14), all visible only in development.
 
 When you're done, list what you built and anything in the spec you had to interpret.
 ```
@@ -253,8 +253,8 @@ When you're done, list what you built and anything in the spec you had to interp
 ```
 
 **Acceptance checks**
-- [ ] After a reset, running the daily job emails Chris once that /q4-podcast expires on Oct 18; running it again sends nothing more.
-- [ ] Moving the clock to Monday and running the job puts a digest for Maya and Chris in the outbox with each of their links' counted clicks and scans for the previous week, and none for Sana.
+- [ ] After a reset, running the daily job emails Chris once that /q4-podcast expires in 3 days ("expires on Oct 18" in the examples); running it again sends nothing more.
+- [ ] Moving the clock to the next Monday at 08:00 or later (team time) and running the job puts a digest for Maya and Chris in the outbox with each of their links' counted clicks and scans for the previous week, and none for Sana.
 - [ ] Changing /flyer's destination to another domain asks for confirmation because it was scanned in the last 30 days.
 - [ ] Archiving /flyer makes it return the 404 page; links with counted clicks have no Delete action, and a direct delete request is refused.
 

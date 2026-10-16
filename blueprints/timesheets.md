@@ -189,7 +189,7 @@ Clients and projects:
 - Bluebird · Brand refresh: billable at $140.00, budget 60 h, owner Sam Okafor, assigned Ben, Jo, Sam.
 - Internal (no client) · Admin and meetings: non-billable, no budget, owner Dana Ruiz, assigned everyone.
 
-Weeks (T is the day the seed is loaded; the examples assume Tue Oct 13, 2026, so the current week starts Mon Oct 12 and the previous week is Oct 5 to 11. If you load the seed on another weekday, set the development clock to the Tuesday of the current week first):
+Weeks (T is the day the seed is loaded; the examples assume Tue Oct 13, 2026, so the current week starts Mon Oct 12 and the previous week is Oct 5 to 11. Reset to seed data sets the development clock to 09:00 on the Tuesday of the current week, so the checks work whichever weekday you load it):
 
 | Week | Person | Status | Website redesign | Brand refresh | Admin and meetings | Total |
 |---|---|---|---|---|---|---|
@@ -205,7 +205,7 @@ Totals that follow: Website redesign submitted and approved = 38 + 20 + 36 + 2 =
 
 ## 15. Build plan
 
-Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app.
+Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app. Start each phase's checks from a fresh load of the seed (the reset button); checks within a phase run in order on the same data.
 
 ### Phase 1: Foundation
 
@@ -216,7 +216,7 @@ Using the Timesheets blueprint above, build Phase 1 only.
 2. Add sign-in with the platform's built-in auth or Google sign-in limited to our company email domain. A signed-in email must match an active Person; anyone else sees "Ask an admin to add you."
 3. Build Admin: People, Admin: Clients and projects (with assignments) and Admin: Settings (section 9, screen 5) for admins only, with R8 and R12 enforced on the server.
 4. Load the seed data from section 14, with dates relative to today.
-5. Add a "sign in as" switcher, a "move the clock forward" control and a "reset to seed data" button, all visible only in development.
+5. Add a "sign in as" switcher, a "move the clock forward" control and a "reset to seed data" button (which also sets the clock to 09:00 on the Tuesday of the current week, team time; section 14), all visible only in development.
 
 Do not build timesheets yet. When you're done, list what you built and anything in the spec you had to interpret.
 ```
@@ -262,7 +262,7 @@ When you're done, list what you built and anything in the spec you had to interp
 - [ ] Signed in as Maya, Approvals lists Jo Park's week of Oct 5 with 38.00 h; approving it locks it and emails Jo.
 - [ ] Projects shows Website redesign at 80% (96 of 120 h) "plus 6.00 h in drafts", and Brand refresh at 37%.
 - [ ] After Dana changes the Website redesign rate to $160, Lee's approved weeks still value at $150 per hour, while his draft hours show $160.
-- [ ] Rejecting a submitted week without a comment is refused; with a comment it returns to Draft and the person is emailed.
+- [ ] Ben submits last week with the note "On leave"; signed in as Sam, rejecting it without a comment is refused, and with a comment it returns to Draft and Ben is emailed.
 - [ ] Dana withdraws approval of Lee's week of Oct 5 with a reason: it becomes Draft and editable, and both Lee and Maya are emailed.
 - [ ] Submitting enough hours to take Website redesign past 120 h sends Maya the 100% warning once, and no second 80% warning.
 - [ ] Maya submits a week of her own: it goes to Dana Ruiz, and Maya has no Approve button on it.

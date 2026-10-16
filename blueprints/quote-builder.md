@@ -320,7 +320,7 @@ Next quote number 1045; next invoice number 2002. With this seed the home tiles 
 
 ## 15. Build plan
 
-Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app.
+Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app. Load the seed data once, before Phase 1's checks; the checks of every phase then run in order on the same data, each phase continuing from where the previous one ended.
 
 ### Phase 1: Foundation
 
@@ -443,6 +443,8 @@ We built this blueprint by sending the four phase prompts above, in order, to an
 6. When no other manager could approve, the spec showed a message but didn't say whether the request went through. It is now refused.
 7. R10's "later than the current date" could mean today or the current valid-until. It now means the current valid-until.
 8. Back to draft didn't say what "approval cleared" and "view tracking reset" change. Section 7 now lists the fields.
+
+**Added after the test:** the build plan now says that the checks of all four phases run in order on one load of the seed data (a quote created in Phase 2 is used in Phase 3), which is how the test ran.
 
 **What we did not test:**
 - Production sign-in. Every check used the development "Act as" switcher.

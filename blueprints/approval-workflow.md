@@ -266,7 +266,7 @@ Seed one example request in each status so every screen has something to show.
 
 ## 15. Build plan
 
-Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app.
+Send these prompts one at a time after pasting this file. Each phase ends with checks you can run by clicking through the app. Load the seed data once, before Phase 1's checks; the checks of every phase then run in order on the same data, each phase continuing from where the previous one ended.
 
 ### Phase 1: Foundation
 
@@ -383,6 +383,8 @@ We built this blueprint by sending the four phase prompts above, in order, to an
 7. "Notifications show as logged" didn't say where. The check now says they are recorded with the status logged.
 8. The Slack example "Approved by Maya Chen at 09:14" clashed with the date format in step 6. Section 11 now shows the text as it renders.
 9. The chain display for a delegated step that later escalates was undefined. Section 9 now shows both; the Oct 12 build shows only the delegation.
+
+**Added after the tests:** the build plan now says that the checks of all four phases run in order on one load of the seed data, which is how both runs worked.
 
 **What we did not test:**
 - Production sign-in. We used the development "sign in as" switcher only.
