@@ -1,4 +1,4 @@
-<!-- Mirrored from https://personalsoftwarefactory.com/blueprints/bug-tracker . The page has a labelled drawing and build-or-buy notes. Free to copy and adapt for your own team. -->
+<!-- Mirrored from https://personalsoftwarefactory.com/blueprints/bug-tracker . The page has a labelled drawing, build-or-buy notes and the build-test results. Free to copy and adapt for your own team. -->
 
 # Bug Tracker
 
@@ -211,11 +211,11 @@ Priorities: P1 Urgent, P2 High, P3 Normal, P4 Low.
 
 ## 9. Business rules
 
-- **R1. Permissions on the server.** Every rule about who can do what is checked on the server for every action and API call; hiding a button is not a permission check, and a refused action changes nothing. The server checks permission first, then status, then version (R17). Messages: triager-only actions "Only triagers can do this."; assignee-only actions "Only the assignee (Kofi Mensah) can do this.", or "Take this bug or ask a triager to assign it first." when it has no assignee; actions for triagers or the assignee "Only triagers or the assignee can do this."; editing "Only the reporter (while it's New), the assignee or a triager can edit this bug."; admin pages and actions "Admins only."; an action that the bug's status doesn't allow "BUG-101 is Verified, so this can't be done."
+- **R1. Permissions on the server.** Every rule about who can do what is checked on the server for every action and API call; hiding a button is not a permission check, and a refused action changes nothing. The server checks permission first, then status, then version (R17), then the action's own conditions, such as Take it needing no assignee. Messages: triager-only actions "Only triagers can do this."; assignee-only actions "Only the assignee (Kofi Mensah) can do this.", or "Take this bug or ask a triager to assign it first." when it has no assignee; actions for triagers or the assignee "Only triagers or the assignee can do this."; editing "Only the reporter (while it's New), the assignee or a triager can edit this bug."; admin pages and actions "Admins only."; an action that the bug's status doesn't allow "BUG-101 is Verified, so this can't be done."; changing severity by anyone other than a triager or the reporter of a New bug "Only triagers can do this."; Unassign on a bug with no assignee "BUG-112 has no assignee."; clearing a triaged bug's area "Choose an active area."; Change priority with no priority chosen "Choose a priority."; Assign with no person chosen "Choose an active person."
 - **R2. Numbers.** A new bug gets Settings.last_bug_number + 1, and last_bug_number is set to it in the same transaction, so numbers are sequential and never reused.
 - **R3. Reporting.** Team reports need a title of 5 to 120 characters ("Give the bug a title of 5 to 120 characters."), a severity ("Choose a severity."), steps of 10 to 5,000 characters ("Describe the steps in at least 10 characters."), what happened ("Say what happened.") and where it happened, 2 to 200 characters ("Say where it happened, for example Production, Chrome on Windows."). Expected, area and link are optional; only active areas can be chosen ("Choose an active area."). Text over its maximum is refused with "{Field} can be at most {N} characters." Comments are 1 to 5,000 characters ("Write a comment first."). Every form validates on the server and shows these messages next to the field, keeping what was typed; turn off the browser's own validation (novalidate) so the messages are the ones in this spec.
 - **R4. Triage.** Triage needs a severity, a priority ("Set a priority before triaging.") and an area ("Choose an area before triaging.") that is active ("Choose an active area."). The assignee is optional.
-- **R5. Assignment.** A bug has at most one assignee, who must be an active person ("Choose an active person."). Take it works only on a Triaged bug with no assignee ("Only unassigned Triaged bugs can be taken."). Unassigning returns the bug to Triaged.
+- **R5. Assignment.** A bug has at most one assignee, who must be an active person ("Choose an active person."). Take it works only on a Triaged bug with no assignee ("Only unassigned Triaged bugs can be taken."); if the bug already has an assignee when its version matches, the same message is shown. Unassigning returns the bug to Triaged.
 - **R6. Doing the work.** Only the assignee starts, sends to review, brings back from review and marks fixed. A triager who wants to do the work assigns the bug to themselves first.
 - **R7. Fix note.** Mark fixed needs a fix note of 10 to 2,000 characters ("Add a fix note of at least 10 characters.") and sets fixed_by to the actor and fixed_at to now.
 - **R8. Verification.** Only the reporter (an active team member) or an active QA person can verify, never the person in fixed_by: "You fixed BUG-107, so someone else has to verify it." Anyone else: "Only the reporter or QA can verify BUG-108." When nobody qualifies (the reporter is outside, inactive or the fixer, and no other active QA person exists), the Bug page says "No one else can verify this bug yet. Ask an admin to give someone the QA role."
@@ -236,7 +236,7 @@ Priorities: P1 Urgent, P2 High, P3 Normal, P4 Low.
 
 Navigation: My work, Board, List, Report a bug, Triage (triagers), Summary, Admin (admins), and a "Go to bug" box that opens a bug by number ("104" or "BUG-104"; unknown numbers say "There is no BUG-999.").
 
-1. **My work** (home). "Assigned to me": my bugs in Triaged, In progress and In review, in board order. "Waiting for my verification": Fixed bugs I may verify (R8), oldest fix first, as "BUG-107 Search ignores accented characters · fixed by Theo Lindqvist 3 d ago". "Reported by me": my open bugs, newest first. Triagers also see "Needs triage: 2", linking to Triage. Empty states: "Nothing assigned to you.", "Nothing to verify.", "No open bugs reported by you."
+1. **My work** (home). "Assigned to me": my bugs in Triaged, In progress and In review, in board order. "Waiting for my verification": Fixed bugs I may verify (R8), oldest fix first, as "BUG-107 Search ignores accented characters · fixed by Theo Lindqvist 3 d ago". "Reported by me": my open bugs, highest number first (seed report dates are not in number order). Triagers also see "Needs triage: 2", linking to Triage. Empty states: "Nothing assigned to you.", "Nothing to verify.", "No open bugs reported by you."
 2. **Report a bug.** Title, area (active areas or "Not sure"), severity (with the meanings from section 7), steps to reproduce, expected, what happened, where it happened, link. The Similar bugs panel (section 8) sits under the title. Saving opens the new Bug page.
 3. **Bug page.** Header: number, title, status (Duplicate shows "Duplicate of BUG-104" as a link), severity, priority, area, reporter ("Erin Walsh (outside) · erin@bluebird.example" for form reports), assignee, reports count, target state, "Reopened 1 time" when reopen_count is above 0. Body: steps, expected, what happened, where, link, review link, fix note with "Fixed by Theo Lindqvist, Fri 9 Oct, 11:00". An action bar shows only the actions the viewer may take now (section 6), each asking for what it needs (comment, fix note, bug number, triage fields), plus the R8 and R9 texts where they apply. Watchers with Watch/Unwatch. Comments, oldest first, with a box to add one. Activity log: every event oldest first (by created_at, then seq), one line each, such as "Mon 5 Oct, 09:00 · Reported by Lucy Tran" ("Reported by Erin Walsh through the form"), "Mon 5 Oct, 11:00 · Triaged by Marcus Webb: P1 Urgent, Web app, assigned to Theo Lindqvist" (adding ", S3 Minor → S2 Major" when triage changed the severity), "Started by Theo Lindqvist", "Comment by Theo Lindqvist", "BUG-110 marked as a duplicate of this bug by Marcus Webb", "Marked as a duplicate of BUG-104 by Marcus Webb", "Fixed by Kofi Mensah: {fix note}", "Verified by Lucy Tran", "Reopened by Nina Patel: {comment}", "Closed as Won't fix by Marcus Webb: {comment}", "Closed as Can't reproduce by Kofi Mensah: {comment}", "Severity changed by Marcus Webb: S3 Minor → S2 Major", "Overdue: was due Wed 30 Sep, 10:00". Other events follow this pattern, for example "Assigned to Kofi Mensah by Marcus Webb" ("Taken by Grace Kim" for Take it) or "Sent to review by Kofi Mensah".
 4. **Triage** (triagers; anyone else sees "Only triagers can open this page."). New bugs, severity first (S1 first), then oldest first. Each row: number, title, reporter, reported time, target state, and severity, priority, area and assignee fields with a Triage button, plus Mark duplicate, Won't fix and Can't reproduce. Empty state: "Nothing to triage."
@@ -245,7 +245,7 @@ Navigation: My work, Board, List, Report a bug, Triage (triagers), Summary, Admi
 7. **Summary.** A week picker (Monday to Sunday in the team time zone; default the last complete week) showing the counts for that week and the "right now" sections exactly as in the summary email (section 12), computed when the page opens.
 8. **Admin → People.** Name, email, admin, triager, QA, active. Add, edit, deactivate (R16).
 9. **Admin → Areas.** Name, active. Add, rename, deactivate ("Area names are 2 to 40 characters.", "An area called Web app already exists."); inactive areas can't be chosen for new reports or triage, and existing bugs keep them.
-10. **Admin → Settings.** Company name, time zone (an IANA name), the four fix targets ("Targets are 1 to 8,760 hours, or empty for no target."), reopen window ("The reopen window is 1 to 365 days."), public form on or off.
+10. **Admin → Settings.** Company name, time zone (an IANA name), the four fix targets ("Targets are 1 to 8,760 hours, or empty for no target."), reopen window ("The reopen window is 1 to 365 days."), public form on or off. Messages: "Enter a company name.", "Company name can be at most 60 characters.", "Enter an IANA time zone name, for example America/New_York."
 11. **Admin → Outbox.** Every notification, newest first: time, recipient, kind, subject, status, error. Click a row to read the body.
 12. **Public report form** (/report, no sign-in). "Report a bug to Wrenfield", the R19 fields, and on success "Thanks, Sam. Your report is BUG-115. We've emailed you a copy."
 
@@ -263,7 +263,7 @@ All screens must work on a phone.
 | fixed_for_reporter | Verify | Outside reporters of the bug and its duplicates, one email per address | "Fixed: App logs me out every time I switch screens" (their own bug's title) |
 | reopened | Reopen | The assignee (every active triager when it reopens to New or has no assignee) and watchers | "Reopened: BUG-108 Tooltip covers the Save button on narrow screens" |
 | closed | Won't fix, Can't reproduce | Watchers | "Won't fix: BUG-111 Add a dark theme to the invoice editor", "Can't reproduce: BUG-103 Dashboard totals are off by one cent" |
-| duplicate | Mark duplicate | The duplicate's reporter and watchers | "BUG-113 is a duplicate of BUG-104" |
+| duplicate | Mark duplicate | The duplicate's team reporter (if active) and its watchers. Outside reporters get no duplicate email; they hear when the canonical bug is verified (section 8) | "BUG-113 is a duplicate of BUG-104" |
 | comment | Comment | Watchers | "Comment on BUG-104 from Lucy Tran" |
 | overdue | Scheduled job | The assignee, or every active triager when there is none | "Overdue: BUG-104 Export to CSV times out for large accounts" |
 | weekly_summary | Scheduled job | Every active person | "Bug summary: Mon 5 – Sun 11 Oct" |
@@ -472,3 +472,24 @@ When you're done, list what you built and anything in the spec you had to interp
 - Two-way email for outside reporters, so their replies become comments.
 - @mentions in comments, and full-text search over steps and comments.
 - Other link types, such as "blocks" and "relates to".
+
+## 17. Build notes from our test build
+
+We built this blueprint by sending the four phase prompts above, in order, to an AI builder (Claude, working in Type), then checked every acceptance item in a real browser, resetting to the seed before each phase's checks.
+
+**Result:** 31 of 31 acceptance checks passed in one final browser run on a fresh database, plus 56 automated tests, including every row of the fix-target, similar-bugs and duplicates tables and the weekly summary example character for character.
+
+**Gaps the build found, now fixed in this spec:**
+1. Admin Settings had no error messages for an empty or too-long company name, or a bad time zone. Section 10 now gives them.
+2. "Reported by me, newest first" didn't match the seed, whose report dates aren't in number order, while the check expected BUG-114, BUG-107, BUG-104. The list is now highest number first.
+3. With "permission, then status, then version", the second person to take the same bug got R5's message instead of the one section 13 promises. R1 now checks the action's own conditions last, and R5 says which message is shown.
+4. Some refusals had no message: changing severity without permission, unassigning a bug with no assignee, clearing a triaged bug's area, and leaving priority or assignee blank. R1 now lists them.
+5. Section 11 didn't say whether an outside reporter gets the "duplicate" email. They don't; they hear when the canonical bug is verified.
+
+**What we did not test:**
+- Production sign-in. Google sign-in was built, but every check used the development "sign in as" switcher.
+- Sending email. Emails were logged in the outbox, not delivered; failure and retry up to 5 attempts are covered by automated tests only.
+- The hourly job on a real scheduler. Its endpoint's responses were checked directly; the browser checks ran the same job from the development toolbar with the development clock.
+- The public form's rate limit behind a real proxy. The limit and the honeypot are covered by automated tests and direct requests.
+- Drag and drop on the board, which the spec makes optional; the card menu runs the same actions.
+- Hosting. The test build ran on SQLite on one server. For a hosted deploy, use a managed Postgres (or your platform's database) and the same schema.

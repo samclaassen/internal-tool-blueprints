@@ -1,4 +1,4 @@
-<!-- Mirrored from https://personalsoftwarefactory.com/blueprints/testimonial-wall . The page has a labelled drawing, a live demo and build-or-buy notes. Free to copy and adapt for your own team. -->
+<!-- Mirrored from https://personalsoftwarefactory.com/blueprints/testimonial-wall . The page has a labelled drawing, a live demo, build-or-buy notes and the build-test results. Free to copy and adapt for your own team. -->
 
 # Testimonial Wall
 
@@ -102,7 +102,7 @@ All timestamps are UTC. IDs are strings (UUID or similar). Text lengths are coun
 - note (nullable; review or withdrawal note), data (JSON, nullable; e.g. old and new permission_version)
 
 **Notification** (the outbox)
-- id, to_email, person_id (nullable, for staff), testimonial_id, invitation_id (nullable)
+- id, to_email, person_id (nullable, for staff), testimonial_id (nullable; empty for invitation and invitation_reminder), invitation_id (nullable), reply_to (nullable; the invitation creator's email for invitation emails)
 - kind: submission_received | new_submission | invitation | invitation_reminder | published | withdrawal_confirmed | withdrawn_alert
 - subject, body (plain text)
 - status: queued | sent | logged | failed, created_at, sent_at, error
@@ -116,8 +116,9 @@ The form is at `/share`. An invitation link, `/share/<invitation token>`, shows 
 **Fields**, under Settings.form_intro: Your name (required); Email (required, with the help text "Private. We use it to confirm your submission and send you a link to withdraw permission."); Company; Role; Rating (No rating by default, or 1 to 5 stars); Your words (required, with a character counter); and a checkbox, never pre-ticked, labelled with Settings.permission_text. Under it: "If you tick the box, we may show your words, rating, name, role and company on our website. We never show your email. If you leave it unticked, only our team will read it." Hidden: permission_version, and a honeypot field named `website` that people and screen readers never see.
 
 **On submit, the server:**
+0. For `/share/<token>`: if the invitation is not open, or now is at or after expires_at (mark it expired), refuses with the section 12 message for its state and saves nothing. Completing the invitation in step 6 is a conditional update (status still open), so two tabs cannot both use one invitation.
 1. Refuses with "We're not collecting testimonials right now." if form_open is false, unless this is an open invitation link.
-2. Shows the normal thank-you page and saves nothing if `website` is filled in.
+2. If `website` is filled in, shows the normal thank-you page with a freshly generated token that is not stored (its link shows "This link is not valid."), and saves nothing: no testimonial, FormAttempt, event or email.
 3. Refuses with "Too many submissions from your network. Please try again in an hour." if this IP hash has 5 FormAttempts in the last 60 minutes.
 4. Validates every field (section 5), e.g. "Please write at least 20 characters." On error it shows the form again with the customer's input and each error next to its field.
 5. If the box is ticked but permission_version is not current, refuses with "Our permission wording changed while you were writing. Please read it again and tick the box.", keeping the input, showing the new wording and unticking the box.
@@ -180,7 +181,7 @@ Members see no action buttons.
 - **R4.** Only pending testimonials can be approved or rejected. Approve requires consent = true, otherwise the server refuses with "No permission to publish." Reject requires a note of 5 to 300 characters; an approval note is optional, max 300.
 - **R5.** Approval is not publication. Publish requires status approved, consent = true and no withdrawn_at, checked in the same transaction as the update.
 - **R6.** Unpublish returns a testimonial to approved and clears featured. It can be published again.
-- **R7.** At most one testimonial is featured, and only a published one. Featuring another clears the old one in the same transaction. Enforce it in the database too (a unique index on featured where featured is true, if your database supports partial indexes).
+- **R7.** At most one testimonial is featured, and only a published one. Featuring another clears the old one in the same transaction. The Feature request carries the id of the testimonial that was featured when the moderator loaded the page (or none); if the featured testimonial has changed since, it is refused with "<Name> was featured by <Person> in the meantime." and nothing changes. Enforce it in the database too (a unique index on featured where featured is true, if your database supports partial indexes).
 - **R8.** Withdrawal is allowed while consent = true and status is not withdrawn. In one transaction: consent = false, withdrawn_at = now, status = withdrawn, featured = false. Keep consent_text, consent_version and consent_at as evidence. It cannot be undone; to share again, the customer submits again.
 - **R9.** The wall shows a testimonial only if status = published AND consent = true AND withdrawn_at is empty. The query checks all three, not just the status.
 - **R10.** Public pages and embeds include only name, job_title, company, rating, quote and featured. Never email, notes, consent details, tokens or invitation details.
@@ -234,7 +235,7 @@ Never on the wall in the seed: Cy Patel (pending), Lee Hart (no permission), Oma
 `/embed.js` puts an iframe in every element with `data-testimonial-wall` (that URL, `title="Customer testimonials"`, width 100%, no border, `loading="lazy"`). The embed pages post `{ "type": "testimonial-wall:height", "height": <pixels> }` to their parent on load and whenever their height changes; embed.js resizes the iframe only for messages from your app's origin whose source is that iframe. Screen 4 also offers a plain `<iframe>` snippet, 800 pixels high, for sites that do not allow scripts.
 
 **Headers**
-- `/embed/wall` and `/embed/featured`: `Content-Security-Policy: frame-ancestors *`. Every other page: `frame-ancestors 'none'` and `X-Frame-Options: DENY`.
+- `/embed/wall` and `/embed/featured`: `Content-Security-Policy: frame-ancestors * file:` (any website, and local test files; CSP's `*` alone does not match pages opened from disk). Every other page: `frame-ancestors 'none'` and `X-Frame-Options: DENY`.
 - `/wall` and the embeds: `Cache-Control: no-store`, so an unpublish or withdrawal shows on the next load. If you add a CDN later, cache for 60 seconds at most: a cached copy of a withdrawn quote is still published.
 - `/t/...` and `/share/<token>`: `Referrer-Policy: no-referrer` and `noindex`, so tokens do not leak.
 
@@ -242,8 +243,8 @@ Never on the wall in the seed: Cy Patel (pending), Lee Hart (no permission), Oma
 
 Staff screens need sign-in. Forms keep what was typed and show each error next to its field; success shows only after the server has saved. Status and permission are written out, never shown by color alone.
 
-1. **Queue** (home). Cards: quote, name, role and company, rating ("No rating"), permission ("Permission to publish", "Private: no permission" or "Permission withdrawn"), status, age ("Sent 2 days ago"), source ("Form" or "Invitation from Sam Okafor"), and the actions allowed for the state and the viewer (section 7). Filters: Pending (default, oldest first), Approved, Published, Rejected, Withdrawn, All (newest first). Search matches name, company and quote within the filter. Admins see Export CSV. Empty state: "Nothing waiting for review."
-2. **Testimonial detail.** The card plus email, permission evidence (exact consent_text, version and time, or "No permission given"), withdrawn time, review note and reviewer, published_at, the invitation it came from with its private note, the private link with Copy (moderators and admins), and the history: every event with actor, time and note. Reject and Record withdrawal open a dialog for the note.
+1. **Queue** (home). Cards: quote, name, role and company, rating ("No rating"), permission ("Permission to publish", "Private: no permission" or "Permission withdrawn"), status, age ("Sent 2 days ago"), source ("Form" or "Invitation from Sam Okafor"), and the actions allowed for the state and the viewer (section 7). Filters: Pending (the default, oldest first), then Approved, Published, Rejected, Withdrawn and All, each newest first (by submitted_at). Search matches name, company and quote within the filter. Admins see Export CSV. Empty state: "Nothing waiting for review."
+2. **Testimonial detail.** The card plus email, permission evidence (exact consent_text, version and time, or "No permission given"), withdrawn time, review note and reviewer, published_at, the invitation it came from with its private note, the private link with Copy (moderators and admins), and the history: every event with actor, time and note. Reject and Record withdrawal open a dialog for the note. Next to Approve is an optional "Approval note (private, up to 300 characters)" field; on Queue cards, Approve acts at once, without a note.
 3. **Invitations.** List: customer, company, created by, status, created, reminded, expires; Copy link and Cancel on open ones. New invitation: name, email, company, role, words they used, source, private note. In development: "Run scheduled job now" (section 12).
 4. **Wall and embed.** Live preview using section 9, a minimum-rating picker (All ratings, 4 stars and up, 5 stars), a limit, both snippets with those options filled in, Copy buttons and a link to `/wall`.
 5. **Admin: People.** Name, email, role, active; add, edit, deactivate. Nobody can deactivate themselves or change their own role.
@@ -267,7 +268,7 @@ Development only, on every staff screen: an "Act as" switcher listing every pers
 | Invitation open 3 days | Customer | invitation_reminder | "Reminder: Sam Okafor from Northwind asked for a few words". Same link and the expiry date. Once |
 | Published | Customer | published | "Your words are on Northwind's website". Links to `/wall` and the private page |
 | Withdrawn (either way) | Customer | withdrawal_confirmed | "You withdrew permission". The date, and that the words will not be shown |
-| Withdrawn | Active moderators and admins | withdrawn_alert | "Ben Adler withdrew permission". Plus "It was removed from the wall." or "Nothing is featured now." when true |
+| Withdrawn (either way) | Active moderators and admins | withdrawn_alert | "Ben Adler withdrew permission" (on their private page, or "recorded by Jo Park"). Plus "It was removed from the wall." or "Nothing is featured now." when true |
 
 Write every notification to the outbox first, then send. With no email provider configured, set status logged instead of sending. Failed sends keep their error and are retried by the next job run. A notification problem never blocks or undoes an action.
 
@@ -279,7 +280,7 @@ Write every notification to the outbox first, then send. With no email provider 
 - completed: "You've already sent your words. Thank you."
 - cancelled: "This link is no longer active." Unknown token: "This link is not valid."
 
-**Scheduled job** (hourly; on Vercel, a cron hitting `/api/cron/tick` with a `CRON_SECRET` header):
+**Scheduled job** (hourly; on Vercel, a cron hitting `/api/cron/tick`, protected by `Authorization: Bearer <CRON_SECRET>`, which is what Vercel Cron sends; without CRON_SECRET configured, the endpoint refuses every request with 401):
 1. **Expire** open invitations whose expires_at has passed.
 2. **Remind** open invitations created 72 hours or more ago with no reminded_at; set reminded_at. Expire runs first, so an expired invitation is never reminded.
 3. **Retry** notifications that failed, or are still queued after 5 minutes.
@@ -300,12 +301,12 @@ Write every notification to the outbox first, then send. With no email provider 
 
 Northwind is a small software company that sells an approvals app to other small businesses. Staff emails end in `@northwind.example`. T is the moment the seed is loaded; "T − 40d" means 40 days earlier.
 
-| Person | Role | Active |
-|---|---|---|
-| Maya Chen (Marketing lead) | admin | yes |
-| Jo Park (Content marketer) | moderator | yes |
-| Sam Okafor (Account manager) | member | yes |
-| Alex Kim (Former contractor) | member | no |
+| Person | Email | Role | Active |
+|---|---|---|---|
+| Maya Chen (Marketing lead) | maya@northwind.example | admin | yes |
+| Jo Park (Content marketer) | jo@northwind.example | moderator | yes |
+| Sam Okafor (Account manager) | sam@northwind.example | member | yes |
+| Alex Kim (Former contractor) | alex@northwind.example | member | no |
 
 Settings: company_name "Northwind", wall_title "What our customers say", form_intro "Tell us what changed for your team since you started using Northwind. We read every response.", permission_text version 1 (section 6), form_open true, time_zone "America/New_York".
 
@@ -431,8 +432,8 @@ Using the Testimonial Wall blueprint above, build Phase 4 only.
 
 1. Build /embed/wall, /embed/featured and /embed.js exactly as section 9 describes, with the height messages and headers.
 2. Build the Wall and embed screen (section 10, screen 4).
-3. Build the scheduled job in section 12 at /api/cron/tick, protected by a CRON_SECRET header, plus the development-only "Run scheduled job now" button on Invitations. The job uses the app's clock, including the development offset.
-4. Add Export CSV for admins on the Queue, enforced on the server: one row per testimonial with name, email, company, job_title, rating, quote, status, consent (yes or no), consent_text, consent_version, consent_at, withdrawn_at, published_at, featured, source and submitted_at. ISO 8601 UTC times. Quote fields so commas and line breaks stay in one cell.
+3. Build the scheduled job in section 12 at /api/cron/tick, protected by `Authorization: Bearer <CRON_SECRET>` (section 12), plus the development-only "Run scheduled job now" button on Invitations. The job uses the app's clock, including the development offset.
+4. Add Export CSV for admins on the Queue, enforced on the server: one row per testimonial with name, email, company, job_title, rating, quote, status, consent (yes or no), consent_text, consent_version, consent_at, withdrawn_at, published_at, featured, source and submitted_at. ISO 8601 UTC times. Quote fields so commas and line breaks stay in one cell. Cells whose text starts with =, +, -, @, a tab or a carriage return are written with a leading apostrophe (') so spreadsheets show them as text instead of running them as formulas; every other cell is exactly as stored.
 5. Add Delete for admins (R14), with a confirmation that names the customer.
 
 When you're done, list what you built and anything in the spec you had to interpret.
@@ -456,3 +457,30 @@ When you're done, list what you built and anything in the spec you had to interp
 - Customer photos and company logos, uploaded on the form and named in the permission wording.
 - Let a customer approve a shorter excerpt from their private page instead of submitting again (R3).
 - Bulk invitations from a CSV of customers.
+
+## 17. Build notes from our test build
+
+We built this blueprint by sending the four phase prompts above, in order, to an AI builder (Claude, working in Type), then checked every acceptance item in a real browser, pressing "Reset to seed data" before each phase's checks.
+
+**Result:** 32 of 32 acceptance checks passed in one final browser run on a fresh database, plus 42 automated tests. Three extra browser checks also passed: the actions each role sees, the embed script ignoring height messages from other pages, and the scheduled job refusing requests without its secret.
+
+**Gaps the build found, now fixed in this spec:**
+1. The seed staff had no email addresses, though a Phase 1 check depends on jo@northwind.example. Section 14 now lists them.
+2. The Queue's sort order for filters other than Pending was ambiguous. Each is now newest first.
+3. Nothing said what happens when someone submits through a cancelled, expired or already-used invitation link. Section 6 now refuses it before saving anything.
+4. The honeypot's "normal thank-you page" includes a private link, but nothing is saved. It now shows a link that is not stored and says "This link is not valid."
+5. A notification's testimonial had to be optional for invitation emails, and the invitation's Reply-To had nowhere to live. Section 5 now says both.
+6. R7 let a second moderator silently replace a featured testimonial, while an edge case said the second action fails. Feature now carries what the moderator saw and is refused if it changed.
+7. No screen said where the optional approval note is typed. The detail screen now has the field; Approve on a Queue card has no note.
+8. Sections 7 and 11 disagreed on whether staff are alerted when a moderator records a withdrawal. They are, either way.
+9. `frame-ancestors *` blocks the Phase 4 test.html opened from disk, because `*` doesn't match local files. The header now adds `file:`; the test build used this to pass the check.
+10. Customer text was exported to CSV exactly as typed, so a quote starting with = could run as a spreadsheet formula. Such cells now get a leading apostrophe.
+11. The scheduled job's secret header wasn't named. It is now `Authorization: Bearer <CRON_SECRET>`, and without a secret configured every request is refused.
+
+**What we did not test:**
+- Production sign-in. The build trusts a sign-in header from the hosting platform, but every check used the development "Act as" switcher.
+- Sending email. Emails were logged in the outbox, not delivered; retrying a failed send is covered by an automated test only.
+- The hourly job on a real scheduler. It ran from the development button, with time moved by the development clock.
+- Embedding on a real HTTPS website or behind a CDN. The embed was tested from a local test.html.
+- Other browsers and real phones. We tested in Chromium, including a 390-pixel-wide window.
+- Hosting. The test build ran on SQLite on one server. For a hosted deploy, use a managed Postgres (or your platform's database) and the same schema.
