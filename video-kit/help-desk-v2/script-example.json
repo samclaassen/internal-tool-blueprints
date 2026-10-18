@@ -1,0 +1,46 @@
+{
+ "voice": "af_heart",
+ "speed": 1.12,
+ "scenes": [
+  {
+   "id": "hook",
+   "text": "Can an AI build a Zendesk replacement from a written spec? We gave Claude one Markdown file, and checked twenty-four things in a real browser. Here's what passed, and what broke."
+  },
+  {
+   "id": "spec",
+   "text": "The spec is a single file. It copies the part of Zendesk a small support team actually uses. Six ticket statuses, with Zendesk's lifecycle rules. One owner per ticket. Email replies that thread back to the right ticket. Internal notes that are never emailed. And first-response targets, from one hour for urgent tickets, to a day for low priority."
+  },
+  {
+   "id": "lifecycle",
+   "text": "Here's the lifecycle. A new ticket opens as soon as someone is assigned. When the agent waits on the customer, it goes to pending, and the customer's reply reopens it. Solved tickets close automatically after four days. Nobody can close one by hand."
+  },
+  {
+   "id": "phases",
+   "text": "Claude built it in four phases, one prompt each. The foundation. Queues and replies. Email in, and threading. Then auto-close, reports, and data deletion. After every phase, the spec's acceptance checks ran as browser scripts, clicking through the app as real users."
+  },
+  {
+   "id": "screens",
+   "text": "Here's what it built. The queue shows every ticket's first-response state, overdue first. Each ticket keeps the customer's email, the replies, internal notes, and a full history. Weekly reports track how fast the team responds. And admins set the targets."
+  },
+  {
+   "id": "result",
+   "text": "In the final run, on a fresh database, all twenty-four checks passed, along with sixty-four automated tests."
+  },
+  {
+   "id": "gaps",
+   "text": "But the more useful result is what broke. The build exposed twenty-one gaps in the spec. Places where Claude had to guess. The biggest group was about email. Common email providers can't send the authentication header the spec required. The threading rule had no sender check, so a stranger's reply could land on someone else's ticket. And one worked example sat exactly on a deadline, so two answers were both defensible. Every gap is now fixed in the spec."
+  },
+  {
+   "id": "untested",
+   "text": "Passing every check isn't the same as production-ready. We didn't test real sign-in, real email in and out, a real scheduler, or hosting. Those are yours to check before a team relies on it."
+  },
+  {
+   "id": "cost",
+   "text": "So is it worth building? Zendesk's Support Team plan is nineteen dollars per agent per month, paid yearly. For five agents, that's eleven hundred and forty dollars a year. Building wins most clearly when you'd otherwise need the fifty-five dollar Suite plan, or rules your plan doesn't offer."
+  },
+  {
+   "id": "cta",
+   "text": "The spec is free. The data model, fifteen rules, seed data, four phase prompts, and all twenty-four checks, with the twenty-one fixes already in. Find it at personal software factory dot com."
+  }
+ ]
+}

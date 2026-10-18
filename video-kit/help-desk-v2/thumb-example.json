@@ -1,0 +1,1 @@
+{"kicker": "Build test · Help desk", "title": "Claude built a Zendesk replacement", "stats": [{"n": "24/24", "label": "checks passed", "tone": "ok"}, {"n": "21", "label": "spec gaps found", "tone": "signal"}], "shot": "/home/daytona/work/personalsoftwarefactory/public/builds/help-desk/test-ticket-1004.webp"}
