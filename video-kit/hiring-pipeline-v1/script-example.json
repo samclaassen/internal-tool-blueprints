@@ -1,0 +1,105 @@
+{
+ "voice": "af_heart",
+ "speed": 1.12,
+ "tempo": 1.04,
+ "scenes": [
+  {
+   "id": "hook",
+   "text": "Here's how to reverse engineer Greenhouse from a written spec. We gave Claude one Markdown file, and checked twenty-nine things in a real browser. Here's what passed, and what broke.",
+   "cues": [
+    "one Markdown file",
+    "twenty-nine things",
+    "what passed",
+    "what broke"
+   ]
+  },
+  {
+   "id": "spec",
+   "text": "The spec copies the part of Greenhouse a small team hiring for a few roles actually uses. A public careers page. Five stages, from Applied to Hired, plus Rejected and Withdrawn. One scorecard per interviewer, with Greenhouse's recommendation scale. And closed applications that are anonymized after a set number of days.",
+   "cues": [
+    "A public careers page",
+    "Five stages",
+    "One scorecard per interviewer",
+    "anonymized"
+   ]
+  },
+  {
+   "id": "rule",
+   "text": "The core rule is honest feedback. Every interviewer submits their own scorecard before they can read anyone else's. Even the hiring manager. And nobody moves to Offer while a scorecard is still pending. The app never turns ratings into a score. The decision stays with the team.",
+   "cues": [
+    "Every interviewer",
+    "Even the hiring manager",
+    "nobody moves to Offer",
+    "never turns ratings"
+   ]
+  },
+  {
+   "id": "phases",
+   "text": "Claude built it in four phases, one prompt each. The foundation, with sign-in, people and roles. The careers page, applications and the board. Interviews and scorecards. Then the daily digest, reminders, data retention and export. After every phase, the acceptance checks ran in a real browser, from fresh seed data.",
+   "cues": [
+    "The foundation",
+    "The careers page",
+    "Interviews and scorecards",
+    "Then the daily digest",
+    "acceptance checks"
+   ]
+  },
+  {
+   "id": "screens",
+   "text": "Here's what it built. The board shows every candidate by stage, with days in stage and scorecard progress. Each application keeps the scorecards, the stage actions and a full activity log. Interviewers rate each attribute from weak to strong, with no default recommendation. And candidates apply from their phone.",
+   "cues": [
+    "The board",
+    "Each application",
+    "Interviewers rate",
+    "candidates apply"
+   ]
+  },
+  {
+   "id": "result",
+   "text": "In the final run, on a fresh database, all twenty-nine checks passed, along with sixty-five automated tests.",
+   "cues": [
+    "twenty-nine checks",
+    "sixty-five"
+   ]
+  },
+  {
+   "id": "gaps",
+   "text": "But the more useful result is what broke. The build exposed eighteen gaps in the spec. Places where Claude had to guess. The CSV export counted recommendations, which could reveal scorecards the honesty rule hides. Data retention wiped a candidate's phone number when one old application expired, even while another was still open. And no screen offered a jump of two stages, so the one-stage-at-a-time rule couldn't even be tested. Every gap is now fixed in the spec.",
+   "cues": [
+    "eighteen gaps",
+    "The CSV export",
+    "Data retention",
+    "no screen offered",
+    "Every gap is now fixed"
+   ]
+  },
+  {
+   "id": "untested",
+   "text": "Passing every check isn't the same as production-ready. We didn't test real sign-in, real email delivery, the hourly job on a real scheduler, or hosting. Those are yours to check before a team relies on it.",
+   "cues": [
+    "real sign-in",
+    "real email delivery",
+    "the hourly job",
+    "hosting"
+   ]
+  },
+  {
+   "id": "cost",
+   "text": "So is it worth building? Greenhouse doesn't publish prices. All three plans say get a demo. If you need EEOC reporting, scheduling automation or job board reach, Greenhouse is worth paying for. If you hire for a few roles at a time, you mostly need the board, honest scorecards, and a decision on every candidate.",
+   "cues": [
+    "doesn't publish prices",
+    "If you need",
+    "If you hire"
+   ]
+  },
+  {
+   "id": "cta",
+   "text": "The spec is free. The data model, eighteen rules, seed data, four phase prompts, and all twenty-nine checks, with the eighteen fixes already in. Find it at personal software factory dot com.",
+   "cues": [
+    "The data model",
+    "eighteen fixes",
+    "personal software factory dot com"
+   ]
+  }
+ ]
+}
