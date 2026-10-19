@@ -1,0 +1,57 @@
+{
+ "voice": "af_heart",
+ "speed": 1.12,
+ "tempo": 1.04,
+ "scenes": [
+  {
+   "id": "hook",
+   "text": "Here's how to reverse engineer Senja from a written spec. We gave Claude one Markdown file, and checked thirty-two things in a real browser. Here's what passed, and what broke.",
+   "cues": ["one Markdown file", "thirty-two things", "what passed", "what broke"]
+  },
+  {
+   "id": "spec",
+   "text": "The spec copies the part of Senja a small team collecting customer quotes actually uses. A public form, with an optional star rating. Personal invitations, with one reminder. A review step before anything goes live. And one wall, as a public page and an embed for your website.",
+   "cues": ["A public form", "Personal invitations", "A review step", "one wall"]
+  },
+  {
+   "id": "rule",
+   "text": "The core rule is permission. Only the customer can tick the permission box, and it's never pre-ticked. The exact wording they agreed to is kept. Without permission, approval is refused. And customers can withdraw from their private link. The quote leaves the wall right away.",
+   "cues": ["Only the customer", "The exact wording", "approval is refused", "customers can withdraw"]
+  },
+  {
+   "id": "phases",
+   "text": "Claude built it in four phases, one prompt each. The foundation, with sign-in, people and settings. Collecting testimonials, with the form, the private page and invitations. Review, publishing and the public wall. Then the embed, reminders, export and deletion. After every phase, the acceptance checks ran in a real browser, from fresh seed data.",
+   "cues": ["The foundation", "Collecting testimonials", "Review, publishing", "Then the embed", "acceptance checks"]
+  },
+  {
+   "id": "screens",
+   "text": "Here's what it built. The review queue shows every quote with its rating, permission and status, and only the actions its state allows. Each testimonial keeps the exact permission wording, the invitation it came from, and a full history. The embed settings preview the same selection as the public wall. And customers fill in the form on their phone, with the box unticked until they tick it.",
+   "cues": ["The review queue", "Each testimonial", "The embed settings", "customers fill in"]
+  },
+  {
+   "id": "result",
+   "text": "In the final run, on a fresh database, all thirty-two checks passed, along with forty-two automated tests.",
+   "cues": ["thirty-two checks", "forty-two"]
+  },
+  {
+   "id": "gaps",
+   "text": "But the more useful result is what broke. The build exposed eleven gaps in the spec. Places where Claude had to guess. A second moderator could silently replace the featured quote. A quote starting with an equals sign could run as a formula in the CSV export. And the embed's security header blocked the test page opened from disk. Every gap is now fixed in the spec.",
+   "cues": ["eleven gaps", "A second moderator", "equals sign", "security header", "Every gap is now fixed"]
+  },
+  {
+   "id": "untested",
+   "text": "Passing every check isn't the same as production-ready. We didn't test real sign-in, sending email, the hourly job on a real scheduler, or embedding on a real website. Those are yours to check before a team relies on it.",
+   "cues": ["real sign-in", "sending email", "the hourly job", "embedding on a real website"]
+  },
+  {
+   "id": "cost",
+   "text": "So is it worth building? Senja is free for up to fifteen testimonials. Starter is twenty-nine dollars a month, and Pro is fifty-nine. If you want video testimonials, or imports from review sites, use Senja. If you collect a few dozen text quotes for one website, you mostly need the form, the permission, and the wall.",
+   "cues": ["free for up to fifteen", "If you want video", "If you collect"]
+  },
+  {
+   "id": "cta",
+   "text": "The spec is free. The data model, eighteen rules, seed data, four phase prompts, and all thirty-two checks, with the eleven fixes already in. Find it at personal software factory dot com.",
+   "cues": ["The data model", "eleven fixes", "personal software factory dot com"]
+  }
+ ]
+}
