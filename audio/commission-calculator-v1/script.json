@@ -1,0 +1,57 @@
+{
+ "voice": "af_heart",
+ "speed": 1.12,
+ "tempo": 1.04,
+ "scenes": [
+  {
+   "id": "hook",
+   "text": "Here's how to reverse engineer QuotaPath from a written spec. We gave Claude one Markdown file, and checked twenty-four things in a real browser. Here's what passed, and what broke.",
+   "cues": ["one Markdown file", "twenty-four things", "what passed", "what broke"]
+  },
+  {
+   "id": "spec",
+   "text": "The spec copies the part of QuotaPath a small sales team actually uses. Plans with tiers, and an accelerator above quota. Closed deals, with an optional split between two reps. A statement for every rep that shows the math, line by line. And one finance approval that locks the month.",
+   "cues": ["Plans with tiers", "Closed deals", "A statement for every rep", "one finance approval"]
+  },
+  {
+   "id": "rule",
+   "text": "The core rule is that tiers are marginal, like tax brackets. Cy's monthly quota is sixty thousand dollars. His first thirty thousand pays five percent. The next twenty-eight thousand pays ten percent. Above quota, the accelerator pays fifteen. So his October commission is four thousand three hundred dollars, and his statement shows every slice.",
+   "cues": ["like tax brackets", "first thirty thousand", "next twenty-eight thousand", "Above quota", "four thousand three hundred dollars"]
+  },
+  {
+   "id": "phases",
+   "text": "Claude built it in four phases, one prompt each. The foundation, with reps, plans and deals. The calculation and the statements. Approval, locking, clawbacks and the payroll export. Then what reps see, with their own statement and a what-if calculator. After every phase, the acceptance checks ran in a real browser, from fresh seed data.",
+   "cues": ["The foundation", "The calculation", "Approval, locking", "Then what reps see", "acceptance checks"]
+  },
+  {
+   "id": "screens",
+   "text": "Here's what it built. The payouts screen shows each rep's quota, attainment, commission and payout for the month. Each statement walks through every deal, tier by tier, including a clawback for a cancelled deal. The what-if calculator shows a rep what one more deal would pay, without saving anything. And reps check their own statement on their phone.",
+   "cues": ["The payouts screen", "Each statement", "The what-if calculator", "on their phone"]
+  },
+  {
+   "id": "result",
+   "text": "In the final run, on a fresh database, all twenty-four checks passed, along with forty-eight automated tests.",
+   "cues": ["twenty-four checks", "forty-eight"]
+  },
+  {
+   "id": "gaps",
+   "text": "But the more useful result is what broke. The build exposed ten gaps in the spec. Places where Claude had to guess. Sign-in had to match each person by email, but people had no email field. Recalculating an approved month left out a deal cancelled after approval, so August came to eight thousand, eight hundred and sixty dollars instead of ten thousand and sixty. And the what-if split could mean either rep's share. Every gap is now fixed in the spec.",
+   "cues": ["ten gaps", "Sign-in had to match", "Recalculating an approved month", "the what-if split", "Every gap is now fixed"]
+  },
+  {
+   "id": "untested",
+   "text": "Passing every check isn't the same as production-ready. We didn't test real sign-in, two people saving at the same moment, importing the export into a real payroll system, or hosting. Those are yours to check before a team relies on it.",
+   "cues": ["real sign-in", "two people", "payroll system", "hosting"]
+  },
+  {
+   "id": "cost",
+   "text": "So is it worth building? QuotaPath Growth is thirty-five dollars per user per month, plus a monthly platform fee, billed yearly. Every rep, manager and admin counts as a user. If you need CRM sync, draws or team roll-up plans, QuotaPath is worth paying for. If you have a few reps on one or two plans, you mostly need the tiers, the statements, and a month that stays locked.",
+   "cues": ["thirty-five dollars", "Every rep, manager and admin", "If you need", "If you have a few reps"]
+  },
+  {
+   "id": "cta",
+   "text": "The spec is free. The data model, fifteen rules, seed data, four phase prompts, and all twenty-four checks, with the ten fixes already in. Find it at personal software factory dot com.",
+   "cues": ["The data model", "ten fixes", "personal software factory dot com"]
+  }
+ ]
+}
