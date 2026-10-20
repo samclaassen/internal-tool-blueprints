@@ -1,0 +1,30 @@
+{
+ "snippet": {
+  "title": "How to reverse engineer QuotaPath with Claude: what passed, what broke",
+  "description": "Claude built a QuotaPath alternative from one Markdown spec: all 24 acceptance checks passed in a real browser, along with 48 automated tests.\nThe test build also exposed 10 gaps in the spec, and every one is now fixed.\n\nWe gave Claude one Markdown spec for a small-team sales commission calculator and had it build the tool in four phases: reps, plans and deals; the payout math and statements; approval, locking, clawbacks and the payroll export; and what reps see, with their own statement and a what-if calculator. The gaps included sign-in that had to match people by an email they didn't have, an approved month that recalculated to $8,860 instead of $10,060 because a deal cancelled after approval was left out, and a what-if split that could mean either rep's share. What passed, what broke, what we didn't test, and when QuotaPath is still worth paying for.\n\nChapters\n00:00 Reverse engineering QuotaPath\n00:10 What the spec copies from QuotaPath\n00:28 The core rule: marginal tiers\n00:48 Four build phases\n01:07 What Claude built\n01:26 Result and what broke\n01:57 What we didn't test\n02:11 Is it worth building?\n02:32 Get the free spec\n\nThis video was made with AI from the real test-build screenshots.\n\nThe spec (free): https://personalsoftwarefactory.com/blueprints/commission-calculator\nAll blueprints on GitHub: https://github.com/samclaassen/internal-tool-blueprints\nBefore you rely on an AI-built tool: https://personalsoftwarefactory.com/guides/ai-built-tools-production-readiness\n\nQuotaPath prices: Growth $35 and Premium $50 per user per month, each plus a monthly platform fee, billed annually (quotapath.com/pricing, October 2026).\n\nVoice: Kokoro (open-source text to speech).\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/",
+  "tags": [
+   "QuotaPath",
+   "QuotaPath alternative",
+   "commission calculator",
+   "sales commission software",
+   "sales compensation",
+   "sales tools",
+   "Claude",
+   "AI app builder",
+   "spec-driven development",
+   "internal tools",
+   "build vs buy SaaS",
+   "personal software factory"
+  ],
+  "categoryId": "28",
+  "defaultLanguage": "en",
+  "defaultAudioLanguage": "en"
+ },
+ "status": {
+  "privacyStatus": "private",
+  "publishAt": "2026-10-22T16:00:00Z",
+  "selfDeclaredMadeForKids": false,
+  "containsSyntheticMedia": true,
+  "embeddable": true
+ }
+}

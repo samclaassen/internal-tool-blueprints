@@ -1,0 +1,175 @@
+1
+00:00:00,267 --> 00:00:03,612
+Here's how to reverse engineer QuotaPath from a written spec.
+
+2
+00:00:03,667 --> 00:00:08,219
+We gave Claude one Markdown file, and checked twenty-four things in a real browser.
+
+3
+00:00:08,274 --> 00:00:10,194
+Here's what passed, and what broke.
+
+4
+00:00:11,000 --> 00:00:15,134
+The spec copies the part of QuotaPath a small sales team actually uses.
+
+5
+00:00:15,192 --> 00:00:18,045
+Plans with tiers, and an accelerator above quota.
+
+6
+00:00:18,103 --> 00:00:21,248
+Closed deals, with an optional split between two reps.
+
+7
+00:00:21,306 --> 00:00:24,799
+A statement for every rep that shows the math, line by line.
+
+8
+00:00:24,858 --> 00:00:27,536
+And one finance approval that locks the month.
+
+9
+00:00:28,333 --> 00:00:31,681
+The core rule is that tiers are marginal, like tax brackets.
+
+10
+00:00:31,737 --> 00:00:34,247
+Cy's monthly quota is sixty thousand dollars.
+
+11
+00:00:34,303 --> 00:00:36,758
+His first thirty thousand pays five percent.
+
+12
+00:00:36,814 --> 00:00:39,492
+The next twenty-eight thousand pays ten percent.
+
+13
+00:00:39,548 --> 00:00:41,891
+Above quota, the accelerator pays fifteen.
+
+14
+00:00:41,947 --> 00:00:47,637
+So his October commission is four thousand three hundred dollars, and his statement shows every slice.
+
+15
+00:00:48,433 --> 00:00:51,078
+Claude built it in four phases, one prompt each.
+
+16
+00:00:51,133 --> 00:00:53,503
+The foundation, with reps, plans and deals.
+
+17
+00:00:53,558 --> 00:00:55,487
+The calculation and the statements.
+
+18
+00:00:55,542 --> 00:00:58,407
+Approval, locking, clawbacks and the payroll export.
+
+19
+00:00:58,462 --> 00:01:02,319
+Then what reps see, with their own statement and a what-if calculator.
+
+20
+00:01:02,375 --> 00:01:07,058
+After every phase, the acceptance checks ran in a real browser, from fresh seed data.
+
+21
+00:01:07,867 --> 00:01:08,936
+Here's what it built.
+
+22
+00:01:08,987 --> 00:01:13,619
+The payouts screen shows each rep's quota, attainment, commission and payout for the month.
+
+23
+00:01:13,670 --> 00:01:18,608
+Each statement walks through every deal, tier by tier, including a clawback for a cancelled deal.
+
+24
+00:01:18,659 --> 00:01:23,190
+The what-if calculator shows a rep what one more deal would pay, without saving anything.
+
+25
+00:01:23,241 --> 00:01:25,787
+And reps check their own statement on their phone.
+
+26
+00:01:26,600 --> 00:01:32,660
+In the final run, on a fresh database, all twenty-four checks passed, along with forty-eight automated tests.
+
+27
+00:01:33,467 --> 00:01:35,571
+But the more useful result is what broke.
+
+28
+00:01:35,622 --> 00:01:37,624
+The build exposed ten gaps in the spec.
+
+29
+00:01:37,675 --> 00:01:39,369
+Places where Claude had to guess.
+
+30
+00:01:39,420 --> 00:01:43,167
+Sign-in had to match each person by email, but people had no email field.
+
+31
+00:01:43,218 --> 00:01:52,148
+Recalculating an approved month left out a deal cancelled after approval, so August came to eight thousand, eight hundred and sixty dollars instead of ten thousand and sixty.
+
+32
+00:01:52,199 --> 00:01:54,868
+And the what-if split could mean either rep's share.
+
+33
+00:01:54,919 --> 00:01:56,716
+Every gap is now fixed in the spec.
+
+34
+00:01:57,500 --> 00:02:00,684
+Passing every check isn't the same as production-ready.
+
+35
+00:02:00,742 --> 00:02:08,094
+We didn't test real sign-in, two people saving at the same moment, importing the export into a real payroll system, or hosting.
+
+36
+00:02:08,152 --> 00:02:11,162
+Those are yours to check before a team relies on it.
+
+37
+00:02:11,967 --> 00:02:13,252
+So is it worth building?
+
+38
+00:02:13,306 --> 00:02:18,823
+QuotaPath Growth is thirty-five dollars per user per month, plus a monthly platform fee, billed yearly.
+
+39
+00:02:18,877 --> 00:02:21,341
+Every rep, manager and admin counts as a user.
+
+40
+00:02:21,395 --> 00:02:25,734
+If you need CRM sync, draws or team roll-up plans, QuotaPath is worth paying for.
+
+41
+00:02:25,787 --> 00:02:32,055
+If you have a few reps on one or two plans, you mostly need the tiers, the statements, and a month that stays locked.
+
+42
+00:02:32,867 --> 00:02:33,875
+The spec is free.
+
+43
+00:02:33,935 --> 00:02:41,056
+The data model, fifteen rules, seed data, four phase prompts, and all twenty-four checks, with the ten fixes already in.
+
+44
+00:02:41,115 --> 00:02:43,786
+Find it at personal software factory dot com.
