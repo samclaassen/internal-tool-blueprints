@@ -1,0 +1,111 @@
+{
+ "voice": "af_heart",
+ "speed": 1.12,
+ "tempo": 1.04,
+ "scenes": [
+  {
+   "id": "hook",
+   "text": "Here's how to reverse engineer Expensify from a written spec. We gave Claude one Markdown file, and checked twenty-four things in a real browser. Here's what passed, and what broke.",
+   "cues": [
+    "one Markdown file",
+    "twenty-four things",
+    "what passed",
+    "what broke"
+   ]
+  },
+  {
+   "id": "spec",
+   "text": "The spec copies the part of Expensify a small team uses to pay people back. Expenses with their receipts. Category limits, and mileage at a company rate. One approval, by your manager. And a finance queue, where every payment gets a reference.",
+   "cues": [
+    "Expenses with their receipts",
+    "Category limits",
+    "One approval",
+    "a finance queue"
+   ]
+  },
+  {
+   "id": "rule",
+   "text": "The core rule is the report's lifecycle. A report starts as a draft. Submitting sends it to your manager. Approved reports go to finance, and reimbursed is final. Before you can submit, every flag needs an answer. A missing receipt blocks the report, and an expense over its limit needs an explanation.",
+   "cues": [
+    "starts as a draft",
+    "Submitting sends it",
+    "Approved reports",
+    "reimbursed is final",
+    "every flag needs an answer",
+    "A missing receipt",
+    "over its limit"
+   ]
+  },
+  {
+   "id": "phases",
+   "text": "Claude built it in four phases, one prompt each. The foundation, with sign-in, people and settings. Reports, expenses and flags. Approval and payment. Then reminders and spending. After every phase, the acceptance checks ran in a real browser, from fresh seed data.",
+   "cues": [
+    "The foundation",
+    "Reports, expenses",
+    "Approval and payment",
+    "Then reminders",
+    "acceptance checks"
+   ]
+  },
+  {
+   "id": "screens",
+   "text": "Here's what it built. Lee's draft report flags a dinner over the meals limit, and a hotel with no receipt. Finance sees every report, with its status and next step. Spending adds it all up, by category and by person. Settings hold the receipt threshold and the mileage rate. And on a phone, every expense is a card, and Take photo opens the camera.",
+   "cues": [
+    "Lee's draft report",
+    "Finance sees every report",
+    "Spending adds",
+    "Settings hold",
+    "on a phone"
+   ]
+  },
+  {
+   "id": "result",
+   "text": "In the final run, on a fresh database, all twenty-four checks passed, along with fifty-nine automated tests.",
+   "cues": [
+    "twenty-four checks",
+    "fifty-nine"
+   ]
+  },
+  {
+   "id": "gaps",
+   "text": "But the more useful result is what broke. The build exposed nine gaps in the spec. Places where Claude had to guess. The seed data loads relative to today, but the checks used fixed dates. Two parts of the spec named different people who can see a receipt. And changing a report's approver had no event, no email, and no comment rule. Every gap is now fixed in the spec.",
+   "cues": [
+    "nine gaps",
+    "The seed data loads",
+    "Two parts of the spec",
+    "And changing",
+    "Every gap is now fixed"
+   ]
+  },
+  {
+   "id": "untested",
+   "text": "Passing every check isn't the same as production-ready. We didn't test real sign-in, sending email, the hourly job on a real scheduler, a real phone camera, or hosting. Those are yours to check before a team relies on it.",
+   "cues": [
+    "real sign-in",
+    "sending email",
+    "the hourly job",
+    "a real phone camera",
+    "or hosting"
+   ]
+  },
+  {
+   "id": "cost",
+   "text": "So is it worth building? Expensify's Submit plan is free, with receipt scanning and mileage. Reimbursements and approvals come with Collect, at five dollars per member per month. If you want receipt scanning or company cards, use Expensify. If you reimburse out-of-pocket spending for a small team, you mostly need receipts, one approval, and a record of payment.",
+   "cues": [
+    "Submit plan is free",
+    "five dollars",
+    "If you want receipt scanning",
+    "If you reimburse"
+   ]
+  },
+  {
+   "id": "cta",
+   "text": "The spec is free. The data model, twelve rules, seed data, four phase prompts, and all twenty-four checks, with the nine fixes already in. Find it at personal software factory dot com.",
+   "cues": [
+    "The data model",
+    "nine fixes",
+    "personal software factory dot com"
+   ]
+  }
+ ]
+}
