@@ -1,0 +1,179 @@
+1
+00:00:00,267 --> 00:00:03,626
+Here's how to reverse engineer Expensify from a written spec.
+
+2
+00:00:03,676 --> 00:00:08,265
+We gave Claude one Markdown file, and checked twenty-four things in a real browser.
+
+3
+00:00:08,315 --> 00:00:10,222
+Here's what passed, and what broke.
+
+4
+00:00:11,067 --> 00:00:15,329
+The spec copies the part of Expensify a small team uses to pay people back.
+
+5
+00:00:15,379 --> 00:00:16,996
+Expenses with their receipts.
+
+6
+00:00:17,046 --> 00:00:19,698
+Category limits, and mileage at a company rate.
+
+7
+00:00:19,748 --> 00:00:21,423
+One approval, by your manager.
+
+8
+00:00:21,473 --> 00:00:24,757
+And a finance queue, where every payment gets a reference.
+
+9
+00:00:25,600 --> 00:00:27,907
+The core rule is the report's lifecycle.
+
+10
+00:00:27,957 --> 00:00:29,498
+A report starts as a draft.
+
+11
+00:00:29,548 --> 00:00:31,620
+Submitting sends it to your manager.
+
+12
+00:00:31,670 --> 00:00:34,920
+Approved reports go to finance, and reimbursed is final.
+
+13
+00:00:34,970 --> 00:00:37,866
+Before you can submit, every flag needs an answer.
+
+14
+00:00:37,916 --> 00:00:43,052
+A missing receipt blocks the report, and an expense over its limit needs an explanation.
+
+15
+00:00:43,900 --> 00:00:46,772
+Claude built it in four phases, one prompt each.
+
+16
+00:00:46,822 --> 00:00:49,817
+The foundation, with sign-in, people and settings.
+
+17
+00:00:49,867 --> 00:00:51,522
+Reports, expenses and flags.
+
+18
+00:00:51,572 --> 00:00:52,800
+Approval and payment.
+
+19
+00:00:52,850 --> 00:00:54,505
+Then reminders and spending.
+
+20
+00:00:54,555 --> 00:00:59,680
+After every phase, the acceptance checks ran in a real browser, from fresh seed data.
+
+21
+00:01:00,533 --> 00:01:01,689
+Here's what it built.
+
+22
+00:01:01,739 --> 00:01:06,513
+Lee's draft report flags a dinner over the meals limit, and a hotel with no receipt.
+
+23
+00:01:06,563 --> 00:01:09,786
+Finance sees every report, with its status and next step.
+
+24
+00:01:09,836 --> 00:01:12,715
+Spending adds it all up, by category and by person.
+
+25
+00:01:12,765 --> 00:01:15,988
+Settings hold the receipt threshold and the mileage rate.
+
+26
+00:01:16,038 --> 00:01:20,180
+And on a phone, every expense is a card, and Take photo opens the camera.
+
+27
+00:01:21,033 --> 00:01:27,096
+In the final run, on a fresh database, all twenty-four checks passed, along with fifty-nine automated tests.
+
+28
+00:01:27,933 --> 00:01:30,190
+But the more useful result is what broke.
+
+29
+00:01:30,240 --> 00:01:32,441
+The build exposed nine gaps in the spec.
+
+30
+00:01:32,491 --> 00:01:34,297
+Places where Claude had to guess.
+
+31
+00:01:34,347 --> 00:01:38,292
+The seed data loads relative to today, but the checks used fixed dates.
+
+32
+00:01:38,342 --> 00:01:42,062
+Two parts of the spec named different people who can see a receipt.
+
+33
+00:01:42,112 --> 00:01:46,394
+And changing a report's approver had no event, no email, and no comment rule.
+
+34
+00:01:46,444 --> 00:01:48,363
+Every gap is now fixed in the spec.
+
+35
+00:01:49,200 --> 00:01:52,391
+Passing every check isn't the same as production-ready.
+
+36
+00:01:52,441 --> 00:01:58,990
+We didn't test real sign-in, sending email, the hourly job on a real scheduler, a real phone camera, or hosting.
+
+37
+00:01:59,040 --> 00:02:02,054
+Those are yours to check before a team relies on it.
+
+38
+00:02:02,900 --> 00:02:04,156
+So is it worth building?
+
+39
+00:02:04,206 --> 00:02:07,803
+Expensify's Submit plan is free, with receipt scanning and mileage.
+
+40
+00:02:07,853 --> 00:02:12,429
+Reimbursements and approvals come with Collect, at five dollars per member per month.
+
+41
+00:02:12,479 --> 00:02:15,749
+If you want receipt scanning or company cards, use Expensify.
+
+42
+00:02:15,799 --> 00:02:22,390
+If you reimburse out-of-pocket spending for a small team, you mostly need receipts, one approval, and a record of payment.
+
+43
+00:02:23,233 --> 00:02:24,193
+The spec is free.
+
+44
+00:02:24,243 --> 00:02:31,324
+The data model, twelve rules, seed data, four phase prompts, and all twenty-four checks, with the nine fixes already in.
+
+45
+00:02:31,374 --> 00:02:33,998
+Find it at personal software factory dot com.

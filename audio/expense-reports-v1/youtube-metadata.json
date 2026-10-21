@@ -1,0 +1,30 @@
+{
+ "snippet": {
+  "title": "How to reverse engineer Expensify with Claude: what passed, what broke",
+  "description": "Claude built an Expensify alternative from one Markdown spec: all 24 acceptance checks passed in a real browser, along with 59 automated tests.\nThe test build also exposed 9 gaps in the spec, and every one is now fixed.\n\nWe gave Claude one Markdown spec for small-team expense reports and had it build the tool in four phases: sign-in, people and settings; reports, expenses, receipts and policy flags; approval and payment; and reminders and spending. The gaps included a seed that loads relative to today while the checks used fixed dates, two rules that named different people who can see a receipt, and changing a report's approver with no event, email or comment rule. What passed, what broke, what we didn't test, and when Expensify is still worth paying for.\n\nChapters\n00:00 Reverse engineering Expensify\n00:10 What the spec copies from Expensify\n00:25 The core rule: a report's lifecycle\n00:43 Four build phases\n01:00 What Claude built\n01:20 Result and what broke\n01:48 What we didn't test\n02:02 Is it worth building?\n02:22 Get the free spec\n\nThis video was made with AI from the real test-build screenshots.\n\nThe spec (free): https://personalsoftwarefactory.com/blueprints/expense-reports\nAll blueprints on GitHub: https://github.com/samclaassen/internal-tool-blueprints\nBefore you rely on an AI-built tool: https://personalsoftwarefactory.com/guides/ai-built-tools-production-readiness\n\nExpensify prices: Submit is free for all members; Collect is $5 per member per month; Control is custom pricing (expensify.com/pricing, October 2026).\n\nVoice: Kokoro (open-source text to speech).\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/",
+  "tags": [
+   "Expensify",
+   "Expensify alternative",
+   "expense reports",
+   "expense report software",
+   "expense management",
+   "finance tools",
+   "Claude",
+   "AI app builder",
+   "spec-driven development",
+   "internal tools",
+   "build vs buy SaaS",
+   "personal software factory"
+  ],
+  "categoryId": "28",
+  "defaultLanguage": "en",
+  "defaultAudioLanguage": "en"
+ },
+ "status": {
+  "privacyStatus": "private",
+  "publishAt": "2026-10-23T16:00:00Z",
+  "selfDeclaredMadeForKids": false,
+  "containsSyntheticMedia": true,
+  "embeddable": true
+ }
+}
