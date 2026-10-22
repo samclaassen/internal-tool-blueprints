@@ -1,0 +1,31 @@
+{
+ "snippet": {
+  "title": "How to reverse engineer Kissflow with Claude: what passed, what broke",
+  "description": "Claude built a Kissflow alternative from one Markdown spec: all 20 acceptance checks passed in a real browser, along with 38 automated tests.\nThe test build also exposed 9 gaps in the spec, and every one is now fixed.\n\nWe gave Claude one Markdown spec for a small-team approval workflow for spend requests and had it build the tool in four phases: people and routing rules; requests, routing and decisions; notifications and approvals in Slack; and delegation, reminders, escalation and the CSV export. The gaps included escalation that could hand a step to someone who owned a later step, so they would approve the same request twice, reporting loops in Admin → People that break routing, and Slack approval times shown in UTC. What passed, what broke, what we didn't test, and when Kissflow is still worth paying for.\n\nChapters\n00:00 Reverse engineering Kissflow\n00:10 What the spec copies from Kissflow\n00:24 The core rule: routing\n00:45 Four build phases\n01:03 What Claude built\n01:20 Result and what broke\n01:47 What we didn't test\n01:59 Is it worth building?\n02:18 Get the free spec\n\nThis video was made with AI from the real test-build screenshots.\n\nThe spec (free): https://personalsoftwarefactory.com/blueprints/approval-workflow\nAll blueprints on GitHub: https://github.com/samclaassen/internal-tool-blueprints\nBefore you rely on an AI-built tool: https://personalsoftwarefactory.com/guides/ai-built-tools-production-readiness\n\nKissflow prices: not published. Its pricing page offers a quote or consultation and describes fixed annual agreements (kissflow.com/pricing, October 2026).\n\nVoice: Kokoro (open-source text to speech).\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/",
+  "tags": [
+   "Kissflow",
+   "Kissflow alternative",
+   "approval workflow",
+   "approval workflow software",
+   "purchase approvals",
+   "operations tools",
+   "Slack approvals",
+   "Claude",
+   "AI app builder",
+   "spec-driven development",
+   "internal tools",
+   "build vs buy SaaS",
+   "personal software factory"
+  ],
+  "categoryId": "28",
+  "defaultLanguage": "en",
+  "defaultAudioLanguage": "en"
+ },
+ "status": {
+  "privacyStatus": "private",
+  "publishAt": "2026-10-24T16:00:00Z",
+  "selfDeclaredMadeForKids": false,
+  "containsSyntheticMedia": true,
+  "embeddable": true
+ }
+}
