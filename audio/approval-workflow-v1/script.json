@@ -1,0 +1,107 @@
+{
+ "voice": "af_heart",
+ "speed": 1.12,
+ "tempo": 1.04,
+ "scenes": [
+  {
+   "id": "hook",
+   "text": "Here's how to reverse engineer Kissflow from a written spec. We gave Claude one Markdown file, and checked twenty things in a real browser. Here's what passed, and what broke.",
+   "cues": [
+    "one Markdown file",
+    "twenty things",
+    "what passed",
+    "what broke"
+   ]
+  },
+  {
+   "id": "spec",
+   "text": "The spec copies the part of Kissflow a small team uses for spend approvals. A short request form. Routing rules by amount and category. A chain of approvers who approve, reject, or send back. And an audit log that's never edited.",
+   "cues": [
+    "A short request form",
+    "Routing rules",
+    "A chain of approvers",
+    "an audit log"
+   ]
+  },
+  {
+   "id": "rule",
+   "text": "The core rule is routing. Every request goes to the requester's manager first, then each rule is checked in order. Jo's twenty-four hundred dollar laptop goes to Maya, her manager, then to Ana in Finance, because it's over a thousand dollars. And nobody approves their own request. When Ana asks, her Finance step is skipped, and her manager, Dana, decides.",
+   "cues": [
+    "manager first",
+    "checked in order",
+    "twenty-four hundred dollar laptop",
+    "then to Ana in Finance",
+    "nobody approves their own request"
+   ]
+  },
+  {
+   "id": "phases",
+   "text": "Claude built it in four phases, one prompt each. The foundation, with people and routing rules. Requests, routing and decisions. Notifications, and approvals in Slack. Then delegation, reminders, escalation and the export. After every phase, the acceptance checks ran in a real browser.",
+   "cues": [
+    "The foundation",
+    "Requests, routing",
+    "Notifications",
+    "Then delegation",
+    "acceptance checks"
+   ]
+  },
+  {
+   "id": "screens",
+   "text": "Here's what it built. The request form previews the approval chain before you submit. Each request shows the chain so far, with the approver's decision panel. The approvals inbox lists everything waiting on you, oldest first. And admins edit the routing rules, with a live example of where a request will go.",
+   "cues": [
+    "The request form",
+    "Each request",
+    "The approvals inbox",
+    "admins edit the routing rules"
+   ]
+  },
+  {
+   "id": "result",
+   "text": "In the final run, on a fresh database, all twenty checks passed, along with thirty-eight automated tests.",
+   "cues": [
+    "twenty checks",
+    "thirty-eight"
+   ]
+  },
+  {
+   "id": "gaps",
+   "text": "But the more useful result is what broke. The build exposed nine gaps in the spec. Places where Claude had to guess. Escalation could hand a step to someone who owned a later step, so they'd approve the same request twice. The people screen allowed reporting loops, which break routing. And Slack showed approval times in UTC. Every gap is now fixed in the spec.",
+   "cues": [
+    "nine gaps",
+    "Escalation could hand",
+    "reporting loops",
+    "Slack showed",
+    "Every gap is now fixed"
+   ]
+  },
+  {
+   "id": "untested",
+   "text": "Passing every check isn't the same as production-ready. We didn't test real sign-in, a live Slack workspace, sending email, or hosting. Those are yours to check before a team relies on it.",
+   "cues": [
+    "real sign-in",
+    "a live Slack workspace",
+    "sending email",
+    "hosting"
+   ]
+  },
+  {
+   "id": "cost",
+   "text": "So is it worth building? Kissflow doesn't publish prices. You ask for a quote, and agreements are fixed and annual. If you need a no-code workflow designer, parallel approvals or ERP integrations, Kissflow is worth paying for. If your team just needs spend approvals, you mostly need the form, the rules, and a record of who approved what.",
+   "cues": [
+    "doesn't publish prices",
+    "fixed and annual",
+    "If you need a no-code",
+    "If your team just needs"
+   ]
+  },
+  {
+   "id": "cta",
+   "text": "The spec is free. The data model, thirteen rules, seed data, four phase prompts, and all twenty checks, with the nine fixes already in. Find it at personal software factory dot com.",
+   "cues": [
+    "The data model",
+    "nine fixes",
+    "personal software factory dot com"
+   ]
+  }
+ ]
+}
