@@ -1,0 +1,111 @@
+{
+ "voice": "af_heart",
+ "speed": 1.12,
+ "tempo": 1.04,
+ "scenes": [
+  {
+   "id": "hook",
+   "text": "Here's how to reverse engineer PandaDoc from a written spec. We gave Claude one Markdown file, and checked twenty-nine things in a real browser. Here's what passed, and what broke.",
+   "cues": [
+    "We gave Claude",
+    "twenty-nine",
+    "Here's what passed",
+    "what broke"
+   ]
+  },
+  {
+   "id": "spec",
+   "text": "The spec copies the quoting part of PandaDoc a small sales team uses. A price list, so prices stay the same. Line items with discounts, tax and live totals. Templates for common packages. And a client link, where the buyer accepts by typing their name.",
+   "cues": [
+    "A price list",
+    "Line items",
+    "Templates for",
+    "And a client link"
+   ]
+  },
+  {
+   "id": "rule",
+   "text": "The core rule is discount approval. Take Lee's quote for Ridgeway Partners. The list price is seventeen thousand, four hundred dollars. Twenty percent off a hundred seats takes off three thousand. That's seventeen point two percent, over the fifteen percent limit, so a manager must approve it before it's sent. And no manager can approve their own quote.",
+   "cues": [
+    "Take Lee's quote",
+    "The list price",
+    "takes off three thousand",
+    "seventeen point two percent",
+    "so a manager",
+    "And no manager"
+   ]
+  },
+  {
+   "id": "phases",
+   "text": "Claude built it in four phases, one prompt each. The foundation, with clients, the price list and settings. Quotes and pricing. Approval, sending and the client page. Then expiry, printing and invoices. Every check ran in a real browser, on freshly seeded data.",
+   "cues": [
+    "The foundation",
+    "Quotes and pricing",
+    "Approval, sending",
+    "Then expiry",
+    "Every check ran"
+   ]
+  },
+  {
+   "id": "screens",
+   "text": "Here's what it built. The quotes home shows open quotes, approvals waiting, and the win rate. The editor keeps list prices fixed, updates totals live, and warns when a discount needs a manager. The manager sees the approval request beside the quote. Templates make common packages one click. And on a phone, the client accepts by typing their full name.",
+   "cues": [
+    "The quotes home",
+    "The editor",
+    "The manager sees",
+    "Templates make",
+    "And on a phone"
+   ]
+  },
+  {
+   "id": "result",
+   "text": "In the final run, on a fresh database, all twenty-nine checks passed, along with forty-seven automated tests.",
+   "cues": [
+    "all twenty-nine",
+    "forty-seven"
+   ]
+  },
+  {
+   "id": "gaps",
+   "text": "But the more useful result is what broke. The build exposed eight gaps in the spec. Places where Claude had to guess. Sign-in matched people by email, but the seed people had no emails. Duplicate didn't say what gets copied, like the discount and notes. And when no other manager could approve, the spec didn't say if the request went through. Every gap is now fixed in the spec.",
+   "cues": [
+    "eight gaps",
+    "Sign-in matched",
+    "Duplicate didn't say",
+    "And when no other manager",
+    "Every gap"
+   ]
+  },
+  {
+   "id": "untested",
+   "text": "Passing every check isn't the same as production-ready. We didn't test real sign-in, sending email, the daily job on a real scheduler, the browser's print dialog, or hosting. Those are yours to check before a team relies on it.",
+   "cues": [
+    "real sign-in",
+    "sending email",
+    "the daily job",
+    "print dialog",
+    "or hosting"
+   ]
+  },
+  {
+   "id": "cost",
+   "text": "So is it worth building? PandaDoc Starter is nineteen dollars per seat per month, with up to five templates. Business is forty-nine. For a team of ten on Business, that's five thousand, eight hundred and eighty dollars a year. If you need legally binding e-signatures, payments, or CRM sync, use PandaDoc. If you send a few quotes a week, you mostly need the price list, the approval rule, and an accept link.",
+   "cues": [
+    "PandaDoc Starter",
+    "Business is",
+    "For a team of ten",
+    "If you need",
+    "If you send"
+   ]
+  },
+  {
+   "id": "cta",
+   "text": "The spec is free. The data model, sixteen rules, seed data, four phase prompts, and all twenty-nine checks, with the eight fixes already in. Find it at personal software factory dot com.",
+   "cues": [
+    "The data model",
+    "sixteen rules",
+    "personal software factory"
+   ]
+  }
+ ]
+}
