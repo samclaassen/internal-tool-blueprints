@@ -1,0 +1,183 @@
+1
+00:00:00,267 --> 00:00:03,666
+Here's how to reverse engineer PandaDoc from a written spec.
+
+2
+00:00:03,666 --> 00:00:08,347
+We gave Claude one Markdown file, and checked twenty-nine things in a real browser.
+
+3
+00:00:08,347 --> 00:00:10,298
+Here's what passed, and what broke.
+
+4
+00:00:11,100 --> 00:00:15,185
+The spec copies the quoting part of PandaDoc a small sales team uses.
+
+5
+00:00:15,185 --> 00:00:17,461
+A price list, so prices stay the same.
+
+6
+00:00:17,461 --> 00:00:20,263
+Line items with discounts, tax and live totals.
+
+7
+00:00:20,263 --> 00:00:22,072
+Templates for common packages.
+
+8
+00:00:22,072 --> 00:00:25,807
+And a client link, where the buyer accepts by typing their name.
+
+9
+00:00:26,600 --> 00:00:28,510
+The core rule is discount approval.
+
+10
+00:00:28,510 --> 00:00:30,632
+Take Lee's quote for Ridgeway Partners.
+
+11
+00:00:30,632 --> 00:00:33,815
+The list price is seventeen thousand, four hundred dollars.
+
+12
+00:00:33,815 --> 00:00:37,052
+Twenty percent off a hundred seats takes off three thousand.
+
+13
+00:00:37,052 --> 00:00:43,153
+That's seventeen point two percent, over the fifteen percent limit, so a manager must approve it before it's sent.
+
+14
+00:00:43,153 --> 00:00:45,434
+And no manager can approve their own quote.
+
+15
+00:00:46,233 --> 00:00:49,132
+Claude built it in four phases, one prompt each.
+
+16
+00:00:49,132 --> 00:00:52,621
+The foundation, with clients, the price list and settings.
+
+17
+00:00:52,621 --> 00:00:53,804
+Quotes and pricing.
+
+18
+00:00:53,804 --> 00:00:56,111
+Approval, sending and the client page.
+
+19
+00:00:56,111 --> 00:00:58,241
+Then expiry, printing and invoices.
+
+20
+00:00:58,241 --> 00:01:01,671
+Every check ran in a real browser, on freshly seeded data.
+
+21
+00:01:02,467 --> 00:01:03,686
+Here's what it built.
+
+22
+00:01:03,686 --> 00:01:07,677
+The quotes home shows open quotes, approvals waiting, and the win rate.
+
+23
+00:01:07,677 --> 00:01:13,220
+The editor keeps list prices fixed, updates totals live, and warns when a discount needs a manager.
+
+24
+00:01:13,220 --> 00:01:16,324
+The manager sees the approval request beside the quote.
+
+25
+00:01:16,324 --> 00:01:18,652
+Templates make common packages one click.
+
+26
+00:01:18,652 --> 00:01:22,033
+And on a phone, the client accepts by typing their full name.
+
+27
+00:01:22,833 --> 00:01:29,129
+In the final run, on a fresh database, all twenty-nine checks passed, along with forty-seven automated tests.
+
+28
+00:01:29,933 --> 00:01:32,139
+But the more useful result is what broke.
+
+29
+00:01:32,139 --> 00:01:34,345
+The build exposed eight gaps in the spec.
+
+30
+00:01:34,345 --> 00:01:36,131
+Places where Claude had to guess.
+
+31
+00:01:36,131 --> 00:01:39,702
+Sign-in matched people by email, but the seed people had no emails.
+
+32
+00:01:39,702 --> 00:01:43,273
+Duplicate didn't say what gets copied, like the discount and notes.
+
+33
+00:01:43,273 --> 00:01:48,000
+And when no other manager could approve, the spec didn't say if the request went through.
+
+34
+00:01:48,000 --> 00:01:49,838
+Every gap is now fixed in the spec.
+
+35
+00:01:50,633 --> 00:01:53,933
+Passing every check isn't the same as production-ready.
+
+36
+00:01:53,933 --> 00:02:00,944
+We didn't test real sign-in, sending email, the daily job on a real scheduler, the browser's print dialog, or hosting.
+
+37
+00:02:00,944 --> 00:02:04,008
+Those are yours to check before a team relies on it.
+
+38
+00:02:04,800 --> 00:02:06,074
+So is it worth building?
+
+39
+00:02:06,074 --> 00:02:10,356
+PandaDoc Starter is nineteen dollars per seat per month, with up to five templates.
+
+40
+00:02:10,356 --> 00:02:11,579
+Business is forty-nine.
+
+41
+00:02:11,579 --> 00:02:16,370
+For a team of ten on Business, that's five thousand, eight hundred and eighty dollars a year.
+
+42
+00:02:16,370 --> 00:02:20,396
+If you need legally binding e-signatures, payments, or CRM sync, use PandaDoc.
+
+43
+00:02:20,396 --> 00:02:25,646
+If you send a few quotes a week, you mostly need the price list, the approval rule, and an accept link.
+
+44
+00:02:26,433 --> 00:02:27,477
+The spec is free.
+
+45
+00:02:27,477 --> 00:02:34,612
+The data model, sixteen rules, seed data, four phase prompts, and all twenty-nine checks, with the eight fixes already in.
+
+46
+00:02:34,612 --> 00:02:37,222
+Find it at personal software factory dot com.
