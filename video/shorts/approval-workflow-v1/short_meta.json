@@ -1,0 +1,9 @@
+{
+  "file": "kissflow-short.mp4",
+  "short": true,
+  "title": "Can Claude replace Kissflow? 20/20 checks, 9 spec gaps #shorts",
+  "description": "Claude built a Kissflow alternative, a purchase approval workflow, from one written spec: all 20 acceptance checks passed, and the build exposed 9 gaps in the spec.\n\nFull build test (2:31): https://youtu.be/dGUBA36TJ9g\nThe free spec: https://personalsoftwarefactory.com/blueprints/approval-workflow\nKissflow pricing and alternatives: https://personalsoftwarefactory.com/alternatives/kissflow\n\nMade with AI: Sam's on-camera hook and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/\n\n#shorts #claude #kissflow",
+  "tags": ["Kissflow alternative", "Kissflow", "build a Kissflow alternative", "approval workflow", "purchase approvals", "Claude", "AI app builder", "internal tools", "build vs buy SaaS", "personal software factory", "shorts"],
+  "categoryId": "28",
+  "publishAt": "2026-10-24T20:00:00Z"
+}

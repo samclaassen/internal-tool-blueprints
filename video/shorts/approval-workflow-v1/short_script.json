@@ -1,0 +1,7 @@
+{
+  "scenes": [
+    {"id": "build", "text": "Claude built it in four phases, one prompt each. The request form even previews the approval chain before you submit.", "cues": []},
+    {"id": "gaps", "text": "But the useful part is what broke. Escalation could hand a step to someone who owned a later step, so they'd approve the same request twice. And Slack showed approval times in UTC.", "cues": []},
+    {"id": "verdict", "text": "Kissflow doesn't publish prices. If your team just needs spend approvals, you mostly need the form, the rules, and a record of who approved what.", "cues": []}
+  ]
+}
