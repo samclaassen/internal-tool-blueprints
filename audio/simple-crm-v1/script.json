@@ -1,0 +1,100 @@
+{
+ "hook_clip": "Here's how to reverse engineer HubSpot from a written spec. Claude passed all twenty-seven checks, and found eight gaps in my spec.",
+ "outro_clip": "The full spec is free at personal software factory dot com. If you build it, tell me what broke. I'm Sam. See you tomorrow.",
+ "scenes": [
+  {
+   "id": "spec",
+   "text": "We gave Claude one Markdown file. It copies the part of HubSpot a small sales team actually uses. Contacts and companies, each with an owner. One deal pipeline, with stage probabilities. A log of every call, email and meeting. And CSV import, with a preview before anything is saved.",
+   "cues": [
+    "one Markdown file",
+    "Contacts and companies",
+    "One deal pipeline",
+    "A log of every call",
+    "CSV import"
+   ]
+  },
+  {
+   "id": "rule",
+   "text": "The core rule is the follow-up. Every contact always has a next follow-up date. It can be moved, but never cleared. Overdue contacts sit at the top, oldest first. And logging a call always sets the next date, three days out by default. So Grace Kim, six days overdue, is the first name Sam sees.",
+   "cues": [
+    "next follow-up date",
+    "never cleared",
+    "Overdue contacts",
+    "logging a call",
+    "Grace Kim"
+   ]
+  },
+  {
+   "id": "phases",
+   "text": "Claude built it in four phases, one prompt each. The foundation, with the team, companies and contacts. Activities, follow-ups, the Today screen and search. Deals and the pipeline. Then import, export and the daily digest. After every phase, the acceptance checks ran in a real browser, from fresh seed data.",
+   "cues": [
+    "The foundation",
+    "Activities, follow-ups",
+    "Deals and the pipeline",
+    "Then import",
+    "acceptance checks"
+   ]
+  },
+  {
+   "id": "screens",
+   "text": "Here's what it built. The contacts list puts late follow-ups first, with the days overdue. The pipeline board totals every stage, open and weighted. Logging a call moves the next follow-up a week out. The import preview flags duplicates and errors before anything is saved. And on a phone, Today shows who to call.",
+   "cues": [
+    "The contacts list",
+    "The pipeline board",
+    "Logging a call moves",
+    "The import preview",
+    "on a phone"
+   ]
+  },
+  {
+   "id": "result",
+   "text": "In the final run, on a fresh database, all twenty-seven checks passed, along with ninety-one automated tests.",
+   "cues": [
+    "twenty-seven checks",
+    "ninety-one"
+   ]
+  },
+  {
+   "id": "gaps",
+   "text": "But the more useful result is what broke. The build exposed eight gaps in the spec. Places where Claude had to guess. Owner-only buttons were hidden, but the checks expected a colleague to try them and see the refusal. Unarchiving a contact with no follow-up date had no rule. And the morning digest drifted with daylight saving on a UTC scheduler. Every gap is now fixed in the spec.",
+   "cues": [
+    "eight gaps",
+    "Owner-only buttons",
+    "Unarchiving",
+    "the morning digest",
+    "Every gap is now fixed"
+   ]
+  },
+  {
+   "id": "untested",
+   "text": "Passing every check isn't the same as production-ready. We didn't test real sign-in, sending email, the scheduled morning run, real phones, or hosting. Those are yours to check before a team relies on it.",
+   "cues": [
+    "real sign-in",
+    "sending email",
+    "the scheduled morning run",
+    "real phones",
+    "hosting"
+   ]
+  },
+  {
+   "id": "cost",
+   "text": "So is it worth building? HubSpot's free CRM covers up to two users. Paid seats start at fifteen dollars per seat per month. Pipedrive has no free tier, and starts at fourteen. If you rely on email sync, sequences or forecasting, pay for HubSpot. If your team works from contacts, deals and follow-ups, you mostly need the list, the board, and the reminder.",
+   "cues": [
+    "free CRM",
+    "fifteen dollars",
+    "Pipedrive",
+    "If you rely",
+    "If your team"
+   ]
+  },
+  {
+   "id": "cta",
+   "text": "Everything is in one file. The data model, twenty-one rules, seed data, four phase prompts, and all twenty-seven checks, with the eight fixes already in.",
+   "cues": [
+    "The data model",
+    "twenty-one rules",
+    "eight fixes"
+   ]
+  }
+ ]
+}
