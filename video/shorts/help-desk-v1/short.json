@@ -1,0 +1,70 @@
+{
+ "out": "hd-short.mp4",
+ "kicker": "Build test \u00b7 Zendesk alternative",
+ "title": "Can Claude replace Zendesk?",
+ "badge_image": "../sam_photo.jpg",
+ "music": "../music.mp3",
+ "music_volume": 0.08,
+ "words": "tts/words.json",
+ "highlight": [
+  "Zendesk",
+  "twenty",
+  "four",
+  "one",
+  "header",
+  "stranger's",
+  "nineteen",
+  "free"
+ ],
+ "segments": [
+  {
+   "type": "avatar",
+   "video": "hook.mp4",
+   "text": "Here's how to reverse engineer Zendesk from a written spec. Claude passed all twenty-four checks, and found twenty-one gaps in my spec."
+  },
+  {
+   "type": "product",
+   "scene": "build",
+   "audio": "tts/build.mp3",
+   "source": "long.mp4",
+   "from": 64.5,
+   "crop": [
+    80,
+    110,
+    1500,
+    850
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "gaps",
+   "audio": "tts/gaps.mp3",
+   "source": "long.mp4",
+   "from": 94.5,
+   "crop": [
+    900,
+    200,
+    1000,
+    760
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "verdict",
+   "audio": "tts/verdict.mp3",
+   "source": "long.mp4",
+   "from": 128.0,
+   "crop": [
+    40,
+    110,
+    1840,
+    960
+   ]
+  },
+  {
+   "type": "avatar",
+   "video": "../outro-generic-v2.mp4",
+   "text": "The full spec is free at personal software factory dot com. If you build it, tell me what broke. I'm Sam. See you tomorrow."
+  }
+ ]
+}

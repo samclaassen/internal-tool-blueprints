@@ -1,0 +1,5 @@
+{"scenes": [
+ {"id": "build", "text": "Claude built it in four phases, one prompt each. The queue shows every ticket's first-response state, with overdue tickets first.", "cues": []},
+ {"id": "gaps", "text": "But the useful part is what broke. Common email providers couldn't send the authentication header the spec required. And the threading rule had no sender check, so a stranger's reply could land on someone else's ticket.", "cues": []},
+ {"id": "verdict", "text": "Zendesk's Support Team plan is nineteen dollars per agent per month, paid yearly. If your small team answers customer email, you mostly need the queue, the threading, and the response targets.", "cues": []}
+]}
