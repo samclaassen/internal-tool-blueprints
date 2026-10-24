@@ -1,0 +1,28 @@
+{
+ "file": "long.mp4",
+ "title": "Build a HubSpot alternative with Claude: free simple CRM spec, 27/27 checks passed",
+ "description": "Claude built a HubSpot alternative from one Markdown spec: all 27 acceptance checks passed in a real browser, along with 91 automated tests.\nThe test build also exposed 8 gaps in the spec, and every one is now fixed.\n\nWe gave Claude one Markdown spec for a simple CRM for sales teams of 1 to 15 people and had it build the tool in four phases: the team, companies and contacts; activities, follow-ups, the Today screen and search; deals and the pipeline board; and CSV import, export and the daily digest. The core rule: every contact always has a next follow-up date that can be moved but never cleared, overdue contacts sit at the top, and logging a call always sets the next date. The gaps included owner-only buttons that were hidden while the checks expected a colleague to try them, unarchiving a contact with no stored follow-up date, and a morning digest that drifted with daylight saving on a UTC scheduler. What passed, what broke, what we didn't test, and when HubSpot is still worth paying for.\n\nChapters\n00:00 Reverse engineering HubSpot\n00:24 The core rule: follow-ups\n00:42 Four build phases\n01:02 What Claude built\n01:19 Result and what broke\n01:48 What we didn't test\n01:59 Is it worth building?\n02:21 Get the free spec\n\nSam's on-camera intro and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nThe spec (free): https://personalsoftwarefactory.com/blueprints/simple-crm\nHubSpot pricing and alternatives: https://personalsoftwarefactory.com/alternatives/hubspot\nAll blueprints on GitHub: https://github.com/samclaassen/internal-tool-blueprints\nBefore you rely on an AI-built tool: https://personalsoftwarefactory.com/guides/ai-built-tools-production-readiness\n\nHubSpot prices: the free CRM is free for up to 2 users (and, per its product page, up to 1,000 contacts); paid seats start at $15 per seat per month on Starter (hubspot.com/pricing/crm, October 2026). Pipedrive has no free tier: Lite $14, Growth $39, Premium $59 and Ultimate $79 per seat per month, billed annually (pipedrive.com/en/pricing, October 2026).\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/",
+ "tags": [
+  "HubSpot",
+  "HubSpot alternative",
+  "HubSpot pricing",
+  "build a HubSpot alternative",
+  "CRM",
+  "simple CRM",
+  "Pipedrive alternative",
+  "sales tools",
+  "Claude",
+  "AI app builder",
+  "spec-driven development",
+  "internal tools",
+  "build vs buy SaaS",
+  "personal software factory"
+ ],
+ "categoryId": "28",
+ "publishAt": "2026-10-26T16:00:00Z",
+ "thumbnail": "thumb.jpg",
+ "playlists": [
+  "PLQ_n7bK0gJf0",
+  "PLCsdkOh2DoTU"
+ ]
+}

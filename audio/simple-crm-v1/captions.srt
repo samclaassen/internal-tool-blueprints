@@ -1,0 +1,195 @@
+1
+00:00:00,150 --> 00:00:03,372
+Here's how to reverse engineer HubSpot from a written spec.
+
+2
+00:00:03,372 --> 00:00:07,250
+Claude passed all twenty-seven checks, and found eight gaps in my spec.
+
+3
+00:00:08,017 --> 00:00:09,809
+We gave Claude one Markdown file.
+
+4
+00:00:10,023 --> 00:00:12,967
+It copies the part of HubSpot a small sales team actually uses.
+
+5
+00:00:13,265 --> 00:00:15,484
+Contacts and companies, each with an owner.
+
+6
+00:00:15,783 --> 00:00:18,001
+One deal pipeline, with stage probabilities.
+
+7
+00:00:18,300 --> 00:00:20,598
+A log of every call, email and meeting.
+
+8
+00:00:20,806 --> 00:00:24,138
+And CSV import, with a preview before anything is saved.
+
+9
+00:00:25,217 --> 00:00:26,753
+The core rule is the follow-up.
+
+10
+00:00:26,966 --> 00:00:29,334
+Every contact always has a next follow-up date.
+
+11
+00:00:29,526 --> 00:00:31,382
+It can be moved, but never cleared.
+
+12
+00:00:31,702 --> 00:00:34,390
+Overdue contacts sit at the top, oldest first.
+
+13
+00:00:34,646 --> 00:00:37,953
+And logging a call always sets the next date, three days out by default.
+
+14
+00:00:38,145 --> 00:00:41,891
+So Grace Kim, six days overdue, is the first name Sam sees.
+
+15
+00:00:42,983 --> 00:00:45,457
+Claude built it in four phases, one prompt each.
+
+16
+00:00:45,713 --> 00:00:48,529
+The foundation, with the team, companies and contacts.
+
+17
+00:00:48,785 --> 00:00:51,793
+Activities, follow-ups, the Today screen and search.
+
+18
+00:00:52,071 --> 00:00:53,265
+Deals and the pipeline.
+
+19
+00:00:53,521 --> 00:00:56,184
+Then import, export and the daily digest.
+
+20
+00:00:56,371 --> 00:01:01,190
+After every phase, the acceptance checks ran in a real browser, from fresh seed data.
+
+21
+00:01:02,283 --> 00:01:03,179
+Here's what it built.
+
+22
+00:01:03,478 --> 00:01:07,019
+The contacts list puts late follow-ups first, with the days overdue.
+
+23
+00:01:07,275 --> 00:01:10,539
+The pipeline board totals every stage, open and weighted.
+
+24
+00:01:10,816 --> 00:01:13,158
+Logging a call moves the next follow-up a week out.
+
+25
+00:01:13,323 --> 00:01:16,800
+The import preview flags duplicates and errors before anything is saved.
+
+26
+00:01:16,992 --> 00:01:19,082
+And on a phone, Today shows who to call.
+
+27
+00:01:20,183 --> 00:01:25,959
+In the final run, on a fresh database, all twenty-seven checks passed, along with ninety-one automated tests.
+
+28
+00:01:27,050 --> 00:01:29,120
+But the more useful result is what broke.
+
+29
+00:01:29,397 --> 00:01:31,552
+The build exposed eight gaps in the spec.
+
+30
+00:01:31,786 --> 00:01:33,386
+Places where Claude had to guess.
+
+31
+00:01:33,749 --> 00:01:38,118
+Owner-only buttons were hidden, but the checks expected a colleague to try them and see the refusal.
+
+32
+00:01:38,307 --> 00:01:41,400
+Unarchiving a contact with no follow-up date had no rule.
+
+33
+00:01:41,720 --> 00:01:45,133
+And the morning digest drifted with daylight saving on a UTC scheduler.
+
+34
+00:01:45,389 --> 00:01:47,432
+Every gap is now fixed in the spec.
+
+35
+00:01:48,517 --> 00:01:50,992
+Passing every check isn't the same as production-ready.
+
+36
+00:01:51,248 --> 00:01:56,389
+We didn't test real sign-in, sending email, the scheduled morning run, real phones, or hosting.
+
+37
+00:01:56,624 --> 00:01:58,670
+Those are yours to check before a team relies on it.
+
+38
+00:01:59,750 --> 00:02:01,115
+So is it worth building?
+
+39
+00:02:01,499 --> 00:02:03,846
+HubSpot's free CRM covers up to two users.
+
+40
+00:02:04,059 --> 00:02:06,576
+Paid seats start at fifteen dollars per seat per month.
+
+41
+00:02:06,790 --> 00:02:09,452
+Pipedrive has no free tier, and starts at fourteen.
+
+42
+00:02:09,597 --> 00:02:14,163
+If you rely on email sync, sequences or forecasting, pay for HubSpot.
+
+43
+00:02:14,461 --> 00:02:20,337
+If your team works from contacts, deals and follow-ups, you mostly need the list, the board, and the reminder.
+
+44
+00:02:21,417 --> 00:02:22,761
+Everything is in one file.
+
+45
+00:02:22,996 --> 00:02:29,824
+The data model, twenty-one rules, seed data, four phase prompts, and all twenty-seven checks, with the eight fixes already in.
+
+46
+00:02:30,700 --> 00:02:34,191
+The full spec is free at personal software factory dot com.
+
+47
+00:02:34,191 --> 00:02:36,321
+If you build it, tell me what broke.
+
+48
+00:02:36,321 --> 00:02:36,794
+I'm Sam.
+
+49
+00:02:36,794 --> 00:02:37,800
+See you tomorrow.
