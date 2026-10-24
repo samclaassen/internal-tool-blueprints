@@ -1,0 +1,5 @@
+{"scenes": [
+ {"id": "build", "text": "Claude built it in four phases, one prompt each. Every contact always has a next follow-up, and the late ones sit at the top, oldest first.", "cues": []},
+ {"id": "gaps", "text": "But the useful part is what broke. Owner-only buttons were hidden, so the checks couldn't even try them. And unarchiving a contact with no follow-up date had no rule.", "cues": []},
+ {"id": "verdict", "text": "HubSpot's free CRM covers two users, and paid seats start at fifteen dollars per seat per month. If your team works from contacts, deals and follow-ups, you mostly need the list, the board, and the reminder.", "cues": []}
+]}
