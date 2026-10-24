@@ -1,0 +1,5 @@
+{"scenes": [
+ {"id": "build", "text": "Claude built it in four phases, one prompt each. The editor keeps list prices fixed, updates totals live, and warns when a discount needs a manager.", "cues": []},
+ {"id": "gaps", "text": "But the useful part is what broke. Sign-in matched people by email, but the seed people had no emails. And Duplicate didn't say what gets copied, like the discount and notes.", "cues": []},
+ {"id": "verdict", "text": "PandaDoc Starter is nineteen dollars per seat per month, and Business is forty-nine. If you send a few quotes a week, you mostly need the price list, the approval rule, and an accept link.", "cues": []}
+]}
