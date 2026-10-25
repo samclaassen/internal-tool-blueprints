@@ -1,0 +1,27 @@
+{
+ "file": "long.mp4",
+ "title": "Build a CoSchedule alternative with Claude: free content calendar spec, 27/27 checks passed",
+ "description": "Claude built a CoSchedule alternative from one Markdown spec: all 27 acceptance checks passed in a real browser, along with 63 automated tests.\nThe test build also exposed 8 gaps in the spec, and every one is now fixed.\n\nWe gave Claude one Markdown spec for a small-team content calendar and had it build the tool in four phases: the foundation with channels, campaigns and settings; pieces, the calendar, the backlog and the pipeline; review and publishing; and reminders, overdue flags, the weekly digest and campaign moves. The core rule: a piece only reaches Scheduled through an editor's approval, and nobody approves their own piece. The gaps included sign-in that told strangers to ask an editor to add them when no screen managed people, a spec that let editors withdraw any piece in one section and only the owner in another, and a daily job at 08:00 team time that can't be one UTC cron schedule. What passed, what broke, what we didn't test, and when CoSchedule is still worth paying for.\n\nChapters\n00:00 Reverse engineering CoSchedule\n00:24 The core rule: editor approval\n00:42 Four build phases\n01:02 What Claude built\n01:21 Result and what broke\n01:50 What we didn't test\n02:01 Is it worth building?\n02:24 Get the free spec\n\nSam's on-camera intro and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nThe spec (free): https://personalsoftwarefactory.com/blueprints/content-calendar\nCoSchedule pricing and alternatives: https://personalsoftwarefactory.com/alternatives/coschedule\nAll blueprints on GitHub: https://github.com/samclaassen/internal-tool-blueprints\nBefore you rely on an AI-built tool: https://personalsoftwarefactory.com/guides/ai-built-tools-production-readiness\n\nCoSchedule prices: Starter is $29 per month billed annually for 1 user; Professional is $49 per month billed annually with 2 users included (3 maximum, $29 per extra seat); campaigns are listed only on the Suite plan, custom pricing from $69 per month (coschedule.com/pricing, October 2026).\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/",
+ "tags": [
+  "CoSchedule",
+  "CoSchedule alternative",
+  "CoSchedule pricing",
+  "build a CoSchedule alternative",
+  "content calendar",
+  "editorial calendar",
+  "marketing tools",
+  "Claude",
+  "AI app builder",
+  "spec-driven development",
+  "internal tools",
+  "build vs buy SaaS",
+  "personal software factory"
+ ],
+ "categoryId": "28",
+ "publishAt": "2026-10-27T16:00:00Z",
+ "thumbnail": "thumb.jpg",
+ "playlists": [
+  "PLQ_n7bK0gJf0",
+  "PLLBNFDc05BbM"
+ ]
+}

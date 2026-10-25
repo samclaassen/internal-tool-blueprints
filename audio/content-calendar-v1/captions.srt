@@ -1,0 +1,196 @@
+1
+00:00:00,200 --> 00:00:03,435
+Here's how to reverse engineer CoSchedule from a written spec.
+
+2
+00:00:03,435 --> 00:00:07,140
+Claude passed all twenty-seven checks, and found eight gaps in my spec.
+
+3
+00:00:07,950 --> 00:00:09,900
+We gave Claude one Markdown file.
+
+4
+00:00:09,913 --> 00:00:13,313
+It copies the part of CoSchedule a small marketing team actually uses.
+
+5
+00:00:13,454 --> 00:00:16,022
+One calendar for every channel, colored by channel.
+
+6
+00:00:16,057 --> 00:00:19,718
+A record per piece, with an owner, a status and a publish date.
+
+7
+00:00:19,736 --> 00:00:22,134
+An editor's approval before anything is scheduled.
+
+8
+00:00:22,126 --> 00:00:24,290
+And campaigns you can move as a block.
+
+9
+00:00:25,183 --> 00:00:26,983
+The core rule is approval.
+
+10
+00:00:26,975 --> 00:00:28,967
+Every piece moves through five steps.
+
+11
+00:00:28,980 --> 00:00:32,679
+Idea, writing, in review, scheduled, published.
+
+12
+00:00:32,692 --> 00:00:35,217
+The only way into scheduled is an editor's approval.
+
+13
+00:00:35,209 --> 00:00:37,135
+And nobody approves their own piece.
+
+14
+00:00:37,167 --> 00:00:41,628
+When Maya, an editor, sends her own post for review, it goes to Dana instead.
+
+15
+00:00:42,517 --> 00:00:45,255
+Claude built it in four phases, one prompt each.
+
+16
+00:00:45,290 --> 00:00:48,391
+The foundation, with channels, campaigns and settings.
+
+17
+00:00:48,447 --> 00:00:51,463
+Pieces, the calendar, the backlog and the pipeline.
+
+18
+00:00:51,434 --> 00:00:52,703
+Review and publishing.
+
+19
+00:00:52,718 --> 00:00:57,035
+Then reminders, overdue flags, the weekly digest and campaign moves.
+
+20
+00:00:57,070 --> 00:01:02,043
+After every phase, the acceptance checks ran in a real browser, from fresh seed data.
+
+21
+00:01:02,950 --> 00:01:04,089
+Here's what it built.
+
+22
+00:01:04,230 --> 00:01:09,187
+The month calendar puts each piece on its date in its channel color, and flags the overdue video.
+
+23
+00:01:09,350 --> 00:01:11,469
+The pipeline board counts every status.
+
+24
+00:01:11,482 --> 00:01:15,607
+A piece in review shows Approve and Request changes, with the full activity log.
+
+25
+00:01:15,749 --> 00:01:18,786
+The weekly digest lists what publishes in the next seven days.
+
+26
+00:01:18,906 --> 00:01:21,144
+And on a phone, the month becomes an agenda.
+
+27
+00:01:22,050 --> 00:01:27,337
+In the final browser run, all twenty-seven checks passed, along with sixty-three automated tests.
+
+28
+00:01:28,217 --> 00:01:30,401
+But the more useful result is what broke.
+
+29
+00:01:30,479 --> 00:01:32,535
+The build exposed eight gaps in the spec.
+
+30
+00:01:32,484 --> 00:01:34,049
+Places where Claude had to guess.
+
+31
+00:01:34,105 --> 00:01:38,269
+Sign-in told strangers to ask an editor to add them, but no screen managed people.
+
+32
+00:01:38,278 --> 00:01:42,702
+One part of the spec let editors withdraw any piece, while another said owner only.
+
+33
+00:01:42,843 --> 00:01:47,438
+And a daily job at eight in the morning, team time, can't be one UTC cron schedule.
+
+34
+00:01:47,536 --> 00:01:49,473
+Every gap is now fixed in the spec.
+
+35
+00:01:50,350 --> 00:01:52,854
+Passing every check isn't the same as production-ready.
+
+36
+00:01:52,867 --> 00:01:58,635
+We didn't test production sign-in, sending email, the scheduled daily job, or several servers writing at once.
+
+37
+00:01:58,670 --> 00:02:01,004
+Those are yours to check before a team relies on it.
+
+38
+00:02:01,883 --> 00:02:03,341
+So is it worth building?
+
+39
+00:02:03,504 --> 00:02:07,949
+CoSchedule Starter is twenty-nine dollars a month, billed annually, for one user.
+
+40
+00:02:08,069 --> 00:02:11,256
+Professional is forty-nine, with two users included.
+
+41
+00:02:11,269 --> 00:02:14,534
+Campaigns are only on the Suite plan, from sixty-nine dollars a month.
+
+42
+00:02:14,540 --> 00:02:18,879
+If you want posts published straight to social networks, with analytics, pay for CoSchedule.
+
+43
+00:02:18,935 --> 00:02:23,866
+If your team just needs the plan, you mostly need the calendar, the approval step, and the reminders.
+
+44
+00:02:24,750 --> 00:02:26,294
+Everything is in one file.
+
+45
+00:02:26,329 --> 00:02:33,183
+The data model, seventeen rules, seed data, four phase prompts, and all twenty-seven checks, with the eight fixes already in.
+
+46
+00:02:33,933 --> 00:02:37,326
+The full spec is free at personal software factory dot com.
+
+47
+00:02:37,326 --> 00:02:39,396
+If you build it, tell me what broke.
+
+48
+00:02:39,396 --> 00:02:39,856
+I'm Sam.
+
+49
+00:02:39,856 --> 00:02:40,833
+See you tomorrow.
+
