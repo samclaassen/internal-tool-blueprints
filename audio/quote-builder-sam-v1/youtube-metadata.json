@@ -1,0 +1,28 @@
+{
+ "file": "long.mp4",
+ "title": "Build a PandaDoc alternative with Claude: free quote builder spec, 29/29 checks passed",
+ "description": "Claude built a PandaDoc alternative from one Markdown spec: all 29 acceptance checks passed in a real browser, along with 47 automated tests.\nThe test build also exposed 8 gaps in the spec, and every one is now fixed.\n\nWe gave Claude one Markdown spec for a small-team quote builder and had it build the tool in four phases: the foundation with clients, the price list and settings; quotes and pricing; approval, sending and the client page; and expiry, printing and invoices. The core rule: a quote whose total discount is over the 15% threshold needs a manager's approval before it can be sent, and no manager can approve their own quote. The gaps included sign-in that matched people by email when the seed people had no emails, a Duplicate action that didn't say what gets copied, and an approval request with no other manager to approve it. What passed, what broke, what we didn't test, and when PandaDoc is still worth paying for.\n\nChapters\n00:00 Reverse engineering PandaDoc\n00:25 The core rule: discount approval\n00:44 Four build phases\n01:00 What Claude built\n01:20 Result and what broke\n01:47 What we didn't test\n02:00 Is it worth building?\n02:22 Get the free spec\n\nSam's on-camera intro and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nThe spec (free): https://personalsoftwarefactory.com/blueprints/quote-builder\nPandaDoc pricing and alternatives: https://personalsoftwarefactory.com/alternatives/pandadoc\nAll blueprints on GitHub: https://github.com/samclaassen/internal-tool-blueprints\nBefore you rely on an AI-built tool: https://personalsoftwarefactory.com/guides/ai-built-tools-production-readiness\n\nPandaDoc prices: Starter is $19 per seat per month (up to 5 templates); Business is $49 per seat per month, or $5,880 a year for 10 seats (pandadoc.com/pricing, October 2026).\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/",
+ "tags": [
+  "AI app builder",
+  "Claude",
+  "PandaDoc",
+  "PandaDoc alternative",
+  "PandaDoc pricing",
+  "build a PandaDoc alternative",
+  "build vs buy SaaS",
+  "internal tools",
+  "personal software factory",
+  "proposal software",
+  "quote builder",
+  "quoting software",
+  "sales tools",
+  "spec-driven development"
+ ],
+ "categoryId": "28",
+ "publishAt": "2026-10-25T16:00:00Z",
+ "thumbnail": "old_thumb.jpg",
+ "playlists": [
+  "PLQ_n7bK0gJf0",
+  "PLCsdkOh2DoTU"
+ ]
+}
