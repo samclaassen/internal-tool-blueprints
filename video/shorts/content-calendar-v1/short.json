@@ -1,0 +1,71 @@
+{
+ "out": "cc-short.mp4",
+ "kicker": "Build test \u00b7 CoSchedule alternative",
+ "title": "Can Claude replace CoSchedule?",
+ "badge_image": "../sam_photo.jpg",
+ "music": "../music.mp3",
+ "music_volume": 0.08,
+ "words": "stts/words.json",
+ "highlight": [
+  "CoSchedule",
+  "twenty",
+  "seven",
+  "eight",
+  "approves",
+  "people",
+  "owner",
+  "twenty-nine",
+  "Suite"
+ ],
+ "segments": [
+  {
+   "type": "avatar",
+   "video": "hook.mp4",
+   "text": "Here's how to reverse engineer CoSchedule from a written spec. Claude passed all twenty-seven checks, and found eight gaps in my spec."
+  },
+  {
+   "type": "product",
+   "scene": "build",
+   "audio": "stts/build.mp3",
+   "source": "long.mp4",
+   "from": 64.3,
+   "crop": [
+    340,
+    140,
+    1240,
+    780
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "gaps",
+   "audio": "stts/gaps.mp3",
+   "source": "long.mp4",
+   "from": 91.8,
+   "crop": [
+    880,
+    250,
+    980,
+    680
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "verdict",
+   "audio": "stts/verdict.mp3",
+   "source": "long.mp4",
+   "from": 129.5,
+   "crop": [
+    70,
+    260,
+    1000,
+    640
+   ]
+  },
+  {
+   "type": "avatar",
+   "video": "../outro-generic-v2.mp4",
+   "text": "The full spec is free at personal software factory dot com. If you build it, tell me what broke. I'm Sam. See you tomorrow."
+  }
+ ]
+}

@@ -1,0 +1,21 @@
+{
+ "file": "cc-short.mp4",
+ "short": true,
+ "title": "Can Claude replace CoSchedule? 27/27 checks, 8 spec gaps #shorts",
+ "description": "Claude built a CoSchedule alternative, a content calendar with editor approval, from one written spec: all 27 acceptance checks passed, and the build exposed 8 gaps in the spec.\n\nFull build test (2:41): https://youtu.be/KpdbUvlQ_s4\nThe free spec: https://personalsoftwarefactory.com/blueprints/content-calendar\nCoSchedule pricing and alternatives: https://personalsoftwarefactory.com/alternatives/coschedule\n\nMade with AI: Sam's on-camera hook and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/\n\n#shorts #claude #coschedule",
+ "tags": [
+  "CoSchedule alternative",
+  "CoSchedule",
+  "build a CoSchedule alternative",
+  "content calendar",
+  "editorial calendar",
+  "Claude",
+  "AI app builder",
+  "internal tools",
+  "build vs buy SaaS",
+  "personal software factory",
+  "shorts"
+ ],
+ "categoryId": "28",
+ "publishAt": "2026-10-27T20:00:00Z"
+}

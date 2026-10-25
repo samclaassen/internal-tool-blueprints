@@ -1,0 +1,19 @@
+{
+ "scenes": [
+  {
+   "id": "build",
+   "text": "Claude built it in four phases, one prompt each. Every piece sits on a month calendar in its channel color, and nothing is scheduled until an editor who didn't write it approves it.",
+   "cues": []
+  },
+  {
+   "id": "gaps",
+   "text": "But the useful part is what broke. Sign-in told strangers to ask an editor to add them, but no screen managed people. And one part of the spec let editors withdraw any piece, while another said owner only.",
+   "cues": []
+  },
+  {
+   "id": "verdict",
+   "text": "CoSchedule Starter is twenty-nine dollars a month for one user, and campaigns need the Suite plan. If your team just needs the plan, you mostly need the calendar, the approval step, and the reminders.",
+   "cues": []
+  }
+ ]
+}
