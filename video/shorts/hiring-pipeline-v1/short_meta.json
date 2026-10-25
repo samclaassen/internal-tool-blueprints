@@ -1,0 +1,21 @@
+{
+ "file": "hiring-short.mp4",
+ "short": true,
+ "title": "Can Claude replace Greenhouse? 29/29 checks, 18 spec gaps #shorts",
+ "description": "Claude built a Greenhouse alternative, a hiring pipeline with honest scorecards, from one written spec: all 29 acceptance checks passed, and the build exposed 18 gaps in the spec.\n\nFull build test (2:42): https://youtu.be/rw6fRDPld90\nThe free spec: https://personalsoftwarefactory.com/blueprints/hiring-pipeline\nGreenhouse pricing and alternatives: https://personalsoftwarefactory.com/alternatives/greenhouse\n\nMade with AI: Sam's on-camera hook and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/\n\n#shorts #claude #greenhouse",
+ "tags": [
+  "Greenhouse alternative",
+  "Greenhouse",
+  "build a Greenhouse alternative",
+  "hiring pipeline",
+  "applicant tracking system",
+  "Claude",
+  "AI app builder",
+  "internal tools",
+  "build vs buy SaaS",
+  "personal software factory",
+  "shorts"
+ ],
+ "categoryId": "28",
+ "publishAt": "2026-10-27T00:00:00Z"
+}

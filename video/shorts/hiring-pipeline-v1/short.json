@@ -1,0 +1,69 @@
+{
+ "out": "hiring-short.mp4",
+ "kicker": "Build test \u00b7 Greenhouse alternative",
+ "title": "Can Claude replace Greenhouse?",
+ "badge_image": "../sam_photo.jpg",
+ "music": "../music.mp3",
+ "music_volume": 0.08,
+ "words": "stts/words.json",
+ "highlight": [
+  "Greenhouse",
+  "twenty",
+  "nine",
+  "eighteen",
+  "scorecard",
+  "hidden",
+  "prices"
+ ],
+ "segments": [
+  {
+   "type": "avatar",
+   "video": "hook.mp4",
+   "text": "Here's how to reverse engineer Greenhouse from a written spec. Claude passed all twenty-nine checks, and found eighteen gaps in my spec."
+  },
+  {
+   "type": "product",
+   "scene": "build",
+   "audio": "stts/build.mp3",
+   "source": "long.mp4",
+   "from": 37.8,
+   "crop": [
+    60,
+    255,
+    1060,
+    580
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "gaps",
+   "audio": "stts/gaps.mp3",
+   "source": "long.mp4",
+   "from": 98.0,
+   "crop": [
+    890,
+    240,
+    980,
+    680
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "verdict",
+   "audio": "stts/verdict.mp3",
+   "source": "long.mp4",
+   "from": 138.0,
+   "crop": [
+    60,
+    240,
+    1000,
+    640
+   ]
+  },
+  {
+   "type": "avatar",
+   "video": "../outro-generic-v2.mp4",
+   "text": "The full spec is free at personal software factory dot com. If you build it, tell me what broke. I'm Sam. See you tomorrow."
+  }
+ ]
+}

@@ -1,0 +1,5 @@
+{"scenes": [
+ {"id": "build", "text": "Claude built it in four phases, one prompt each. Every interviewer submits their own scorecard before they can read anyone else's, even the hiring manager.", "cues": []},
+ {"id": "gaps", "text": "But the useful part is what broke. The CSV export counted recommendations, which could reveal hidden scorecards. And data retention wiped a candidate's phone number while another application was still open.", "cues": []},
+ {"id": "verdict", "text": "Greenhouse doesn't publish prices. All three plans say get a demo. If you hire for a few roles at a time, you mostly need the board, honest scorecards, and a decision on every candidate.", "cues": []}
+]}
