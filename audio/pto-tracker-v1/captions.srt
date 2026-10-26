@@ -1,0 +1,196 @@
+1
+00:00:00,100 --> 00:00:03,600
+Here's how to reverse engineer Timetastic from a written spec.
+
+2
+00:00:03,650 --> 00:00:07,550
+Claude passed all thirty-two checks, and found seven gaps in my spec.
+
+3
+00:00:08,383 --> 00:00:10,389
+We gave Claude one Markdown file.
+
+4
+00:00:10,431 --> 00:00:13,845
+It copies the part of Timetastic a small team actually uses.
+
+5
+00:00:13,972 --> 00:00:15,742
+A shared calendar of who's off.
+
+6
+00:00:15,804 --> 00:00:17,959
+Requests that go to each person's approver.
+
+7
+00:00:18,023 --> 00:00:20,925
+Half days, and public holidays that are never charged.
+
+8
+00:00:21,009 --> 00:00:23,628
+And a yearly allowance, with capped carry-over.
+
+9
+00:00:24,583 --> 00:00:26,909
+The core rule is how leave is counted.
+
+10
+00:00:27,057 --> 00:00:29,213
+Every day has a morning and an afternoon.
+
+11
+00:00:29,447 --> 00:00:33,048
+Days the person doesn't work, and public holidays, are skipped.
+
+12
+00:00:33,107 --> 00:00:38,868
+So Maya's request from Thursday, December twenty-fourth to Monday the twenty-eighth costs two days, not five.
+
+13
+00:00:38,995 --> 00:00:41,417
+Christmas is a holiday, and the weekend is skipped.
+
+14
+00:00:41,576 --> 00:00:45,696
+And her balance is worked out from her requests every time, so it can never drift.
+
+15
+00:00:46,650 --> 00:00:49,232
+Claude built it in four phases, one prompt each.
+
+16
+00:00:49,338 --> 00:00:53,434
+The foundation, with people, teams, leave types and holidays.
+
+17
+00:00:53,476 --> 00:00:55,781
+Requests, balances and approvals.
+
+18
+00:00:55,866 --> 00:00:58,559
+Who's out, the team calendar and notifications.
+
+19
+00:00:58,734 --> 00:01:01,529
+Then year end, export and the calendar feed.
+
+20
+00:01:01,678 --> 00:01:06,349
+After every phase, the acceptance checks ran in a real browser, from fresh seed data.
+
+21
+00:01:07,283 --> 00:01:08,265
+Here's what it built.
+
+22
+00:01:08,350 --> 00:01:13,641
+Who's out shows who's off today and next week, with requests waiting for approval listed apart.
+
+23
+00:01:13,854 --> 00:01:17,901
+The team calendar marks everyone's leave by day, with pending requests dashed.
+
+24
+00:01:17,893 --> 00:01:22,310
+The approver sees Approve and Decline on top, with an also-out warning and the balance.
+
+25
+00:01:22,501 --> 00:01:26,278
+Admin allowances shows every balance, including Priya at minus one day.
+
+26
+00:01:26,341 --> 00:01:29,503
+And on a phone, a new request previews one and a half days.
+
+27
+00:01:30,450 --> 00:01:36,120
+In the final run, on a fresh database, all thirty-two checks passed, along with seventy-one automated tests.
+
+28
+00:01:37,050 --> 00:01:39,206
+But the more useful result is what broke.
+
+29
+00:01:39,312 --> 00:01:41,702
+The build exposed seven gaps in the spec.
+
+30
+00:01:41,786 --> 00:01:43,664
+Places where Claude had to guess.
+
+31
+00:01:43,877 --> 00:01:48,207
+Just viewing last year created allowance rows, which then blocked closing the current year.
+
+32
+00:01:48,225 --> 00:01:51,405
+The team calendar didn't say whether a holiday or a day off wins.
+
+33
+00:01:51,511 --> 00:01:55,330
+And a pending request that had already started had nowhere to show on Who's out.
+
+34
+00:01:55,479 --> 00:01:57,582
+Every gap is now fixed in the spec.
+
+35
+00:01:58,517 --> 00:02:00,928
+Passing every check isn't the same as production-ready.
+
+36
+00:02:01,077 --> 00:02:07,883
+We didn't test production sign-in, sending email, subscribing to the calendar feed, the hourly job on a real scheduler, or hosting.
+
+37
+00:02:07,946 --> 00:02:10,697
+Those are yours to check before a team relies on it.
+
+38
+00:02:11,650 --> 00:02:13,122
+So is it worth building?
+
+39
+00:02:13,314 --> 00:02:15,192
+Honestly, not to save money.
+
+40
+00:02:15,319 --> 00:02:19,885
+Timetastic Business is a dollar fifty per user per month, and Pro is two dollars fifty.
+
+41
+00:02:19,970 --> 00:02:23,317
+For twenty people on Business, that's three hundred and sixty dollars a year.
+
+42
+00:02:23,336 --> 00:02:28,478
+If you need holiday lists for many regions, accruals, or Slack and Teams, buy Timetastic.
+
+43
+00:02:28,584 --> 00:02:32,259
+Build it when you want your own rules and data, next to your other internal tools.
+
+44
+00:02:33,183 --> 00:02:34,656
+Everything is in one file.
+
+45
+00:02:34,762 --> 00:02:42,251
+The data model, seventeen rules, seed data, four phase prompts, and all thirty-two checks, with the seven fixes already in.
+
+46
+00:02:42,967 --> 00:02:46,408
+The full spec is free at personal software factory dot com.
+
+47
+00:02:46,458 --> 00:02:48,538
+If you build it, tell me what broke.
+
+48
+00:02:48,588 --> 00:02:49,011
+I'm Sam.
+
+49
+00:02:49,061 --> 00:02:50,017
+See you tomorrow.
+

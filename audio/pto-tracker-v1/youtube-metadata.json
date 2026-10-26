@@ -1,0 +1,28 @@
+{
+ "file": "long.mp4",
+ "title": "Build a Timetastic alternative with Claude: free time-off tracker spec, 32/32 checks passed",
+ "description": "Claude built a Timetastic alternative from one Markdown spec: all 32 acceptance checks passed in a real browser, along with 71 automated tests.\nThe test build also exposed 7 gaps in the spec, and every one is now fixed.\n\nWe gave Claude one Markdown spec for a time-off tracker for teams of 5 to 100 people and had it build the tool in four phases: people, teams, leave types and holidays; requests, balances and approvals; Who's out, the team calendar and notifications; and year end, CSV export and a calendar feed. The core rule: every day has a morning and an afternoon, days the person doesn't work and public holidays are never charged, and balances are computed from the requests every time, so they can't drift. The gaps included Admin allowances writing rows when someone merely viewed last year (which then blocked closing the current year), a team calendar that didn't say whether a holiday or a day off wins, and a pending request that had started with nowhere to appear on Who's out. What passed, what broke, what we didn't test, and when Timetastic is still the better buy.\n\nChapters\n00:00 Reverse engineering Timetastic\n00:24 The core rule: counting leave\n00:46 Four build phases\n01:06 What Claude built\n01:30 Result and what broke\n01:58 What we didn't test\n02:11 Is it worth building?\n02:32 Get the free spec\n\nSam's on-camera intro and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nThe spec (free): https://personalsoftwarefactory.com/blueprints/pto-tracker\nTimetastic pricing and alternatives: https://personalsoftwarefactory.com/alternatives/timetastic\nAll blueprints on GitHub: https://github.com/samclaassen/internal-tool-blueprints\nBefore you rely on an AI-built tool: https://personalsoftwarefactory.com/guides/ai-built-tools-production-readiness\n\nTimetastic prices: Business $1.50 and Pro $2.50 per user per month, paid monthly with no minimum term, after a one-month free trial; Rota & Time Clock is a separate plan at $5.50 per user per month (timetastic.co.uk/pricing, October 2026). For 20 people on Business that is $360 a year.\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/",
+ "tags": [
+  "Timetastic",
+  "Timetastic alternative",
+  "Timetastic pricing",
+  "build a Timetastic alternative",
+  "PTO tracker",
+  "time-off tracker",
+  "leave management",
+  "HR tools",
+  "Claude",
+  "AI app builder",
+  "spec-driven development",
+  "internal tools",
+  "build vs buy SaaS",
+  "personal software factory"
+ ],
+ "categoryId": "28",
+ "publishAt": "2026-10-28T16:00:00Z",
+ "thumbnail": "thumb.jpg",
+ "playlists": [
+  "PLQ_n7bK0gJf0",
+  "PLQ2NkBPBMzSw"
+ ]
+}
