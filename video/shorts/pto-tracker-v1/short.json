@@ -1,0 +1,72 @@
+{
+ "out": "pto-short.mp4",
+ "kicker": "Build test · Timetastic alternative",
+ "title": "Can Claude replace Timetastic?",
+ "badge_image": "../sam_photo.jpg",
+ "music": "../music.mp3",
+ "music_volume": 0.08,
+ "words": "stts/words.json",
+ "highlight": [
+  "Timetastic",
+  "thirty",
+  "two",
+  "seven",
+  "two days",
+  "five",
+  "viewing",
+  "blocked",
+  "fifty",
+  "own"
+ ],
+ "segments": [
+  {
+   "type": "avatar",
+   "video": "hook.mp4",
+   "text": "Here's how to reverse engineer Timetastic from a written spec. Claude passed all thirty-two checks, and found seven gaps in my spec."
+  },
+  {
+   "type": "product",
+   "scene": "build",
+   "audio": "stts/build.mp3",
+   "source": "long.mp4",
+   "from": 31.0,
+   "crop": [
+    60,
+    250,
+    1060,
+    700
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "gaps",
+   "audio": "stts/gaps.mp3",
+   "source": "long.mp4",
+   "from": 101.5,
+   "crop": [
+    950,
+    250,
+    900,
+    680
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "verdict",
+   "audio": "stts/verdict.mp3",
+   "source": "long.mp4",
+   "from": 137.0,
+   "crop": [
+    60,
+    130,
+    1000,
+    740
+   ]
+  },
+  {
+   "type": "avatar",
+   "video": "../outro-generic-v2.mp4",
+   "text": "The full spec is free at personal software factory dot com. If you build it, tell me what broke. I'm Sam. See you tomorrow."
+  }
+ ]
+}

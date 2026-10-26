@@ -1,0 +1,22 @@
+{
+ "file": "pto-short.mp4",
+ "short": true,
+ "title": "Can Claude replace Timetastic? 32/32 checks, 7 spec gaps #shorts",
+ "description": "Claude built a Timetastic alternative, a time-off tracker with half days, holidays and approvals, from one written spec: all 32 acceptance checks passed, and the build exposed 7 gaps in the spec.\n\nFull build test (2:51): https://youtu.be/Bx2m_GK5A24\nThe free spec: https://personalsoftwarefactory.com/blueprints/pto-tracker\nTimetastic pricing and alternatives: https://personalsoftwarefactory.com/alternatives/timetastic\n\nTimetastic Business is $1.50 and Pro $2.50 per user per month (timetastic.co.uk/pricing, October 2026).\n\nMade with AI: Sam's on-camera hook and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/\n\n#shorts #claude #timetastic",
+ "tags": [
+  "Timetastic alternative",
+  "Timetastic",
+  "build a Timetastic alternative",
+  "PTO tracker",
+  "time-off tracker",
+  "leave management",
+  "Claude",
+  "AI app builder",
+  "internal tools",
+  "build vs buy SaaS",
+  "personal software factory",
+  "shorts"
+ ],
+ "categoryId": "28",
+ "publishAt": "2026-10-28T20:00:00Z"
+}

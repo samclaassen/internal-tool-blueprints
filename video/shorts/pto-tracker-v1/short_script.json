@@ -1,0 +1,7 @@
+{
+  "scenes": [
+    {"id": "build", "text": "Claude built it in four phases, one prompt each. Every day has a morning and an afternoon, so Christmas Eve to the twenty-eighth costs two days, not five. Holidays and weekends are never charged.", "cues": []},
+    {"id": "gaps", "text": "But the useful part is what broke. Just viewing last year created allowance rows, which then blocked closing the current year. And the calendar didn't say whether a holiday or a day off wins.", "cues": []},
+    {"id": "verdict", "text": "Honestly, Timetastic is cheap. A dollar fifty per user per month. Build it when you want your own leave rules and data, next to your other internal tools.", "cues": []}
+  ]
+}
