@@ -1,0 +1,24 @@
+{
+  "hook_clip": "Here's how to reverse engineer Timetastic from a written spec. Claude passed all thirty-two checks, and found seven gaps in my spec.",
+  "outro_clip": "The full spec is free at personal software factory dot com. If you build it, tell me what broke. I'm Sam. See you tomorrow.",
+  "scenes": [
+    {"id": "spec", "text": "We gave Claude one Markdown file. It copies the part of Timetastic a small team actually uses. A shared calendar of who's off. Requests that go to each person's approver. Half days, and public holidays that are never charged. And a yearly allowance, with capped carry-over.",
+     "cues": ["one Markdown file", "A shared calendar", "Requests that go", "Half days", "a yearly allowance"]},
+    {"id": "rule", "text": "The core rule is how leave is counted. Every day has a morning and an afternoon. Days the person doesn't work, and public holidays, are skipped. So Maya's request from Thursday, December twenty-fourth to Monday the twenty-eighth costs two days, not five. Christmas is a holiday, and the weekend is skipped. And her balance is worked out from her requests every time, so it can never drift.",
+     "cues": ["a morning and an afternoon", "are skipped", "Maya's request", "costs two days", "can never drift"]},
+    {"id": "phases", "text": "Claude built it in four phases, one prompt each. The foundation, with people, teams, leave types and holidays. Requests, balances and approvals. Who's out, the team calendar and notifications. Then year end, export and the calendar feed. After every phase, the acceptance checks ran in a real browser, from fresh seed data.",
+     "cues": ["The foundation", "Requests, balances", "Who's out, the team", "Then year end", "acceptance checks"]},
+    {"id": "screens", "text": "Here's what it built. Who's out shows who's off today and next week, with requests waiting for approval listed apart. The team calendar marks everyone's leave by day, with pending requests dashed. The approver sees Approve and Decline on top, with an also-out warning and the balance. Admin allowances shows every balance, including Priya at minus one day. And on a phone, a new request previews one and a half days.",
+     "cues": ["Who's out shows", "The team calendar", "The approver sees", "Admin allowances", "on a phone"]},
+    {"id": "result", "text": "In the final run, on a fresh database, all thirty-two checks passed, along with seventy-one automated tests.",
+     "cues": ["thirty-two checks", "seventy-one"]},
+    {"id": "gaps", "text": "But the more useful result is what broke. The build exposed seven gaps in the spec. Places where Claude had to guess. Just viewing last year created allowance rows, which then blocked closing the current year. The team calendar didn't say whether a holiday or a day off wins. And a pending request that had already started had nowhere to show on Who's out. Every gap is now fixed in the spec.",
+     "cues": ["seven gaps", "Just viewing", "The team calendar didn't", "And a pending request", "Every gap"]},
+    {"id": "untested", "text": "Passing every check isn't the same as production-ready. We didn't test production sign-in, sending email, subscribing to the calendar feed, the hourly job on a real scheduler, or hosting. Those are yours to check before a team relies on it.",
+     "cues": ["production sign-in", "sending email", "subscribing", "the hourly job", "hosting"]},
+    {"id": "cost", "text": "So is it worth building? Honestly, not to save money. Timetastic Business is a dollar fifty per user per month, and Pro is two dollars fifty. For twenty people on Business, that's three hundred and sixty dollars a year. If you need holiday lists for many regions, accruals, or Slack and Teams, buy Timetastic. Build it when you want your own rules and data, next to your other internal tools.",
+     "cues": ["Timetastic Business", "Pro is", "For twenty people", "If you need", "Build it when"]},
+    {"id": "cta", "text": "Everything is in one file. The data model, seventeen rules, seed data, four phase prompts, and all thirty-two checks, with the seven fixes already in.",
+     "cues": ["The data model", "seventeen rules", "seven fixes"]}
+  ]
+}
