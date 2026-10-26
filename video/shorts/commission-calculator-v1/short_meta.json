@@ -1,0 +1,21 @@
+{
+ "file": "qp-short.mp4",
+ "short": true,
+ "title": "Can Claude replace QuotaPath? 24/24 checks, 10 spec gaps #shorts",
+ "description": "Claude built a QuotaPath alternative, a commission calculator with marginal tiers and statements, from one written spec: all 24 acceptance checks passed, and the build exposed 10 gaps in the spec.\n\nFull build test (2:45): https://youtu.be/ryupZOqZHxg\nThe free spec: https://personalsoftwarefactory.com/blueprints/commission-calculator\nQuotaPath pricing and alternatives: https://personalsoftwarefactory.com/alternatives/quotapath\n\nQuotaPath Growth is $35 per user per month plus a monthly platform fee, billed annually (quotapath.com/pricing, October 2026).\n\nMade with AI: Sam's on-camera hook and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/\n\n#shorts #claude #quotapath",
+ "tags": [
+  "QuotaPath alternative",
+  "QuotaPath",
+  "build a QuotaPath alternative",
+  "commission calculator",
+  "sales commissions",
+  "Claude",
+  "AI app builder",
+  "internal tools",
+  "build vs buy SaaS",
+  "personal software factory",
+  "shorts"
+ ],
+ "categoryId": "28",
+ "publishAt": "2026-10-28T00:00:00Z"
+}
