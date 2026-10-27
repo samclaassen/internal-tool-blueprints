@@ -1,0 +1,187 @@
+1
+00:00:00,100 --> 00:00:03,059
+Here's how to reverse engineer Zylo from a written spec.
+
+2
+00:00:03,059 --> 00:00:06,600
+Claude passed all thirty-one checks, and found six gaps in my spec.
+
+3
+00:00:07,417 --> 00:00:09,188
+We gave Claude one Markdown file.
+
+4
+00:00:09,380 --> 00:00:12,495
+It copies the part of Zylo a smaller company actually needs.
+
+5
+00:00:12,836 --> 00:00:16,975
+One shared list of every paid tool, each with an owner and a department.
+
+6
+00:00:17,273 --> 00:00:20,337
+The yearly cost, the renewal date and the notice period.
+
+7
+00:00:20,500 --> 00:00:22,207
+Seats bought and seats used.
+
+8
+00:00:22,420 --> 00:00:25,361
+And a reminder thirty days before the last day to cancel.
+
+9
+00:00:26,450 --> 00:00:28,327
+The core rule is the notice deadline.
+
+10
+00:00:28,583 --> 00:00:32,850
+A contract renews on its renewal date, but you have to cancel before its notice period starts.
+
+11
+00:00:33,234 --> 00:00:37,985
+Zoom renews on December first with thirty days' notice, so the last day to cancel is November first.
+
+12
+00:00:38,213 --> 00:00:43,635
+The owner's reminder comes thirty days before that deadline, not before the renewal, because by then it's often too late.
+
+13
+00:00:44,717 --> 00:00:47,319
+Claude built it in four phases, one prompt each.
+
+14
+00:00:47,575 --> 00:00:50,263
+The foundation, with people, departments and settings.
+
+15
+00:00:50,519 --> 00:00:53,101
+The inventory, the money rules and department totals.
+
+16
+00:00:53,250 --> 00:00:55,682
+Renewals, status changes and reminders.
+
+17
+00:00:55,981 --> 00:00:58,022
+Then CSV import and export.
+
+18
+00:00:58,187 --> 00:01:02,622
+After every phase, the acceptance checks ran in a real browser, from fresh seed data.
+
+19
+00:01:03,683 --> 00:01:04,579
+Here's what it built.
+
+20
+00:01:04,878 --> 00:01:11,000
+The inventory shows a thirty-four thousand one hundred and twenty dollar annual run rate, and the estimated cost of unused seats.
+
+21
+00:01:11,320 --> 00:01:15,350
+GitHub's page shows its cost, its renewal, and a history of every change.
+
+22
+00:01:15,582 --> 00:01:19,827
+Renewals groups tools by notice deadline, with four to decide within thirty days.
+
+23
+00:01:20,147 --> 00:01:24,585
+The CSV import previews every row, and stays locked until the errors are fixed.
+
+24
+00:01:24,883 --> 00:01:27,424
+And on a phone, the tiles fit in two columns.
+
+25
+00:01:28,517 --> 00:01:34,042
+In the final run, on a fresh database, all thirty-one checks passed, along with ninety-nine automated tests.
+
+26
+00:01:34,234 --> 00:01:36,711
+A second full browser run passed all thirty-one too.
+
+27
+00:01:37,817 --> 00:01:39,823
+But the more useful result is what broke.
+
+28
+00:01:40,079 --> 00:01:42,489
+The build exposed six gaps in the spec.
+
+29
+00:01:42,724 --> 00:01:44,388
+Places where Claude had to guess.
+
+30
+00:01:44,601 --> 00:01:47,520
+Admins could deactivate a person, but never bring them back.
+
+31
+00:01:47,707 --> 00:01:50,993
+Restoring a cancelled tool could give it an owner who had already left.
+
+32
+00:01:51,505 --> 00:01:54,043
+And a late cancellation had no place in the history.
+
+33
+00:01:54,406 --> 00:01:56,272
+Every gap is now fixed in the spec.
+
+34
+00:01:57,383 --> 00:01:59,858
+Passing every check isn't the same as production-ready.
+
+35
+00:02:00,114 --> 00:02:05,703
+We didn't test production sign-in, real email delivery, the daily job on a real scheduler, or hosting.
+
+36
+00:02:05,916 --> 00:02:08,221
+Those are yours to check before your company relies on it.
+
+37
+00:02:09,317 --> 00:02:10,661
+So is it worth building?
+
+38
+00:02:11,109 --> 00:02:12,431
+Zylo doesn't publish prices.
+
+39
+00:02:12,687 --> 00:02:16,038
+Its Core, Premium and Enterprise plans are all sold by quote.
+
+40
+00:02:16,231 --> 00:02:22,268
+If you have hundreds of tools and need them found in your accounting data, with seat usage pulled in automatically, buy Zylo.
+
+41
+00:02:22,588 --> 00:02:27,013
+If your tools fit in a spreadsheet, and renewals keep slipping past the notice deadline, build it.
+
+42
+00:02:28,083 --> 00:02:29,406
+Everything is in one file.
+
+43
+00:02:29,662 --> 00:02:36,537
+The data model, nineteen rules, seed data, four phase prompts, and all thirty-one checks, with the six fixes already in.
+
+44
+00:02:37,533 --> 00:02:40,975
+The full spec is free at personal software factory dot com.
+
+45
+00:02:40,975 --> 00:02:43,075
+If you build it, tell me what broke.
+
+46
+00:02:43,075 --> 00:02:43,542
+I'm Sam.
+
+47
+00:02:43,542 --> 00:02:44,533
+See you tomorrow.

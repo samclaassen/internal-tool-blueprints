@@ -1,0 +1,28 @@
+{
+ "file": "long.mp4",
+ "title": "Build a Zylo alternative with Claude: free SaaS spend tracker spec, 31/31 checks passed",
+ "description": "Claude built a Zylo alternative from one Markdown spec: all 31 acceptance checks passed in a real browser, along with 99 automated tests.\nThe test build also exposed 6 gaps in the spec, and every one is now fixed.\n\nWe gave Claude one Markdown spec for a SaaS spend tracker for companies of 10 to 200 people and had it build the tool in four phases: people, departments and settings; the inventory, money rules and department totals; renewals, status changes and reminders; and CSV import and export. The core rule: the notice deadline is the renewal date minus the contract's notice period, and the tool's owner is reminded 30 days before that deadline, not before the renewal. The gaps included people who could be deactivated but never reactivated, restoring a cancelled tool whose owner had since left, and a late cancellation that had no place in the history. What passed, what broke, what we didn't test, and when Zylo is still the better buy.\n\nChapters\n00:00 Reverse engineering Zylo\n00:26 The core rule: the notice deadline\n00:44 Four build phases\n01:03 What Claude built\n01:28 Result and what broke\n01:57 What we didn't test\n02:09 Is it worth building?\n02:27 Get the free spec\n\nSam's on-camera intro and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nThe spec (free): https://personalsoftwarefactory.com/blueprints/saas-spend-tracker\nZylo pricing and alternatives: https://personalsoftwarefactory.com/alternatives/zylo\nAll blueprints on GitHub: https://github.com/samclaassen/internal-tool-blueprints\nBefore you rely on an AI-built tool: https://personalsoftwarefactory.com/guides/ai-built-tools-production-readiness\n\nZylo prices: Zylo does not publish prices. Its pricing page lists Core, Premium and Enterprise plans and asks you to request a quote (zylo.com/pricing, October 2026).\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/",
+ "tags": [
+  "Zylo",
+  "Zylo alternative",
+  "Zylo pricing",
+  "build a Zylo alternative",
+  "SaaS spend tracker",
+  "SaaS management",
+  "software subscription tracker",
+  "finance tools",
+  "Claude",
+  "AI app builder",
+  "spec-driven development",
+  "internal tools",
+  "build vs buy SaaS",
+  "personal software factory"
+ ],
+ "categoryId": "28",
+ "publishAt": "2026-10-29T16:00:00Z",
+ "thumbnail": "thumb.jpg",
+ "playlists": [
+  "PLQ_n7bK0gJf0",
+  "PLUEky1grR2XI"
+ ]
+}
