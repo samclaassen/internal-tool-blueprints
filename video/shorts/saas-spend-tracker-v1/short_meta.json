@@ -1,0 +1,22 @@
+{
+ "file": "zylo-short.mp4",
+ "short": true,
+ "title": "Can Claude replace Zylo? 31/31 checks, 6 spec gaps #shorts",
+ "description": "Claude built a Zylo alternative, a SaaS spend tracker with owners, yearly costs and notice-deadline reminders, from one written spec: all 31 acceptance checks passed, and the build exposed 6 gaps in the spec.\n\nFull build test (2:45): https://youtu.be/m8hlTu5_bkY\nThe free spec: https://personalsoftwarefactory.com/blueprints/saas-spend-tracker\nZylo pricing and alternatives: https://personalsoftwarefactory.com/alternatives/zylo\n\nZylo does not publish prices: Core, Premium and Enterprise are sold by quote (zylo.com/pricing, October 2026).\n\nMade with AI: Sam's on-camera hook and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/\n\n#shorts #claude #zylo",
+ "tags": [
+  "Zylo alternative",
+  "Zylo",
+  "build a Zylo alternative",
+  "SaaS spend tracker",
+  "SaaS management",
+  "software subscription tracker",
+  "Claude",
+  "AI app builder",
+  "internal tools",
+  "build vs buy SaaS",
+  "personal software factory",
+  "shorts"
+ ],
+ "categoryId": "28",
+ "publishAt": "2026-10-29T20:00:00Z"
+}

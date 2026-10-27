@@ -1,0 +1,71 @@
+{
+ "out": "zylo-short.mp4",
+ "kicker": "Build test \u00b7 Zylo alternative",
+ "title": "Can Claude replace Zylo?",
+ "badge_image": "../sam_photo.jpg",
+ "music": "../music.mp3",
+ "music_volume": 0.08,
+ "words": "stts/words.json",
+ "highlight": [
+  "Zylo",
+  "thirty",
+  "one",
+  "six",
+  "thirty-four",
+  "never",
+  "left",
+  "quote",
+  "spreadsheet"
+ ],
+ "segments": [
+  {
+   "type": "avatar",
+   "video": "hook.mp4",
+   "text": "Here's how to reverse engineer Zylo from a written spec. Claude passed all thirty-one checks, and found six gaps in my spec."
+  },
+  {
+   "type": "product",
+   "scene": "build",
+   "audio": "stts/build.mp3",
+   "source": "long.mp4",
+   "from": 63.8,
+   "crop": [
+    230,
+    280,
+    980,
+    340
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "gaps",
+   "audio": "stts/gaps.mp3",
+   "source": "long.mp4",
+   "from": 104.0,
+   "crop": [
+    950,
+    250,
+    900,
+    480
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "verdict",
+   "audio": "stts/verdict.mp3",
+   "source": "long.mp4",
+   "from": 140.0,
+   "crop": [
+    60,
+    240,
+    1000,
+    700
+   ]
+  },
+  {
+   "type": "avatar",
+   "video": "../outro-generic-v2.mp4",
+   "text": "The full spec is free at personal software factory dot com. If you build it, tell me what broke. I'm Sam. See you tomorrow."
+  }
+ ]
+}

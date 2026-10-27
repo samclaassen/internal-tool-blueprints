@@ -1,0 +1,19 @@
+{
+ "scenes": [
+  {
+   "id": "build",
+   "text": "Claude built one list of every paid tool, in four phases. Here, they cost over thirty-four thousand dollars a year.",
+   "cues": []
+  },
+  {
+   "id": "gaps",
+   "text": "But the useful part is what broke. People could be deactivated, but never brought back. And restoring a cancelled tool could hand it to an owner who had already left.",
+   "cues": []
+  },
+  {
+   "id": "verdict",
+   "text": "Zylo doesn't publish prices. It sells by quote. If your tools fit in a spreadsheet, build your own, with every fix already in the spec.",
+   "cues": []
+  }
+ ]
+}
