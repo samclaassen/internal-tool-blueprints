@@ -67,6 +67,18 @@ The full catalog, with live demos and test results, is at https://personalsoftwa
 
 - [Is an AI-built internal tool ready for production? What our 13 build tests didn't test](https://personalsoftwarefactory.com/guides/ai-built-tools-production-readiness)
 - [Field report: building a Zendesk replacement with AI, 24 checks and 21 spec gaps](https://personalsoftwarefactory.com/guides/zendesk-replacement-build-test)
+- [Field report: building a Greenhouse replacement with AI, 29 checks and 18 spec gaps](https://personalsoftwarefactory.com/guides/greenhouse-replacement-build-test)
+- [Field report: building a Jira replacement with AI, 31 checks and 5 spec gaps](https://personalsoftwarefactory.com/guides/jira-replacement-build-test)
+- [Field report: building a Senja replacement with AI, 32 checks and 11 spec gaps](https://personalsoftwarefactory.com/guides/senja-replacement-build-test)
+- [Field report: building a Zylo replacement with AI, 31 checks and 6 spec gaps](https://personalsoftwarefactory.com/guides/zylo-replacement-build-test)
+- [Field report: building a QuotaPath replacement with AI, 24 checks and 10 spec gaps](https://personalsoftwarefactory.com/guides/quotapath-replacement-build-test)
+- [Field report: building a Monday.com replacement with AI, 28 checks and 6 spec gaps](https://personalsoftwarefactory.com/guides/monday-replacement-build-test)
+- [Field report: building a Kissflow replacement with AI, 20 checks and 9 spec gaps](https://personalsoftwarefactory.com/guides/kissflow-replacement-build-test)
+- [Field report: building a Timetastic replacement with AI, 32 checks and 7 spec gaps](https://personalsoftwarefactory.com/guides/timetastic-replacement-build-test)
+- [Field report: building an Expensify replacement with AI, 24 checks and 9 spec gaps](https://personalsoftwarefactory.com/guides/expensify-replacement-build-test)
+- [Field report: building a CoSchedule replacement with AI, 27 checks and 8 spec gaps](https://personalsoftwarefactory.com/guides/coschedule-replacement-build-test)
+- [Field report: building a PandaDoc replacement with AI, 29 checks and 8 spec gaps](https://personalsoftwarefactory.com/guides/pandadoc-replacement-build-test)
+- [Field report: building a HubSpot replacement with AI, 27 checks and 8 spec gaps](https://personalsoftwarefactory.com/guides/hubspot-replacement-build-test)
 
 Short videos of the build tests, with what passed and what broke, are on YouTube at [@personalsoftwarefactory](https://www.youtube.com/@personalsoftwarefactory).
 
