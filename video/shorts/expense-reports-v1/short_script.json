@@ -1,0 +1,19 @@
+{
+ "scenes": [
+  {
+   "id": "build",
+   "text": "Claude built it in four phases, one prompt each. Here's Lee's draft report. A dinner over the meals limit needs an explanation, and a hotel has no receipt.",
+   "cues": []
+  },
+  {
+   "id": "gaps",
+   "text": "But the useful part is what broke. The seed data loaded relative to today, while the checks used fixed dates. Two rules named different people who can see a receipt. And changing a report's approver had no event and no email.",
+   "cues": []
+  },
+  {
+   "id": "verdict",
+   "text": "Expensify's Submit plan is free. Reimbursements and approvals come with Collect, at five dollars per member per month. If you just pay back a small team, you mostly need receipts, one approval, and a record of payment.",
+   "cues": []
+  }
+ ]
+}

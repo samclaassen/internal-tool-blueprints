@@ -1,0 +1,76 @@
+{
+ "out": "er-short.mp4",
+ "kicker": "Build test \u00b7 Expensify alternative",
+ "title": "Can Claude replace Expensify?",
+ "badge_image": "../sam_photo.jpg",
+ "music": "../music.mp3",
+ "music_volume": 0.08,
+ "words": "stts/words.json",
+ "highlight": [
+  "Expensify",
+  "Expensify's",
+  "twenty-four",
+  "nine",
+  "dinner",
+  "receipt",
+  "receipt.",
+  "fixed",
+  "approver",
+  "five",
+  "free.",
+  "Collect,",
+  "explanation,",
+  "hotel"
+ ],
+ "segments": [
+  {
+   "type": "avatar",
+   "video": "hook.mp4",
+   "text": "Here's how to reverse engineer Expensify from a written spec. Claude passed all twenty-four checks, and found nine gaps in my spec."
+  },
+  {
+   "type": "product",
+   "scene": "build",
+   "audio": "stts/build.mp3",
+   "source": "../long.mp4",
+   "from": 58.0,
+   "crop": [
+    200,
+    280,
+    1300,
+    560
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "gaps",
+   "audio": "stts/gaps.mp3",
+   "source": "../long.mp4",
+   "from": 94.6,
+   "crop": [
+    920,
+    250,
+    960,
+    680
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "verdict",
+   "audio": "stts/verdict.mp3",
+   "source": "../long.mp4",
+   "from": 125.0,
+   "crop": [
+    40,
+    140,
+    1100,
+    740
+   ]
+  },
+  {
+   "type": "avatar",
+   "video": "../outro-generic-v2.mp4",
+   "text": "The full spec is free at personal software factory dot com. If you build it, tell me what broke. I'm Sam. See you tomorrow."
+  }
+ ]
+}

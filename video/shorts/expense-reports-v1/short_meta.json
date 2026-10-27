@@ -1,0 +1,9 @@
+{
+ "file": "er-short.mp4",
+ "short": true,
+ "title": "Can Claude replace Expensify? 24/24 checks, 9 spec gaps #shorts",
+ "description": "Claude built an Expensify alternative, an expense report tool with receipts, flags, one approval and a finance queue, from one written spec: all 24 acceptance checks passed, and the build exposed 9 gaps in the spec.\n\nFull build test (2:35): https://youtu.be/hSGupyVy3ak\nThe free spec: https://personalsoftwarefactory.com/blueprints/expense-reports\nExpensify pricing and alternatives: https://personalsoftwarefactory.com/alternatives/expensify\n\nExpensify's Submit plan is free for all members; Collect, with reimbursements and approvals, is $5 per member per month (expensify.com/pricing, October 2026).\n\nMade with AI: Sam's on-camera hook and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/\n\n#shorts #claude #expensify",
+ "tags": ["Expensify alternative", "Expensify", "build an Expensify alternative", "expense reports", "expense reimbursement", "Claude", "AI app builder", "internal tools", "build vs buy SaaS", "personal software factory", "shorts"],
+ "categoryId": "28",
+ "publishAt": "2026-10-29T00:00:00Z"
+}
