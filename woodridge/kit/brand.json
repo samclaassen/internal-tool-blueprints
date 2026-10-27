@@ -1,0 +1,56 @@
+{
+  "_comment": "Woodridge Cabinets brand config for the AEO Explainer Video kit. Every script reads it ($BRAND_JSON, ./brand.json or ../brand.json).",
+  "brand_name": "Woodridge Cabinets",
+  "domain": "woodridgecabinets.com",
+  "domain_spoken": "woodridge cabinets dot com",
+  "series_label": "CABINET GUIDE",
+  "host_name": "Sam Claassen",
+  "host_disclosure": "AI avatar of Sam Claassen (HeyGen)",
+  "colors": {
+    "paper": "#faf6f0",
+    "paper_hi": "#fdfaf5",
+    "ink": "#231a14",
+    "ink3": "#5e5d56",
+    "signal": "#b48b58",
+    "ok": "#4a6b47"
+  },
+  "fonts": {
+    "_comment": "Site uses Fraunces (headings) + Inter (body). Composition uses Inter as sans; mono is only for small labels.",
+    "sans_family": "Inter",
+    "mono_family": "IBM Plex Mono",
+    "sans_ttf": "Inter-Medium.ttf",
+    "sans_variable_ttf": "Inter-VF.ttf",
+    "mono_ttf": "IBMPlexMono-400.ttf"
+  },
+  "heygen": {
+    "voice_id": "872d0d36d8eb44e1809eb29bbb1b6c3f",
+    "looks": {
+      "digital_twin": "5dc505d993b242e7a5159cd36198eaca",
+      "photo": "1f69f3d7b9e74232ae2f4ec84e44f127"
+    },
+    "engine": "avatar_v"
+  },
+  "youtube": {
+    "channel_id": "TODO UC... (new Woodridge Cabinets channel, not created yet)",
+    "channel_handle": "TODO @woodridgecabinets",
+    "categoryId": "26",
+    "default_language": "en"
+  },
+  "media_repo": "samclaassen/internal-tool-blueprints",
+  "media_prefix": "woodridge",
+  "host_photo_url": "https://raw.githubusercontent.com/samclaassen/internal-tool-blueprints/media/video/host/sam-photo.jpg",
+  "outro_clip_url": "TODO make once: https://raw.githubusercontent.com/samclaassen/internal-tool-blueprints/media/woodridge/video/host/outro-norm.mp4",
+  "music": {
+    "url": "https://raw.githubusercontent.com/samclaassen/internal-tool-blueprints/media/audio/music/chill-wave-kevin-macleod.mp3",
+    "credit": "Music: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/",
+    "volume_long": 0.19,
+    "volume_short": 0.08
+  },
+  "curation": {
+    "allowed_licenses": ["cc0", "pdm", "by", "by-sa"],
+    "openverse": true,
+    "wikimedia": true,
+    "pexels_env": "PEXELS_API_KEY",
+    "pixabay_env": "PIXABAY_API_KEY"
+  }
+}
