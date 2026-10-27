@@ -1,0 +1,24 @@
+{
+  "hook_clip": "Here's how to reverse engineer Zylo from a written spec. Claude passed all thirty-one checks, and found six gaps in my spec.",
+  "outro_clip": "The full spec is free at personal software factory dot com. If you build it, tell me what broke. I'm Sam. See you tomorrow.",
+  "scenes": [
+    {"id": "spec", "text": "We gave Claude one Markdown file. It copies the part of Zylo a smaller company actually needs. One shared list of every paid tool, each with an owner and a department. The yearly cost, the renewal date and the notice period. Seats bought and seats used. And a reminder thirty days before the last day to cancel.",
+     "cues": ["one Markdown file", "One shared list", "The yearly cost", "Seats bought", "And a reminder"]},
+    {"id": "rule", "text": "The core rule is the notice deadline. A contract renews on its renewal date, but you have to cancel before its notice period starts. Zoom renews on December first with thirty days' notice, so the last day to cancel is November first. The owner's reminder comes thirty days before that deadline, not before the renewal, because by then it's often too late.",
+     "cues": ["the notice deadline", "December first", "November first", "thirty days before that deadline"]},
+    {"id": "phases", "text": "Claude built it in four phases, one prompt each. The foundation, with people, departments and settings. The inventory, the money rules and department totals. Renewals, status changes and reminders. Then CSV import and export. After every phase, the acceptance checks ran in a real browser, from fresh seed data.",
+     "cues": ["The foundation", "The inventory", "Renewals, status", "Then CSV", "acceptance checks"]},
+    {"id": "screens", "text": "Here's what it built. The inventory shows a thirty-four thousand one hundred and twenty dollar annual run rate, and the estimated cost of unused seats. GitHub's page shows its cost, its renewal, and a history of every change. Renewals groups tools by notice deadline, with four to decide within thirty days. The CSV import previews every row, and stays locked until the errors are fixed. And on a phone, the tiles fit in two columns.",
+     "cues": ["The inventory shows", "GitHub's page", "Renewals groups", "The CSV import", "on a phone"]},
+    {"id": "result", "text": "In the final run, on a fresh database, all thirty-one checks passed, along with ninety-nine automated tests. A second full browser run passed all thirty-one too.",
+     "cues": ["thirty-one checks", "ninety-nine", "A second"]},
+    {"id": "gaps", "text": "But the more useful result is what broke. The build exposed six gaps in the spec. Places where Claude had to guess. Admins could deactivate a person, but never bring them back. Restoring a cancelled tool could give it an owner who had already left. And a late cancellation had no place in the history. Every gap is now fixed in the spec.",
+     "cues": ["six gaps", "Admins could", "Restoring", "And a late", "Every gap"]},
+    {"id": "untested", "text": "Passing every check isn't the same as production-ready. We didn't test production sign-in, real email delivery, the daily job on a real scheduler, or hosting. Those are yours to check before your company relies on it.",
+     "cues": ["production sign-in", "real email", "the daily job", "hosting"]},
+    {"id": "cost", "text": "So is it worth building? Zylo doesn't publish prices. Its Core, Premium and Enterprise plans are all sold by quote. If you have hundreds of tools and need them found in your accounting data, with seat usage pulled in automatically, buy Zylo. If your tools fit in a spreadsheet, and renewals keep slipping past the notice deadline, build it.",
+     "cues": ["doesn't publish prices", "Core, Premium and Enterprise", "If you have hundreds", "If your tools fit"]},
+    {"id": "cta", "text": "Everything is in one file. The data model, nineteen rules, seed data, four phase prompts, and all thirty-one checks, with the six fixes already in.",
+     "cues": ["The data model", "nineteen rules", "six fixes"]}
+  ]
+}
