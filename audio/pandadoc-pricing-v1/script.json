@@ -1,0 +1,76 @@
+{
+ "hook_clip": "Here's what PandaDoc really costs a small team, and when you don't need it. Ten seats on the Business plan come to five thousand eight hundred and eighty dollars a year.",
+ "outro_clip": "The full spec is free at personal software factory dot com. If you build it, tell me what broke. I'm Sam. See you tomorrow.",
+ "scenes": [
+  {
+   "id": "plans",
+   "text": "PandaDoc publishes two plans for small teams. Starter is nineteen dollars per seat per month, and allows up to five templates. Business is forty-nine dollars per seat per month, with unlimited templates. Those prices are from PandaDoc's own pricing page, checked in October twenty twenty-six.",
+   "cues": [
+    "two plans",
+    "Starter is",
+    "Business is",
+    "pricing page"
+   ]
+  },
+  {
+   "id": "team",
+   "text": "Both plans are priced per seat, so the bill grows with the team. For ten people, Starter comes to two thousand two hundred and eighty dollars a year. And every extra person on Business adds five hundred and eighty-eight dollars a year.",
+   "cues": [
+    "priced per seat",
+    "For ten people",
+    "every extra person"
+   ]
+  },
+  {
+   "id": "limits",
+   "text": "The limit that pushes small teams up a tier is templates. Starter stops at five. If you send more than five kinds of quote, you're on Business. A similar tool, Proposify, puts discount approvals on its Grow plan, at three hundred and twenty-five dollars a month for five seats.",
+   "cues": [
+    "templates",
+    "Starter stops at five",
+    "you're on Business",
+    "Proposify"
+   ]
+  },
+  {
+   "id": "uses",
+   "text": "But what does a small team actually use? Often it's one job. Price a few line items for a client from a price list. Apply a discount within the rules. And get a yes.",
+   "cues": [
+    "one job",
+    "Price a few line items",
+    "Apply a discount",
+    "get a yes"
+   ]
+  },
+  {
+   "id": "verdict",
+   "text": "So buy PandaDoc if you need legally binding e-signatures, payment collection, CRM sync, or a drag-and-drop document designer. Build it if your team sends quotes from a known price list, and a typed-name acceptance is enough for your deals.",
+   "cues": [
+    "buy PandaDoc",
+    "e-signatures",
+    "payment collection",
+    "Build it if",
+    "typed-name acceptance"
+   ]
+  },
+  {
+   "id": "build",
+   "text": "That's what our Quote Builder blueprint covers. Line items, discounts, tax and live totals. A manager approval for any discount over the limit. And a client link to accept or decline. Claude built it from the spec, and all twenty-nine checks passed.",
+   "cues": [
+    "Quote Builder blueprint",
+    "Line items",
+    "A manager approval",
+    "a client link",
+    "twenty-nine checks"
+   ]
+  },
+  {
+   "id": "cta",
+   "text": "The spec is one Markdown file. The data model, the rules, four phase prompts and all twenty-nine checks.",
+   "cues": [
+    "one Markdown file",
+    "The data model",
+    "four phase prompts"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,44 @@
+[
+ {
+  "id": "plans",
+  "file": "plans.mp3",
+  "seconds": 15.778,
+  "model": "heygen-voice-1-turbo-free"
+ },
+ {
+  "id": "team",
+  "file": "team.mp3",
+  "seconds": 11.598,
+  "model": "heygen-voice-1-turbo-free"
+ },
+ {
+  "id": "limits",
+  "file": "limits.mp3",
+  "seconds": 14.942,
+  "model": "heygen-voice-1-turbo-free"
+ },
+ {
+  "id": "uses",
+  "file": "uses.mp3",
+  "seconds": 9.404,
+  "model": "heygen-voice-1-turbo-free"
+ },
+ {
+  "id": "verdict",
+  "file": "verdict.mp3",
+  "seconds": 13.166,
+  "model": "heygen-voice-1-turbo-free"
+ },
+ {
+  "id": "build",
+  "file": "build.mp3",
+  "seconds": 12.878,
+  "model": "heygen-voice-1-turbo-free"
+ },
+ {
+  "id": "cta",
+  "file": "cta.mp3",
+  "seconds": 6.269,
+  "model": "heygen-voice-1-turbo-free"
+ }
+]
