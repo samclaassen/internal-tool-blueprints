@@ -1,0 +1,56 @@
+[
+ {
+  "id": "spec",
+  "file": "spec.mp3",
+  "seconds": 17.136,
+  "model": "heygen-voice-1-turbo-free"
+ },
+ {
+  "id": "rule",
+  "file": "rule.mp3",
+  "seconds": 17.816,
+  "model": "heygen-voice-1-turbo-free"
+ },
+ {
+  "id": "phases",
+  "file": "phases.mp3",
+  "seconds": 19.069,
+  "model": "heygen-voice-1-turbo-free"
+ },
+ {
+  "id": "screens",
+  "file": "screens.mp3",
+  "seconds": 20.663,
+  "model": "heygen-voice-1-turbo-free"
+ },
+ {
+  "id": "result",
+  "file": "result.mp3",
+  "seconds": 7.367,
+  "model": "heygen-voice-1-turbo-free"
+ },
+ {
+  "id": "gaps",
+  "file": "gaps.mp3",
+  "seconds": 17.162,
+  "model": "heygen-voice-1-turbo-free"
+ },
+ {
+  "id": "untested",
+  "file": "untested.mp3",
+  "seconds": 11.128,
+  "model": "heygen-voice-1-turbo-free"
+ },
+ {
+  "id": "cost",
+  "file": "cost.mp3",
+  "seconds": 20.114,
+  "model": "heygen-voice-1-turbo-free"
+ },
+ {
+  "id": "cta",
+  "file": "cta.mp3",
+  "seconds": 8.882,
+  "model": "heygen-voice-1-turbo-free"
+ }
+]

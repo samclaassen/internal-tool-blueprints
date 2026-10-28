@@ -1,0 +1,27 @@
+{
+ "file": "long.mp4",
+ "title": "Build a Productboard alternative with Claude: free customer feedback inbox spec, 25/25 checks passed",
+ "description": "Claude built a Productboard alternative from one Markdown spec: all 25 acceptance checks passed in a real browser, along with 157 automated tests.\nThe test build also exposed 20 gaps in the spec, and every one is now fixed.\n\nWe gave Claude one Markdown spec for a customer feedback inbox for teams of 3 to 50 people and had it build the tool in four phases: customers, people and the outbox; capture, the inbound endpoint and triage; themes, votes, promotion and the roadmap; and follow-ups and CSV export. The core rule: a theme's revenue counts each account once, so Acme Corp's two requests for single sign-on show 2 pieces of evidence but $2,400 of MRR, not $4,800, and a vote never adds revenue. The gaps included an outbox that no phase prompt built although later checks read it, live sign-in links an admin could see in that outbox, seed people with no email addresses and CSV exports with no exact columns. What passed, what broke, what we didn't test, and when Productboard is still the better buy.\n\nChapters\n00:00 Reverse engineering Productboard\n00:26 The core rule: revenue counts once\n00:45 Four build phases\n01:05 What Claude built\n01:25 Result and what broke\n01:51 What we didn't test\n02:03 Is it worth building?\n02:24 Get the free spec\n\nSam's on-camera intro and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nThe spec (free): https://personalsoftwarefactory.com/blueprints/feedback-inbox\nProductboard pricing and alternatives: https://personalsoftwarefactory.com/alternatives/productboard\nAll blueprints on GitHub: https://github.com/samclaassen/internal-tool-blueprints\nBefore you rely on an AI-built tool: https://personalsoftwarefactory.com/guides/ai-built-tools-production-readiness\n\nProductboard prices: Productboard does not publish prices. Its pricing page lists Business (\"Request demo\", minimum of 5 makers and 25 contributors) and Enterprise (\"Contact sales\") (productboard.com/pricing, October 2026).\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/",
+ "tags": [
+  "Productboard",
+  "Productboard alternative",
+  "Productboard pricing",
+  "build a Productboard alternative",
+  "customer feedback inbox",
+  "customer feedback tool",
+  "feature request tracker",
+  "Claude",
+  "AI app builder",
+  "spec-driven development",
+  "internal tools",
+  "build vs buy SaaS",
+  "personal software factory"
+ ],
+ "categoryId": "28",
+ "publishAt": "2026-10-30T16:00:00Z",
+ "thumbnail": "thumb.jpg",
+ "playlists": [
+  "PLQ_n7bK0gJf0",
+  "PLBL2d2qwAD-s"
+ ]
+}

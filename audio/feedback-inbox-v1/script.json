@@ -1,0 +1,98 @@
+{
+ "hook_clip": "Here's how to reverse engineer Productboard from a written spec. Claude passed all twenty-five checks, but my spec never said to hide sign-in links from admins.",
+ "outro_clip": "The full spec is free at personal software factory dot com. If you build it, tell me what broke. I'm Sam. See you tomorrow.",
+ "scenes": [
+  {
+   "id": "spec",
+   "text": "We gave Claude one Markdown file. It copies the part of Productboard a small team actually needs. One inbox for customer feedback, in the customer's own words. Each quote tied to an account and its monthly revenue. Themes ranked by evidence, revenue and votes. And when a theme ships, a list of every customer to tell.",
+   "cues": [
+    "one Markdown file",
+    "One inbox",
+    "Each quote tied",
+    "Themes ranked",
+    "And when a theme ships"
+   ]
+  },
+  {
+   "id": "rule",
+   "text": "The core rule is how revenue counts. Acme Corp pays two thousand four hundred dollars a month, and asked for single sign-on twice, in a ticket and on a call. That's two pieces of evidence, but the theme's revenue stays at the same amount, not double. Each account counts once per theme. And a vote never adds revenue.",
+   "cues": [
+    "how revenue counts",
+    "Acme Corp pays",
+    "two pieces of evidence",
+    "Each account counts once",
+    "And a vote"
+   ]
+  },
+  {
+   "id": "phases",
+   "text": "Claude built it in four phases, one prompt each. The foundation, with customers, people and the outbox. Capture, the inbound endpoint and triage. Themes, votes, promotion and the roadmap. Then closing the loop, and CSV export. After every phase, the acceptance checks ran in a real browser, from fresh seed data.",
+   "cues": [
+    "The foundation",
+    "Capture, the inbound",
+    "Themes, votes",
+    "Then closing the loop",
+    "acceptance checks"
+   ]
+  },
+  {
+   "id": "screens",
+   "text": "Here's what it built. The themes screen ranks single sign-on first, with two pieces of evidence, one account and two votes. The theme page keeps its full status history. The inbox keeps each quote with its customer, revenue and source. The roadmap has five lanes, with an owner on every card. And when a theme ships, follow-ups lists every account to tell.",
+   "cues": [
+    "The themes screen",
+    "The theme page",
+    "The inbox keeps",
+    "The roadmap has",
+    "And when a theme ships"
+   ]
+  },
+  {
+   "id": "result",
+   "text": "In one final run, on a fresh database, all twenty-five checks passed, along with one hundred and fifty-seven automated tests.",
+   "cues": [
+    "twenty-five checks",
+    "one hundred and fifty-seven"
+   ]
+  },
+  {
+   "id": "gaps",
+   "text": "But the more useful result is what broke. The build exposed twenty gaps in the spec. Places where Claude had to guess. The outbox was in no phase prompt, yet later checks read emails there. The seed people had no email addresses. And the CSV exports had no exact columns. Every gap is now fixed in the spec.",
+   "cues": [
+    "twenty gaps",
+    "The outbox was",
+    "The seed people",
+    "And the CSV exports",
+    "Every gap"
+   ]
+  },
+  {
+   "id": "untested",
+   "text": "Passing every check isn't the same as production-ready. We didn't test production sign-in, real email delivery, the hourly retry job on a real scheduler, or hosting. Those are yours to check before your team relies on it.",
+   "cues": [
+    "production sign-in",
+    "real email",
+    "the hourly retry job",
+    "hosting"
+   ]
+  },
+  {
+   "id": "cost",
+   "text": "So is it worth building? Productboard doesn't publish prices. Its Business plan is sold through a demo, with a minimum of five makers, and Enterprise goes through sales. If you need native integrations with tools like Zendesk, Gong or Salesforce, or a portal where customers vote, buy Productboard. If you just need to know who asked, and who to tell when it ships, build it.",
+   "cues": [
+    "doesn't publish prices",
+    "Its Business plan",
+    "If you need native",
+    "If you just need"
+   ]
+  },
+  {
+   "id": "cta",
+   "text": "Everything is in one file. The data model, fifteen rules, seed data, four phase prompts, and all twenty-five checks, with the twenty fixes already in.",
+   "cues": [
+    "The data model",
+    "fifteen rules",
+    "twenty fixes"
+   ]
+  }
+ ]
+}

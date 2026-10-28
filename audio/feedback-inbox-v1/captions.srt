@@ -1,0 +1,187 @@
+1
+00:00:00,000 --> 00:00:03,401
+Here's how to reverse engineer Productboard from a written spec.
+
+2
+00:00:03,401 --> 00:00:08,450
+Claude passed all twenty-five checks, but my spec never said to hide sign-in links from admins.
+
+3
+00:00:09,217 --> 00:00:10,945
+We gave Claude one Markdown file.
+
+4
+00:00:11,137 --> 00:00:13,996
+It copies the part of Productboard a small team actually needs.
+
+5
+00:00:14,337 --> 00:00:17,473
+One inbox for customer feedback, in the customer's own words.
+
+6
+00:00:17,793 --> 00:00:20,202
+Each quote tied to an account and its monthly revenue.
+
+7
+00:00:20,350 --> 00:00:23,059
+Themes ranked by evidence, revenue and votes.
+
+8
+00:00:23,422 --> 00:00:26,070
+And when a theme ships, a list of every customer to tell.
+
+9
+00:00:27,150 --> 00:00:29,326
+The core rule is how revenue counts.
+
+10
+00:00:29,624 --> 00:00:36,042
+Acme Corp pays two thousand four hundred dollars a month, and asked for single sign-on twice, in a ticket and on a call.
+
+11
+00:00:36,231 --> 00:00:40,476
+That's two pieces of evidence, but the theme's revenue stays at the same amount, not double.
+
+12
+00:00:40,754 --> 00:00:42,631
+Each account counts once per theme.
+
+13
+00:00:42,844 --> 00:00:44,672
+And a vote never adds revenue.
+
+14
+00:00:45,750 --> 00:00:48,374
+Claude built it in four phases, one prompt each.
+
+15
+00:00:48,608 --> 00:00:51,616
+The foundation, with customers, people and the outbox.
+
+16
+00:00:51,894 --> 00:00:54,304
+Capture, the inbound endpoint and triage.
+
+17
+00:00:54,582 --> 00:00:57,376
+Themes, votes, promotion and the roadmap.
+
+18
+00:00:57,611 --> 00:00:59,807
+Then closing the loop, and CSV export.
+
+19
+00:00:59,997 --> 00:01:04,521
+After every phase, the acceptance checks ran in a real browser, from fresh seed data.
+
+20
+00:01:05,617 --> 00:01:06,513
+Here's what it built.
+
+21
+00:01:06,812 --> 00:01:12,230
+The themes screen ranks single sign-on first, with two pieces of evidence, one account and two votes.
+
+22
+00:01:12,529 --> 00:01:14,682
+The theme page keeps its full status history.
+
+23
+00:01:14,915 --> 00:01:18,286
+The inbox keeps each quote with its customer, revenue and source.
+
+24
+00:01:18,627 --> 00:01:21,507
+The roadmap has five lanes, with an owner on every card.
+
+25
+00:01:21,742 --> 00:01:24,935
+And when a theme ships, follow-ups lists every account to tell.
+
+26
+00:01:26,050 --> 00:01:33,138
+In one final run, on a fresh database, all twenty-five checks passed, along with one hundred and fifty-seven automated tests.
+
+27
+00:01:34,217 --> 00:01:36,201
+But the more useful result is what broke.
+
+28
+00:01:36,479 --> 00:01:38,548
+The build exposed twenty gaps in the spec.
+
+29
+00:01:38,740 --> 00:01:40,297
+Places where Claude had to guess.
+
+30
+00:01:40,617 --> 00:01:44,244
+The outbox was in no phase prompt, yet later checks read emails there.
+
+31
+00:01:44,500 --> 00:01:46,264
+The seed people had no email addresses.
+
+32
+00:01:46,449 --> 00:01:49,094
+And the CSV exports had no exact columns.
+
+33
+00:01:49,308 --> 00:01:51,093
+Every gap is now fixed in the spec.
+
+34
+00:01:52,183 --> 00:01:54,444
+Passing every check isn't the same as production-ready.
+
+35
+00:01:54,657 --> 00:02:00,716
+We didn't test production sign-in, real email delivery, the hourly retry job on a real scheduler, or hosting.
+
+36
+00:02:00,929 --> 00:02:03,024
+Those are yours to check before your team relies on it.
+
+37
+00:02:04,117 --> 00:02:05,930
+So is it worth building?
+
+38
+00:02:06,506 --> 00:02:08,149
+Productboard doesn't publish prices.
+
+39
+00:02:08,383 --> 00:02:13,544
+Its Business plan is sold through a demo, with a minimum of five makers, and Enterprise goes through sales.
+
+40
+00:02:13,755 --> 00:02:20,241
+If you need native integrations with tools like Zendesk, Gong or Salesforce, or a portal where customers vote, buy Productboard.
+
+41
+00:02:20,497 --> 00:02:23,938
+If you just need to know who asked, and who to tell when it ships, build it.
+
+42
+00:02:25,017 --> 00:02:26,361
+Everything is in one file.
+
+43
+00:02:26,596 --> 00:02:33,598
+The data model, fifteen rules, seed data, four phase prompts, and all twenty-five checks, with the twenty fixes already in.
+
+44
+00:02:34,467 --> 00:02:38,007
+The full spec is free at personal software factory dot com.
+
+45
+00:02:38,007 --> 00:02:40,167
+If you build it, tell me what broke.
+
+46
+00:02:40,167 --> 00:02:40,647
+I'm Sam.
+
+47
+00:02:40,647 --> 00:02:41,667
+See you tomorrow.
