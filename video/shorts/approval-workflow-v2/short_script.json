@@ -1,0 +1,7 @@
+{
+  "scenes": [
+    {"id": "rule", "text": "The core rule is routing. Jo's twenty-four hundred dollar laptop goes to Maya, her manager, then to Ana in Finance, because it's over a thousand dollars. And nobody approves their own request.", "cues": []},
+    {"id": "gaps", "text": "That loop broke routing. The spec also never said what happens when an approver is inactive, or if the reminder clock restarts after a reassignment. All nine gaps are now fixed.", "cues": []},
+    {"id": "untested", "text": "But passing every check isn't production-ready. We didn't test real sign-in, a live Slack workspace, email, or hosting.", "cues": []}
+  ]
+}

@@ -1,0 +1,70 @@
+{
+ "out": "kissflow-short-2.mp4",
+ "kicker": "Build test · Kissflow alternative",
+ "title": "What my Kissflow spec forgot",
+ "badge_from": "hook.mp4",
+ "music": "music.mp3",
+ "music_volume": 0.08,
+ "words": "tts/words.json",
+ "highlight": [
+  "Kissflow",
+  "twenty",
+  "nine",
+  "loop",
+  "never",
+  "nobody",
+  "inactive",
+  "production-ready"
+ ],
+ "segments": [
+  {
+   "type": "avatar",
+   "video": "hook.mp4",
+   "text": "Here's how to reverse engineer Kissflow from a written spec. Claude passed all twenty checks, but my spec never banned two managers managing each other."
+  },
+  {
+   "type": "product",
+   "scene": "rule",
+   "audio": "tts/rule.mp3",
+   "source": "long.mp4",
+   "from": 33.5,
+   "crop": [
+    60,
+    240,
+    1020,
+    500
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "gaps",
+   "audio": "tts/gaps.mp3",
+   "source": "gapsrc.mp4",
+   "from": 0.0,
+   "crop": [
+    940,
+    260,
+    920,
+    660
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "untested",
+   "audio": "tts/untested.mp3",
+   "source": "long.mp4",
+   "from": 111.5,
+   "crop": [
+    60,
+    300,
+    1200,
+    500
+   ]
+  },
+  {
+   "type": "avatar",
+   "video": "outro.mp4",
+   "text": "The full spec is free at personal software factory dot com. If you build it, tell me what broke. I'm Sam. See you tomorrow."
+  }
+ ]
+}
