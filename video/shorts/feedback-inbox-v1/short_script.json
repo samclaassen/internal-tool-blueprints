@@ -1,0 +1,5 @@
+{"scenes": [
+ {"id": "build", "text": "Claude built one inbox for customer feedback. Single sign-on ranks first: two quotes from Acme Corp, but its revenue counts once, not twice.", "cues": []},
+ {"id": "gaps", "text": "But the useful part is what broke. The outbox was in no build prompt, yet later checks read emails there. And the seed people had no email addresses at all.", "cues": []},
+ {"id": "verdict", "text": "Productboard doesn't publish prices. Business is sold through a demo. If you just need to know who asked, and who to tell when it ships, build your own.", "cues": []}
+]}

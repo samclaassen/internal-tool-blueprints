@@ -1,0 +1,22 @@
+{
+ "file": "productboard-short.mp4",
+ "short": true,
+ "title": "Can Claude replace Productboard? 25/25 checks, 20 spec gaps #shorts",
+ "description": "Claude built a Productboard alternative, a customer feedback inbox that ties every quote to an account and its revenue, ranks themes and lists who to tell when a feature ships, from one written spec: all 25 acceptance checks passed, and the build exposed 20 gaps in the spec.\n\nFull build test (2:42): https://youtu.be/4kp4XEZR1Iw\nThe free spec: https://personalsoftwarefactory.com/blueprints/feedback-inbox\nProductboard pricing and alternatives: https://personalsoftwarefactory.com/alternatives/productboard\n\nProductboard does not publish prices: Business is sold through a demo (minimum of 5 makers) and Enterprise through sales (productboard.com/pricing, October 2026).\n\nMade with AI: Sam's on-camera hook and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/\n\n#shorts #claude #productboard",
+ "tags": [
+  "Productboard alternative",
+  "Productboard",
+  "build a Productboard alternative",
+  "customer feedback inbox",
+  "customer feedback tool",
+  "feature request tracker",
+  "Claude",
+  "AI app builder",
+  "internal tools",
+  "build vs buy SaaS",
+  "personal software factory",
+  "shorts"
+ ],
+ "categoryId": "28",
+ "publishAt": "2026-10-30T20:00:00Z"
+}

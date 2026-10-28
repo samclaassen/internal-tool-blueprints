@@ -1,0 +1,70 @@
+{
+ "out": "productboard-short.mp4",
+ "kicker": "Build test \u00b7 Productboard alternative",
+ "title": "Can Claude replace Productboard?",
+ "badge_image": "sam-photo.jpg",
+ "music": "music.mp3",
+ "music_volume": 0.08,
+ "words": "stts/words.json",
+ "highlight": [
+  "Productboard",
+  "twenty-five",
+  "once,",
+  "twice.",
+  "outbox",
+  "emails",
+  "prices.",
+  "build"
+ ],
+ "segments": [
+  {
+   "type": "avatar",
+   "video": "hook.mp4",
+   "text": "Here's how to reverse engineer Productboard from a written spec. Claude passed all twenty-five checks, but my spec never said to hide sign-in links from admins."
+  },
+  {
+   "type": "product",
+   "scene": "build",
+   "audio": "stts/build.mp3",
+   "source": "long.mp4",
+   "from": 37.0,
+   "crop": [
+    1000,
+    280,
+    860,
+    600
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "gaps",
+   "audio": "stts/gaps.mp3",
+   "source": "long.mp4",
+   "from": 98.4,
+   "crop": [
+    30,
+    140,
+    880,
+    500
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "verdict",
+   "audio": "stts/verdict.mp3",
+   "source": "long.mp4",
+   "from": 135.8,
+   "crop": [
+    40,
+    250,
+    1000,
+    700
+   ]
+  },
+  {
+   "type": "avatar",
+   "video": "outro-generic-v2.mp4",
+   "text": "The full spec is free at personal software factory dot com. If you build it, tell me what broke. I'm Sam. See you tomorrow."
+  }
+ ]
+}
