@@ -1,0 +1,27 @@
+{
+ "file": "long.mp4",
+ "title": "Build a Rocketlane alternative with Claude: free client onboarding tracker spec, 28/28 checks passed",
+ "description": "Claude built a Rocketlane alternative from one Markdown spec: all 28 acceptance checks passed in a real browser, along with 119 automated tests.\nThe test build also exposed 18 gaps in the spec, and every one is now fixed.\n\nWe gave Claude one Markdown spec for a client onboarding tracker for teams of 2 to 25 people and had it build the tool in four phases: people, templates and sign-in; projects, checklists and stage gates; notifications, the daily digest and projects on hold; and the client progress link, handoffs and CSV export. The core rule is the stage gate: a client project leaves Kickoff, Setup or Training only when every task in that stage is done or skipped with a reason, so Bluebird, with two Setup tasks still open, can't be handed off to Training. The gaps included Live projects that still counted as active, so their owners could never be deactivated, nothing stopping an admin deactivating the last admin, and digest items that named only the client once a client had two projects. What passed, what broke, what we didn't test, and when Rocketlane is still the better buy.\n\nChapters\n00:00 Reverse engineering Rocketlane\n00:25 The core rule: the stage gate\n00:43 Four build phases\n01:04 What Claude built\n01:25 Result and what broke\n01:54 What we didn't test\n02:05 Is it worth building?\n02:27 Get the free spec\n\nSam's on-camera intro and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nThe spec (free): https://personalsoftwarefactory.com/blueprints/client-onboarding-tracker\nRocketlane pricing and alternatives: https://personalsoftwarefactory.com/alternatives/rocketlane\nAll blueprints on GitHub: https://github.com/samclaassen/internal-tool-blueprints\nBefore you rely on an AI-built tool: https://personalsoftwarefactory.com/guides/ai-built-tools-production-readiness\n\nRocketlane prices: Standard $49 and Premium $69 per team member per month, billed annually, each with a minimum of 5 team members; Enterprise is custom pricing (rocketlane.com/pricing, October 2026). Five seats on Standard come to at least $2,940 a year.\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/",
+ "tags": [
+  "Rocketlane",
+  "Rocketlane alternative",
+  "Rocketlane pricing",
+  "build a Rocketlane alternative",
+  "client onboarding tracker",
+  "client onboarding software",
+  "customer onboarding checklist",
+  "Claude",
+  "AI app builder",
+  "spec-driven development",
+  "internal tools",
+  "build vs buy SaaS",
+  "personal software factory"
+ ],
+ "categoryId": "28",
+ "publishAt": "2026-10-31T16:00:00Z",
+ "thumbnail": "thumb.jpg",
+ "playlists": [
+  "PLQ_n7bK0gJf0",
+  "PLY7Yy8lQCdGo"
+ ]
+}

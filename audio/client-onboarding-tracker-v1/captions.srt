@@ -1,0 +1,191 @@
+1
+00:00:00,100 --> 00:00:03,428
+Here's how to reverse engineer Rocketlane from a written spec.
+
+2
+00:00:03,428 --> 00:00:07,400
+Claude passed all twenty-eight checks, and found eighteen gaps in my spec.
+
+3
+00:00:08,217 --> 00:00:09,924
+We gave Claude one Markdown file.
+
+4
+00:00:10,095 --> 00:00:13,785
+It copies the part of Rocketlane a small team actually needs for client onboarding.
+
+5
+00:00:14,020 --> 00:00:15,983
+Templates with a checklist for every stage.
+
+6
+00:00:16,324 --> 00:00:18,557
+One project per client, copied from a template.
+
+7
+00:00:18,700 --> 00:00:21,473
+Handoffs that pass the project to a new owner, with a note.
+
+8
+00:00:21,772 --> 00:00:24,373
+And a read-only link that shows the client their progress.
+
+9
+00:00:25,483 --> 00:00:27,253
+The core rule is the stage gate.
+
+10
+00:00:27,445 --> 00:00:31,883
+Every client moves through four stages: kickoff, setup, training and live.
+
+11
+00:00:32,139 --> 00:00:36,272
+A project can only leave a stage when every task in it is done, or skipped with a reason.
+
+12
+00:00:36,480 --> 00:00:39,061
+Bluebird is in setup, with two tasks still open.
+
+13
+00:00:39,296 --> 00:00:42,831
+So the handoff to training is refused, and the app names the open tasks.
+
+14
+00:00:43,917 --> 00:00:46,391
+Claude built it in four phases, one prompt each.
+
+15
+00:00:46,605 --> 00:00:49,485
+The foundation, with people, templates and sign-in.
+
+16
+00:00:49,719 --> 00:00:51,874
+Projects, checklists and stage gates.
+
+17
+00:00:52,109 --> 00:00:55,239
+Notifications, the daily digest, and projects on hold.
+
+18
+00:00:55,425 --> 00:00:58,326
+Then the client link, handoffs and CSV export.
+
+19
+00:00:58,667 --> 00:01:03,227
+After every phase, the acceptance checks ran in a real browser, from fresh seed data.
+
+20
+00:01:04,317 --> 00:01:05,213
+Here's what it built.
+
+21
+00:01:05,512 --> 00:01:10,120
+The board shows every client by stage, with three in progress and four overdue tasks.
+
+22
+00:01:10,376 --> 00:01:14,831
+Bluebird's project page shows the setup checklist, with training locked until setup is done.
+
+23
+00:01:15,020 --> 00:01:17,900
+A new project previews all six tasks and their due dates.
+
+24
+00:01:18,092 --> 00:01:20,460
+Each morning, a digest lists what's overdue.
+
+25
+00:01:20,609 --> 00:01:24,308
+And the client's link shows only shared tasks, never internal ones.
+
+26
+00:01:25,383 --> 00:01:32,187
+In one final run, on a fresh database, all twenty-eight checks passed, along with one hundred and nineteen automated tests.
+
+27
+00:01:33,283 --> 00:01:35,267
+But the more useful result is what broke.
+
+28
+00:01:35,545 --> 00:01:37,827
+The build exposed eighteen gaps in the spec.
+
+29
+00:01:38,105 --> 00:01:39,641
+Places where Claude had to guess.
+
+30
+00:01:39,854 --> 00:01:43,730
+A live project still counted as active, so its owner could never be deactivated.
+
+31
+00:01:43,936 --> 00:01:46,624
+Nothing stopped an admin deactivating the last admin.
+
+32
+00:01:46,880 --> 00:01:51,381
+And digest items named only the client, which is ambiguous once a client has two projects.
+
+33
+00:01:51,701 --> 00:01:53,700
+Every gap is now fixed in the spec.
+
+34
+00:01:54,783 --> 00:01:57,194
+Passing every check isn't the same as production-ready.
+
+35
+00:01:57,386 --> 00:02:02,740
+We didn't test production sign-in, real email delivery, the hourly job on a real scheduler, or hosting.
+
+36
+00:02:02,932 --> 00:02:05,145
+Those are yours to check before your team relies on it.
+
+37
+00:02:06,250 --> 00:02:07,444
+So is it worth building?
+
+38
+00:02:07,743 --> 00:02:13,908
+Rocketlane's Standard plan is forty-nine dollars per team member per month, billed annually, with a minimum of five.
+
+39
+00:02:14,143 --> 00:02:16,895
+That's at least two thousand nine hundred and forty dollars a year.
+
+40
+00:02:17,087 --> 00:02:18,561
+Premium is sixty-nine.
+
+41
+00:02:18,798 --> 00:02:23,769
+If clients need to log in and tick off their own tasks, or you bill for time, buy Rocketlane.
+
+42
+00:02:24,046 --> 00:02:27,118
+If you run the same checklist for a few clients a month, build it.
+
+43
+00:02:28,217 --> 00:02:29,583
+Everything is in one file.
+
+44
+00:02:29,796 --> 00:02:36,543
+The data model, eighteen rules, seed data, four phase prompts, and all twenty-eight checks, with the eighteen fixes already in.
+
+45
+00:02:37,533 --> 00:02:41,106
+The full spec is free at personal software factory dot com.
+
+46
+00:02:41,106 --> 00:02:43,286
+If you build it, tell me what broke.
+
+47
+00:02:43,286 --> 00:02:43,771
+I'm Sam.
+
+48
+00:02:43,771 --> 00:02:44,800
+See you tomorrow.
