@@ -1,0 +1,23 @@
+{
+ "file": "senja-short-2.mp4",
+ "short": true,
+ "title": "What my Senja spec forgot: 32/32 checks passed, 11 gaps found #shorts",
+ "description": "Claude passed all 32 acceptance checks building a Senja alternative, a testimonial wall, from one written spec. The build still exposed 11 gaps in the spec, like a second moderator silently replacing the featured quote, and a quote starting with = running as a formula in the CSV export. All 11 are now fixed.\n\nFull build test (3:03): https://youtu.be/VLkozMFK8xU\nThe free spec: https://personalsoftwarefactory.com/blueprints/testimonial-wall\nSenja pricing and alternatives: https://personalsoftwarefactory.com/alternatives/senja\n\nSenja prices: Free $0 (15 testimonials), Starter $29/month, Pro $59/month (senja.io/pricing, October 2026).\n\nMade with AI: Sam's on-camera hook and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/\n\n#shorts #claude #senja",
+ "tags": [
+  "Senja alternative",
+  "Senja",
+  "Senja pricing",
+  "build a Senja alternative",
+  "testimonial wall",
+  "customer testimonials",
+  "spec-driven development",
+  "Claude",
+  "AI app builder",
+  "internal tools",
+  "build vs buy SaaS",
+  "personal software factory",
+  "shorts"
+ ],
+ "categoryId": "28",
+ "publishAt": "2026-10-31T00:00:00Z"
+}

@@ -1,0 +1,7 @@
+{
+  "scenes": [
+    {"id": "rule", "text": "The core rule is permission. Only the customer can tick the box, and it's never pre-ticked. Without it, approval is refused. And if they withdraw, the quote leaves the wall right away.", "cues": []},
+    {"id": "gaps", "text": "The surprises were in the gaps. A second moderator could silently replace the featured quote. And a quote starting with an equals sign could run as a formula in the CSV export. All eleven are now fixed.", "cues": []},
+    {"id": "verdict", "text": "So is it worth building? Senja's free plan hides new testimonials after fifteen, and Starter is twenty-nine dollars a month. If you only need the form, the permission and the wall, build it.", "cues": []}
+  ]
+}

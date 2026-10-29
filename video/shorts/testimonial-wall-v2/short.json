@@ -1,0 +1,74 @@
+{
+ "out": "senja-short-2.mp4",
+ "kicker": "Build test \u00b7 Senja alternative",
+ "title": "What my Senja spec forgot",
+ "badge_from": "hook.mp4",
+ "music": "music.mp3",
+ "music_volume": 0.08,
+ "words": "tts/words.json",
+ "highlight": [
+  "Senja",
+  "Senja's",
+  "thirty-two",
+  "eleven",
+  "permission.",
+  "permission",
+  "refused.",
+  "silently",
+  "formula",
+  "fifteen,",
+  "twenty-nine",
+  "build"
+ ],
+ "segments": [
+  {
+   "type": "avatar",
+   "video": "hook.mp4",
+   "text": "Here's how to reverse engineer Senja from a written spec. Claude passed all thirty-two checks, and found eleven gaps in my spec."
+  },
+  {
+   "type": "product",
+   "scene": "rule",
+   "audio": "tts/rule.mp3",
+   "source": "rulesrc.mp4",
+   "from": 0.0,
+   "crop": [
+    0,
+    0,
+    1000,
+    714
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "gaps",
+   "audio": "tts/gaps.mp3",
+   "source": "long.mp4",
+   "from": 113.5,
+   "crop": [
+    40,
+    170,
+    900,
+    560
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "verdict",
+   "audio": "tts/verdict.mp3",
+   "source": "verdictsrc.mp4",
+   "from": 0.0,
+   "crop": [
+    0,
+    0,
+    1000,
+    714
+   ]
+  },
+  {
+   "type": "avatar",
+   "video": "outro.mp4",
+   "text": "The full spec is free at personal software factory dot com. If you build it, tell me what broke. I'm Sam. See you tomorrow."
+  }
+ ]
+}
