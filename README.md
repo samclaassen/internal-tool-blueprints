@@ -3,7 +3,7 @@
 Free, build-tested specs for the internal tools a small team can build with an AI app builder (Claude, ChatGPT, Cursor, Claude Code, Lovable, Replit or Type) instead of paying per seat for SaaS: a CRM instead of HubSpot, an approval workflow instead of Kissflow, a help desk instead of Zendesk, and more.
 
 - **37 blueprints**, each one Markdown file you can paste into an AI builder.
-- **14 build-tested**: an AI builder followed the phase prompts and every acceptance check was run in a real browser. 383 acceptance checks passed in the final runs, the builds include 964 automated tests, and the builds exposed **146 gaps in the specs**, all fixed here.
+- **15 build-tested**: an AI builder followed the phase prompts and every acceptance check was run in a real browser. 411 acceptance checks passed in the final runs, the builds include 1,083 automated tests, and the builds exposed **164 gaps in the specs**, all fixed here.
 - Every price and feature claim about the paid product was checked on the vendor's own pages, with the month checked.
 
 Mirrored from **[Personal Software Factory](https://personalsoftwarefactory.com)** (personalsoftwarefactory.com), where each blueprint also has a labelled drawing and build-or-buy notes, many have a live demo, and tested ones show their build-test results and what was not tested.
@@ -29,7 +29,7 @@ The same AI builder (Claude, working in Type) wrote each test build and its test
 | **Content Calendar**: Our content plan lives in four different docs and nobody trusts any of them. | CoSchedule | Marketing | 2–15 people | Build-tested 2026-10-15, 27/27 acceptance checks passed | [content-calendar.md](blueprints/content-calendar.md) | [page](https://personalsoftwarefactory.com/blueprints/content-calendar) |
 | **Testimonial Wall**: Our best customer quotes are buried in emails and call notes. | Senja | Marketing | 1–10 people | Build-tested 2026-10-17, 32/32 acceptance checks passed | [testimonial-wall.md](blueprints/testimonial-wall.md) | [page](https://personalsoftwarefactory.com/blueprints/testimonial-wall) |
 | **Link Shortener**: Our UTM tags are a mess and nobody knows which links still work. | Bitly | Marketing | 2–50 people | Full spec; build test pending | [link-shortener.md](blueprints/link-shortener.md) | [page](https://personalsoftwarefactory.com/blueprints/link-shortener) |
-| **Client Onboarding Tracker**: Client onboarding lives in one person's head, and things fall through the cracks. | Rocketlane | Ops | 2–25 people | Full spec with working demo; build test pending | [client-onboarding-tracker.md](blueprints/client-onboarding-tracker.md) | [page](https://personalsoftwarefactory.com/blueprints/client-onboarding-tracker) |
+| **Client Onboarding Tracker**: Client onboarding lives in one person's head, and things fall through the cracks. | Rocketlane | Ops | 2–25 people | Build-tested 2026-10-29, 28/28 acceptance checks passed | [client-onboarding-tracker.md](blueprints/client-onboarding-tracker.md) | [page](https://personalsoftwarefactory.com/blueprints/client-onboarding-tracker) |
 | **Approval Workflow**: Purchase requests get lost in Slack, and nobody knows who approved what. | Kissflow | Ops | 5–100 people | Build-tested 2026-10-12, 20/20 acceptance checks passed | [approval-workflow.md](blueprints/approval-workflow.md) | [page](https://personalsoftwarefactory.com/blueprints/approval-workflow) |
 | **Project Status Board**: Every Monday I rebuild the same status report from scratch. | Monday.com | Ops | 5–50 people | Build-tested 2026-10-16, 28/28 acceptance checks passed | [project-status-board.md](blueprints/project-status-board.md) | [page](https://personalsoftwarefactory.com/blueprints/project-status-board) |
 | **Equipment Tracker**: Nobody knows who has which laptop, or when its warranty ends. | Asset Panda | Ops | 10–200 people | Full spec; build test pending | [equipment-tracker.md](blueprints/equipment-tracker.md) | [page](https://personalsoftwarefactory.com/blueprints/equipment-tracker) |
@@ -65,7 +65,7 @@ The full catalog, with live demos and test results, is at https://personalsoftwa
 
 ## Field reports
 
-- [Is an AI-built internal tool ready for production? What our 14 build tests didn't test](https://personalsoftwarefactory.com/guides/ai-built-tools-production-readiness)
+- [Is an AI-built internal tool ready for production? What our 15 build tests didn't test](https://personalsoftwarefactory.com/guides/ai-built-tools-production-readiness)
 - [Field report: building a Zendesk replacement with AI, 24 checks and 21 spec gaps](https://personalsoftwarefactory.com/guides/zendesk-replacement-build-test)
 - [Field report: building a Greenhouse replacement with AI, 29 checks and 18 spec gaps](https://personalsoftwarefactory.com/guides/greenhouse-replacement-build-test)
 - [Field report: building a Jira replacement with AI, 31 checks and 5 spec gaps](https://personalsoftwarefactory.com/guides/jira-replacement-build-test)
@@ -80,6 +80,7 @@ The full catalog, with live demos and test results, is at https://personalsoftwa
 - [Field report: building a PandaDoc replacement with AI, 29 checks and 8 spec gaps](https://personalsoftwarefactory.com/guides/pandadoc-replacement-build-test)
 - [Field report: building a HubSpot replacement with AI, 27 checks and 8 spec gaps](https://personalsoftwarefactory.com/guides/hubspot-replacement-build-test)
 - [Field report: building a Productboard replacement with AI, 25 checks and 20 spec gaps](https://personalsoftwarefactory.com/guides/productboard-replacement-build-test)
+- [Field report: building a Rocketlane replacement with AI, 28 checks and 18 spec gaps](https://personalsoftwarefactory.com/guides/rocketlane-replacement-build-test)
 
 Short videos of the build tests, with what passed and what broke, are on YouTube at [@personalsoftwarefactory](https://www.youtube.com/@personalsoftwarefactory).
 
@@ -91,7 +92,7 @@ Short videos of the build tests, with what passed and what broke, are on YouTube
 - [How to build an internal tool with AI that your team can rely on](https://personalsoftwarefactory.com/guides/how-to-build-internal-tools-with-ai)
 - [What 36 business SaaS tools cost a 10-person team (October 2026)](https://personalsoftwarefactory.com/guides/saas-pricing-for-small-teams)
 - [The hidden limits in SaaS pricing: caps, minimums and metered features in 36 tools](https://personalsoftwarefactory.com/guides/saas-pricing-limits)
-- [What AI app builders get wrong: 146 spec gaps from 14 build tests](https://personalsoftwarefactory.com/guides/what-ai-builders-get-wrong)
+- [What AI app builders get wrong: 164 spec gaps from 15 build tests](https://personalsoftwarefactory.com/guides/what-ai-builders-get-wrong)
 - [What is a personal software factory?](https://personalsoftwarefactory.com/guides/what-is-a-personal-software-factory)
 
 ## Contributing
