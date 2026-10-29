@@ -1,0 +1,17 @@
+{
+ "out": "rocketlane-short.mp4",
+ "kicker": "Build test · Rocketlane alternative",
+ "title": "Can Claude replace Rocketlane?",
+ "badge_image": "sam-photo.jpg",
+ "music": "music.mp3",
+ "music_volume": 0.08,
+ "words": "stts/words.json",
+ "highlight": ["Rocketlane", "twenty-eight", "eighteen", "refused.", "deactivated.", "admin.", "forty-nine", "build"],
+ "segments": [
+  {"type": "avatar", "video": "hook.mp4", "text": "Here's how to reverse engineer Rocketlane from a written spec. Claude passed all twenty-eight checks, and found eighteen gaps in my spec."},
+  {"type": "product", "scene": "build", "audio": "stts/build.mp3", "source": "long.mp4", "from": 32.4, "crop": [60, 400, 1140, 460]},
+  {"type": "product", "scene": "gaps", "audio": "stts/gaps.mp3", "source": "long.mp4", "from": 96.8, "crop": [930, 240, 940, 440]},
+  {"type": "product", "scene": "verdict", "audio": "stts/verdict.mp3", "source": "long.mp4", "from": 137.5, "crop": [40, 250, 1000, 530]},
+  {"type": "avatar", "video": "outro-generic-v2.mp4", "text": "The full spec is free at personal software factory dot com. If you build it, tell me what broke. I'm Sam. See you tomorrow."}
+ ]
+}

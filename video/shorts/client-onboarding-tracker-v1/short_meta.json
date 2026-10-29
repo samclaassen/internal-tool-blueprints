@@ -1,0 +1,22 @@
+{
+ "file": "rocketlane-short.mp4",
+ "short": true,
+ "title": "Can Claude replace Rocketlane? 28/28 checks, 18 spec gaps #shorts",
+ "description": "Claude built a Rocketlane alternative, a client onboarding tracker with a checklist for every stage and a hard gate between stages, from one written spec: all 28 acceptance checks passed, and the build exposed 18 gaps in the spec.\n\nFull build test (2:45): https://youtu.be/8o02hhUDQ5s\nThe free spec: https://personalsoftwarefactory.com/blueprints/client-onboarding-tracker\nRocketlane pricing and alternatives: https://personalsoftwarefactory.com/alternatives/rocketlane\n\nRocketlane lists Standard at $49 and Premium at $69 per team member per month, billed annually, each with a minimum of 5 team members; Enterprise is custom (rocketlane.com/pricing, October 2026).\n\nMade with AI: Sam's on-camera hook and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/\n\n#shorts #claude #rocketlane",
+ "tags": [
+  "Rocketlane alternative",
+  "Rocketlane",
+  "build a Rocketlane alternative",
+  "client onboarding tracker",
+  "client onboarding software",
+  "customer onboarding checklist",
+  "Claude",
+  "AI app builder",
+  "internal tools",
+  "build vs buy SaaS",
+  "personal software factory",
+  "shorts"
+ ],
+ "categoryId": "28",
+ "publishAt": "2026-10-31T20:00:00Z"
+}

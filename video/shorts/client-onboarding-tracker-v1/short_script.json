@@ -1,0 +1,5 @@
+{"scenes": [
+ {"id": "build", "text": "Claude built a client onboarding tracker with a hard rule. A client can't leave setup until every setup task is done, or skipped with a reason. Bluebird has two open, so the handoff is refused.", "cues": []},
+ {"id": "gaps", "text": "But the useful part is what broke. A live project still counted as active, so its owner could never be deactivated. And nothing stopped an admin deactivating the last admin.", "cues": []},
+ {"id": "verdict", "text": "Rocketlane starts at forty-nine dollars a seat a month, with five seats minimum. If you run the same checklist for a few clients a month, build your own.", "cues": []}
+]}
