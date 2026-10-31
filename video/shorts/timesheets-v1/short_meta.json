@@ -1,0 +1,22 @@
+{
+ "file": "harvest-short.mp4",
+ "short": true,
+ "title": "Can Claude replace Harvest? 21/21 checks, 21 spec gaps #shorts",
+ "description": "Claude built a Harvest alternative, a weekly timesheet app where a manager's approval locks the week and fixes each entry's rate, from one written spec: all 21 acceptance checks passed, and the build exposed 21 gaps in the spec.\n\nFull build test (2:48): https://youtu.be/Z2wrf7ZLiQ4\nThe free spec: https://personalsoftwarefactory.com/blueprints/timesheets\nHarvest pricing and alternatives: https://personalsoftwarefactory.com/alternatives/harvest\n\nHarvest lists a Free plan for 1 seat and 2 projects, Teams from $9 and Enterprise from $14 per seat per month billed annually, with timesheet approvals listed on Enterprise (getharvest.com/pricing, October 2026). Ten seats on Enterprise come to $1,680 a year.\n\nMade with AI: Sam's on-camera hook and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/\n\n#shorts #claude #harvest",
+ "tags": [
+  "Harvest alternative",
+  "Harvest",
+  "build a Harvest alternative",
+  "timesheets",
+  "timesheet approval",
+  "time tracking software",
+  "Claude",
+  "AI app builder",
+  "internal tools",
+  "build vs buy SaaS",
+  "personal software factory",
+  "shorts"
+ ],
+ "categoryId": "28",
+ "publishAt": "2026-11-01T21:00:00Z"
+}

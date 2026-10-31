@@ -1,0 +1,5 @@
+{"scenes": [
+ {"id": "build", "text": "Claude built a timesheet app with one hard rule. When a manager approves a week, it locks, and every entry keeps the rate it was approved at. So raising a rate later never changes hours you already invoiced.", "cues": []},
+ {"id": "gaps", "text": "But the useful part is what broke. A check typed one forty, but the spec made the hours field sound like a picker. And a note starting with an equals sign would run as a formula in the export.", "cues": []},
+ {"id": "verdict", "text": "Harvest lists timesheet approvals on its Enterprise plan, from fourteen dollars a seat. For ten people, that's one thousand six hundred and eighty dollars a year. If you only need approved hours to invoice from, build your own.", "cues": []}
+]}

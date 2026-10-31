@@ -1,0 +1,17 @@
+{
+ "out": "harvest-short.mp4",
+ "kicker": "Build test · Harvest alternative",
+ "title": "Can Claude replace Harvest?",
+ "badge_image": "sam-photo.jpg",
+ "music": "music.mp3",
+ "music_volume": 0.08,
+ "words": "stts/words.json",
+ "highlight": ["Harvest", "twenty-one", "locks,", "invoiced.", "forty", "formula", "fourteen", "build"],
+ "segments": [
+  {"type": "avatar", "video": "hook.mp4", "text": "Here's how to reverse engineer Harvest from a written spec. Claude passed all twenty-one checks, but my spec never said who could reassign a waiting timesheet."},
+  {"type": "product", "scene": "build", "audio": "stts/build.mp3", "source": "long.mp4", "from": 66.2, "crop": [330, 200, 1260, 600]},
+  {"type": "product", "scene": "gaps", "audio": "stts/gaps.mp3", "source": "long.mp4", "from": 103.9, "crop": [930, 250, 940, 680]},
+  {"type": "product", "scene": "verdict", "audio": "stts/verdict.mp3", "source": "long.mp4", "from": 137.0, "crop": [40, 250, 1000, 700]},
+  {"type": "avatar", "video": "outro.mp4", "text": "The full spec is free at personal software factory dot com. If you build it, tell me what broke. I'm Sam. See you tomorrow."}
+ ]
+}
