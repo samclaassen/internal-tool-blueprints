@@ -1,0 +1,23 @@
+{
+ "file": "cc2-short.mp4",
+ "short": true,
+ "title": "What my CoSchedule spec forgot: 27/27 checks passed, 8 gaps found #shorts",
+ "description": "Claude built a CoSchedule alternative, a content calendar where nothing is scheduled without an editor's approval, from one written spec. All 27 acceptance checks passed, and the build exposed 8 gaps in the spec. The surprise: nothing stopped an edit after a piece was in review or scheduled, and the test build allowed it. The spec now refuses those edits.\n\nFull build test (2:42): https://youtu.be/KpdbUvlQ_s4\nThe free spec: https://personalsoftwarefactory.com/blueprints/content-calendar\nCoSchedule pricing and alternatives: https://personalsoftwarefactory.com/alternatives/coschedule\n\nMade with AI: Sam's on-camera hook and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/\n\n#shorts #claude #coschedule",
+ "tags": [
+  "CoSchedule alternative",
+  "CoSchedule",
+  "build a CoSchedule alternative",
+  "content calendar",
+  "editorial calendar",
+  "content approval workflow",
+  "Claude",
+  "AI app builder",
+  "spec-driven development",
+  "internal tools",
+  "build vs buy SaaS",
+  "personal software factory",
+  "shorts"
+ ],
+ "categoryId": "28",
+ "publishAt": "2026-11-01T00:00:00Z"
+}

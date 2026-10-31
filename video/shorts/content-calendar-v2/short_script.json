@@ -1,0 +1,19 @@
+{
+ "scenes": [
+  {
+   "id": "rule",
+   "text": "The core rule is approval. Nothing gets scheduled until an editor who didn't write it approves it. When Maya sends her own post for review, it goes to Dana instead.",
+   "cues": []
+  },
+  {
+   "id": "gaps",
+   "text": "The surprise was what came after. Once a piece was in review or scheduled, nothing stopped an edit without another review. The build followed my wording and allowed it. Now the spec refuses those edits. And a daily job at eight a.m. team time can't be one UTC cron schedule.",
+   "cues": []
+  },
+  {
+   "id": "untested",
+   "text": "Passing every check isn't production-ready. We never tested production sign-in, real email, the scheduled daily job, or several servers writing at once. Check those before your team relies on it.",
+   "cues": []
+  }
+ ]
+}
