@@ -1,4 +1,4 @@
-<!-- Mirrored from https://personalsoftwarefactory.com/blueprints/knowledge-base . The page has a labelled drawing and build-or-buy notes. Free to copy and adapt for your own team. -->
+<!-- Mirrored from https://personalsoftwarefactory.com/blueprints/knowledge-base . The page has a labelled drawing, build-or-buy notes and the build-test results. Free to copy and adapt for your own team. -->
 
 # Internal Knowledge Base
 
@@ -123,11 +123,13 @@ All timestamps are UTC. Dates are calendar dates in the team time zone (`YYYY-MM
 
 **Trust** is computed every time it is shown, from the card, its open flags, its owner and today. It is never stored. For a published card, the first rule that matches gives Unverified and its reason:
 1. The owner is inactive, or is no longer an editor of the collection (and not an admin): "Needs a new owner: Kai Brooks is inactive." or "Needs a new owner: Ben Cho is no longer an editor of IT & Accounts."
-2. There is an open flag: "Flagged by Jo Park on Mon 12 Oct: The meal limit changed to $60 in October." (the oldest open flag; " (+1 more)" when there are others).
+2. There is an open flag: "Flagged by Jo Park on Mon 12 Oct: The meal limit changed to $60 in October." (the oldest open flag; " (+1 more)", " (+2 more)" and so on when there are others).
 3. needs_verification is set: "Edited by Sam Okafor on Tue 13 Oct. Waiting for Ben Cho to verify.", "Not verified yet. Waiting for Ben Cho." or "Restored on Wed 14 Oct. Waiting for Ben Cho to verify."
 4. The card has an interval and today is after verified_until: "Review was due Sun 4 Oct."
 
-Otherwise it is Verified: "Verified by Ben Cho on Tue 13 Oct · next review by Mon 11 Jan 2027", or "· doesn't expire". A verified card is **due soon** when it has an interval and today is on or after verified_until minus 7 days. Drafts and archived cards have no trust.
+Otherwise it is Verified: "Verified by Ben Cho on Tue 13 Oct · next review by Mon 11 Jan 2027", or "· doesn't expire". A verified card is **due soon** when it has an interval and today is on or after verified_until minus 7 days; it still shows Verified with the same text, plus a "Due soon" badge. On verified_until itself it is still Verified; it is Unverified from the next day. Drafts and archived cards have no trust.
+
+Changing a card's review interval takes effect at its next verification; verified_until isn't recalculated until then.
 
 The **verification score** of a set of published cards is the verified ones ÷ all of them, as a whole percentage rounded half up: floor((200 × verified + total) ÷ (2 × total)). With no cards, show "–".
 
@@ -176,9 +178,9 @@ Admins count as editors of every collection, so they can take any editor action.
 2. Split on every character that is not a letter or a digit, and drop words shorter than 2 characters.
 3. A word longer than 3 characters that ends in "s", but not in "ss", "us" or "is", loses the final "s" ("expenses" becomes "expense", "meals" becomes "meal", "pass" stays "pass").
 
-**Terms.** A query's terms are its words without duplicates and without these stop words: a, an, and, are, as, at, be, by, can, do, does, for, from, get, how, i, in, is, it, me, my, of, on, or, our, the, to, we, what, when, where, who, why, with, you, your. A query with no terms shows "Type a word to search for." and is not logged.
+**Terms.** A query's terms are its words without duplicates and without these stop words: a, an, and, are, as, at, be, by, can, do, does, for, from, get, how, i, in, is, it, me, my, of, on, or, our, the, to, we, what, when, where, who, why, with, you, your. A word is compared with the stop words before step 3 removes a final "s", so "does" is dropped rather than becoming "doe". A query with no terms shows "Type a word to search for." and is not logged.
 
-**Matching and ranking.** Search covers published cards in collections the person can see (R2); drafts and archived cards never appear, for anyone. A term matches a field when it equals one of the field's words. For each term, a card scores 3 if it matches the title or an alternate question, otherwise 2 if it matches a tag, otherwise 1 if it matches the body. A card's score is the sum over the terms; cards scoring 0 are left out. Order: score, highest first; then Verified before Unverified; then title A to Z. Show at most 20 results.
+**Matching and ranking.** Search covers published cards in collections the person can see (R2); drafts and archived cards never appear, for anyone. A term matches a field when it equals one of the field's words; titles, alternate questions, tags and bodies are all turned into words with the same function (so the tag "expenses" matches "expense"), and each term scores once, at its best field. For each term, a card scores 3 if it matches the title or an alternate question, otherwise 2 if it matches a tag, otherwise 1 if it matches the body. A card's score is the sum over the terms; cards scoring 0 are left out. Order: score, highest first; then Verified before Unverified; then title A to Z. Show at most 20 results.
 
 **Logging.** Each submitted search with at least one term writes one SearchLog row with the terms and the number of results that person got (R14).
 
@@ -197,9 +199,9 @@ Admins count as editors of every collection, so they can take any editor action.
 
 ## 9. Business rules
 
-- **R1. Server checks.** Every permission is enforced on the server for every action and API call. Hiding a button is not a permission check. Editor actions by anyone else: "Only editors of IT & Accounts can do this." An action on a card in the wrong state (section 7) is refused with "KB-103 is archived." or "KB-110 is a draft."
+- **R1. Server checks.** Every permission is enforced on the server for every action and API call. Hiding a button is not a permission check. Editor actions by anyone else: "Only editors of IT & Accounts can do this." An action on a card in the wrong state (section 7) is refused with "KB-103 is archived." or "KB-110 is a draft." Refusals return HTTP 403 for permissions, 409 when the card's state or version doesn't allow the action (or a flag already exists), and 400 for invalid fields, always with the message; a request asking for JSON gets `{"error": "..."}`. Form posts whose Origin is another site are refused with 403.
 - **R2. Visibility.** A person can see a collection when its visibility is everyone, when their team is one of its teams, or when they are an admin. Cards in collections they can't see don't exist for them: card and collection pages and API calls return "Not found", and those cards are left out of search, Recently changed, Collections counts, Slack replies and notifications. Drafts are visible only to the collection's editors.
-- **R3. Editors.** Admins add and remove editors in Admin → Collections. An editor must be active and able to see the collection: "Jo Park can't see Sales playbook, so they can't edit it." Changing a collection's visibility so that an editor could no longer see it is refused: "Ana Lima edits Finance and couldn't see it any more. Remove her as an editor first." Removing an editor leaves their cards with them; rule 1 of section 6 flags those cards.
+- **R3. Editors.** Admins add and remove editors in Admin → Collections. An editor must be active and able to see the collection: "Jo Park can't see Sales playbook, so they can't edit it." Changing a collection's visibility so that an editor could no longer see it is refused: "Ana Lima edits Finance and couldn't see it any more. Remove them as an editor first." Adding an inactive person is refused with "Kai Brooks is inactive, so they can't edit Sales playbook." and adding a current editor with "Ben Cho already edits IT & Accounts." Admins always pass the visibility check. Removing an editor leaves their cards with them; rule 1 of section 6 flags those cards. The same check applies when an admin changes an editor's team or removes their admin flag: the change is refused with the same message if they could no longer see a collection they edit.
 - **R4. Card fields.** The limits in section 5, with these messages: "Write the title as a question of 5 to 120 characters.", "The answer needs 1 to 5,000 characters.", "Tags use lowercase letters, digits and hyphens.", "Pick how often this card is reviewed." The owner must be an active editor of the collection (or an admin): "Jo Park isn't an editor of IT & Accounts."
 - **R5. Numbers.** Card numbers are assigned in order when a draft is created, starting at 101, and are never reused.
 - **R6. Versions.** Every edit of a published card publishes a new version and needs a change note of 3 to 200 characters: "Say what changed in 3 to 200 characters." The edit form carries the version it was opened at; if the card has moved on, saving is refused: "Someone published a newer version (version 3 by Ben Cho) while you were editing. Copy your changes, reload and edit again." Versions are never changed or deleted.
@@ -207,30 +209,30 @@ Admins count as editors of every collection, so they can take any editor action.
 - **R8. Publishing and trust.** When the person publishing or editing is the owner, the form offers "Verify now" (ticked by default): ticked, the card is verified as in section 6; unticked, needs_verification is set to edited (or not_verified for version 1). When anyone else publishes or edits, there is no "Verify now": needs_verification is set to not_verified for version 1 and to edited after that, with needs_verification_by and needs_verification_at, and the owner is asked to verify (section 11).
 - **R9. Flags.** Anyone who can see a published card can flag it, except its owner: "You own this card. Edit or verify it instead." The reason needs 5 to 500 characters: "Explain what's wrong in 5 to 500 characters." One open flag per person per card: "You already flagged this card." Only the person who flagged can withdraw it.
 - **R10. Owners.** The current owner or an admin can hand a card to another active editor of its collection (R4). The new owner verifies the cards they take over: a published card gets needs_verification = not_verified, and the new owner is told.
-- **R11. Archive and delete.** Archiving needs no reason. Restoring makes the card Unverified until its owner verifies it. Only drafts can be deleted.
+- **R11. Archive and delete.** Refusals: "Only the card's owner, Ben Cho, or an admin can change its owner.", "Only the draft's creator, Ana Lima, or an admin can delete it.", "KB-105 is published. Only drafts can be deleted." and "Only the person who flagged can withdraw it." Archiving needs no reason. Restoring makes the card Unverified until its owner verifies it. Only drafts can be deleted.
 - **R12. Trust is computed.** Trust and the verification score are always computed as in section 6, never stored or cached past the request.
 - **R13. Followers.** Anyone who can see a card can follow and unfollow it. Notifications go only to followers who are active and can still see the card when it changes.
-- **R14. Search log.** Submitting a search (the search box, or `/kb` in Slack) writes one SearchLog row; typing does not. The log stores the terms, the result count and the time, never who searched. Rows older than 90 days are deleted by the daily job.
-- **R15. People, teams and collections.** Admins add, edit, deactivate and reactivate people and manage teams and collections in Admin. There must always be at least one active admin: "At least one active admin is needed." A deactivated person can't sign in and gets no email; their flags stay open and their cards need a new owner. A team with people or collections can't be deleted: "Sales has 2 people and is used by 1 collection, so it can't be deleted." A collection with cards can't be deleted: "IT & Accounts has 6 cards, so it can't be deleted."
+- **R14. Search log.** Submitting a search (the search box, or `/kb` in Slack) writes one SearchLog row; typing does not. Every request for a results page with at least one term counts, including a reload. result_count is the number of results the person was shown on the web (at most 20), and a Slack search logs the same count. The log stores the terms, the result count and the time, never who searched. Rows older than 90 days (created more than 90 × 24 hours before now) are deleted by the daily job.
+- **R15. People, teams and collections.** Admins add, edit, deactivate and reactivate people and manage teams and collections in Admin. There must always be at least one active admin: "At least one active admin is needed." This refuses both removing the last active admin's flag and deactivating them. The team and collection counts in the delete messages include inactive people, drafts and archived cards, and use the singular for one ("Design has 1 person, so it can't be deleted."). A deactivated person can't sign in and gets no email; their flags stay open and their cards need a new owner. A team with people or collections can't be deleted: "Sales has 2 people and is used by 1 collection, so it can't be deleted." A collection with cards can't be deleted: "IT & Accounts has 6 cards, so it can't be deleted."
 - **R16. Display.** Dates: "Tue 13 Oct", with the year when it isn't the current year ("Mon 11 Jan 2027"). Times: 24-hour "10:00", in the team time zone. Card numbers: "KB-101". Percentages: whole numbers ("67%"). Card bodies are rendered from Markdown (paragraphs, line breaks, bold, italics, lists, inline code and http or https links); raw HTML is shown as text.
 - **R17. Notifications never block.** Every notification is written to the outbox in the same transaction as its action and sent after it commits. A failed send never blocks or undoes the action.
 - **R18. Reading never writes.** Opening pages, cards, history and Insights never creates or changes rows. The only exception is the SearchLog row in R14.
-- **R19. Events.** Every card action in section 7 writes exactly one CardEvent of the type listed, except deleting a draft. Events are never edited, and the card page lists them under Activity.
+- **R19. Events.** Every card action in section 7 writes exactly one CardEvent of the type listed, except deleting a draft. Publishing or editing with "Verify now" ticked writes one `published` or `updated` event whose data records that the card was verified and how many flags were resolved, not a separate `verified` event. Events are never edited, and the card page lists them under Activity.
 
 ## 10. Screens
 
 Navigation: Search, Collections, My cards, Insights (admins), Admin (admins). Admin pages and Insights show "Admins only" to everyone else.
 
-1. **Search** (home). A search box. Results: number, title, collection, the trust badge (Verified or Unverified) with the trust text from section 6, and "Updated Tue 13 Oct". Empty states: "No cards match "parking pass"." and "Type a word to search for." With an empty box, **Recently changed**: the 10 most recently published versions of cards that are published now and that the person can see, newest first, as "KB-104 Who approves software purchases? · Tue 13 Oct · Sam Okafor · Added the $500 yearly limit" (version 1 shows "Published").
-2. **Card.** Title, number, collection, trust badge and text, the body, alternate questions, tags, the update line from section 7, owner, open flags, Follow or Unfollow, Flag (with the reason box) and Withdraw for the person's own open flag. For editors: Edit, Archive or Restore, Change owner. For the owner: Verify and Change owner. For admins: Change owner. History (versions and Compare) and Activity (events, newest first). Archived cards show the archived line and no Flag or Follow.
-3. **Collections.** Each collection the person can see: name, description and "5 cards · 2 verified (40%)" (published cards and their score). Opening one lists its published cards A to Z with their trust badge; editors also see a Drafts tab and an Archived tab, and New card.
-4. **Card editor.** Title, body, alternate questions, tags, owner (a picker of the collection's active editors and admins), review interval. For a published card: change note, "Notify followers" (ticked by default) and, for the owner only, "Verify now". Buttons: Save draft (drafts only), Publish, Delete draft.
+1. **Search** (home). A search box. Results: number, title, collection, the trust badge (Verified or Unverified) with the trust text from section 6, and "Updated Tue 13 Oct". Empty states: "No cards match "parking pass"." and "Type a word to search for." With an empty box, **Recently changed**: the 10 most recently published versions of cards that are published now and that the person can see, newest first (one line per version, so a card with two recent versions appears twice), as "KB-104 Who approves software purchases? · Tue 13 Oct · Sam Okafor · Added the $500 yearly limit" (version 1 shows "Published").
+2. **Card.** Title, number, collection, trust badge and text, the body, alternate questions, tags, the update line from section 7, owner, open flags, Follow or Unfollow, Flag (with the reason box) and Withdraw for the person's own open flag. For editors: Edit, Archive or Restore. For the owner: Verify and Change owner. For admins: Change owner. An editor who is neither the owner nor an admin can't change the owner (R10). History (versions and Compare) and Activity (events, newest first, with date and time, the person and the action; a verification that resolved flags says so, as in "Published version 2 and verified it and resolved 1 flag"). Only open flags are listed on the card, so a resolved flag leaves the list and shows in Activity. Archived cards show the archived line and no Flag or Follow.
+3. **Collections.** Each collection the person can see: name, description and "5 cards · 2 verified (40%)" (published cards and their score; with none, "0 cards · 0 verified (–)"). Opening one lists its published cards A to Z with their trust badge; editors also see a Drafts tab and an Archived tab, and New card.
+4. **Card editor.** Title, body, alternate questions, tags, owner (a picker of the collection's active editors and admins, for drafts only; a published card's owner changes only through Change owner on the card page, and an edit that tries to change it is refused), review interval. For a published card: change note, "Notify followers" (ticked by default) and, for the owner only, "Verify now". Buttons: Save draft (drafts only), Publish, Delete draft.
 5. **My cards.** Cards the person owns, Unverified first with their reason, then due soon, then Verified; and drafts they created.
-6. **Insights** (admins). The verification score overall and by collection; **Needs review**: unverified published cards grouped by owner (owner name A to Z, inactive owners marked "(inactive)"), each with its reason; **Searches with no results**: SearchLog rows with result_count 0 from the last 30 days, grouped by query, with the count and last searched date, ordered by count then most recent. People are never shown.
+6. **Insights** (admins). The verification score overall and by collection; **Needs review**: unverified published cards grouped by owner (owner name A to Z, inactive owners marked "(inactive)"), each with its reason; **Searches with no results**: SearchLog rows with result_count 0 from the last 30 days (created within 30 × 24 hours before now), grouped by query, with the count and last searched date, ordered by count then most recent. People are never shown.
 7. **Admin → People.** Name, email, team, admin, active, Slack (the linked ID, "not linked" or the lookup error). Add, edit, deactivate, reactivate; edit a Slack user ID by hand; Link Slack accounts (section 12). Teams are added, renamed and deleted here (R15).
 8. **Admin → Collections.** Name, description, visibility and teams, and editors (inactive ones marked "(inactive)"). Create, edit, delete (R3, R15).
 9. **Admin → Outbox.** Every notification, newest first: time, recipient, kind, subject, status, attempts and last error. Click a row to read the body.
-10. **Admin → Export.** "Cards CSV" (`cards-2026-10-14.csv`, today's date): one row per card in any status, ordered by number. Columns: number, title, collection, status, trust (verified or unverified; empty for drafts and archived cards), trust_reason (empty when verified), owner, owner_email, review_interval_days (empty for doesn't expire), verified_at, verified_by, verified_until, version, updated_at, updated_by, open_flags, tags (joined with "|"), questions (joined with " | "). Timestamps are UTC ISO 8601 (`2026-10-13T14:00:00Z`), dates `YYYY-MM-DD`, missing values empty, and fields with commas, quotes or line breaks are quoted.
+10. **Admin → Export.** "Cards CSV" (`cards-2026-10-14.csv`, today's date): one row per card in any status, ordered by number. Columns: number, title, collection, status, trust (verified or unverified; empty for drafts and archived cards), trust_reason (empty when verified), owner, owner_email, review_interval_days (empty for doesn't expire), verified_at, verified_by, verified_until, version, updated_at, updated_by, open_flags, tags (joined with "|"), questions (joined with " | "). number is written "KB-101"; owner, verified_by and updated_by hold names; open_flags is the number of open flags; for drafts, updated_at and updated_by are the last save. Timestamps are UTC ISO 8601 (`2026-10-13T14:00:00Z`), dates `YYYY-MM-DD`, missing values empty, and fields with commas, quotes or line breaks are quoted.
 
 All screens must work on a phone. Text people type is always shown as text, never as HTML, apart from the Markdown in R16.
 
@@ -239,14 +241,14 @@ All screens must work on a phone. Text people type is always shown as text, neve
 | Trigger | Recipient | Kind | Subject (seed example) |
 |---|---|---|---|
 | Someone other than the owner publishes or edits a card | The owner | verify_request | "Sam Okafor edited KB-102. Please verify it." (version 1: "Ana Lima published KB-113 and made you its owner. Please verify it.") |
-| The owner is changed (R10) | The new owner | verify_request | "You now own KB-112. Please verify it." |
+| The owner of a published card is changed (R10); handing over a draft or taking a card yourself sends nothing | The new owner | verify_request | "You now own KB-112. Please verify it." |
 | A new version with "Notify followers" ticked | Followers except the author (R13) | card_updated | "KB-101 updated: How do I connect to the VPN?" (body: the change note and a link) |
 | A card is flagged | The owner, if active | flagged | "Tom Bennett flagged KB-106: How many vacation days do I get?" (body: the reason) |
 | A flag is resolved by verifying or archiving | The person who flagged | flag_resolved | "Ana Lima verified KB-106 after your flag" or "Ben Cho archived KB-103 after your flag" |
 | Review due soon (section 13) | The owner | review_due | "KB-107 needs review by Sun 25 Oct" |
 | Review overdue (section 13) | The owner | review_overdue | "KB-103 is overdue for review (due Sun 4 Oct)" |
 
-Every email links to the card. Each row starts queued. If no email provider is configured, set status logged instead of sending. If sending fails, set failed and last_error; every attempt adds 1 to attempts, and the scheduled job retries until attempts reaches 5. Nobody is emailed about their own action.
+Every email links to the card, and so do Slack replies, using the APP_URL environment variable as the base address (default http://localhost and the port in development). Each row starts queued. If no email provider is configured, set status logged instead of sending; logging is not a send attempt, so attempts stays 0 and sent_at stays empty. If sending fails, set failed and last_error; every attempt adds 1 to attempts, and the scheduled job retries until attempts reaches 5. Every recipient must be active and able to see the card (R2) when the email is written, whatever its kind, and nobody is emailed about their own action.
 
 ## 12. Slack command
 
@@ -256,12 +258,14 @@ Every email links to the card. Each row starts queued. If no email provider is c
 3. Link people: Admin → People → Link Slack accounts calls `GET https://slack.com/api/users.lookupByEmail?email=<email>` with `Authorization: Bearer <SLACK_BOT_TOKEN>` for each active person without a slack_user_id. When `ok` is true, store `user.id`; otherwise store the `error` in slack_lookup_error. Without a token: "Slack isn't configured. Set SLACK_BOT_TOKEN first."
 
 **Handling a command** (`POST /api/slack/command`, `application/x-www-form-urlencoded` with `command`, `text`, `user_id`, `channel_id`, `team_id` and `response_url`):
-1. Verify the request: build `v0:{X-Slack-Request-Timestamp}:{raw body}`, compute HMAC-SHA256 with the signing secret as a hex digest, prefix `v0=` and compare with `X-Slack-Signature` using a constant-time compare. Reply 401 and do nothing (no SearchLog row) if it doesn't match or the timestamp is more than 5 minutes from now.
+1. Verify the request: build `v0:{X-Slack-Request-Timestamp}:{raw body}`, compute HMAC-SHA256 with the signing secret as a hex digest, prefix `v0=` and compare with `X-Slack-Signature` using a constant-time compare. Reply 401 and do nothing (no SearchLog row) if it doesn't match, a header is missing, or the timestamp is more than 5 minutes from now(). The check uses now(), so in development it uses the development clock (the tester signs with it), and in development the endpoint, like the tester, uses "dev-signing-secret" when SLACK_SIGNING_SECRET isn't set; in production a missing secret means every request gets 401.
 2. Find the active person whose slack_user_id is `user_id`. If none, reply ephemerally: "Your Slack account isn't linked to the knowledge base. Ask an admin to link it in Admin → People."
 3. Reply within 3 seconds with HTTP 200 and JSON `{"response_type": "...", "text": "..."}`. Every rule applies as in the web app, for that person (R2, R14).
    - Empty text or `help`: ephemeral usage text: "Try /kb how do I connect to the VPN, or /kb post KB-101."
-   - `post KB-101` (or `post 101`; case doesn't matter): when the card is published, the person can see it, and its collection is visible to everyone, reply `in_channel` with four lines: "KB-101 How do I connect to the VPN?", the trust text, the body's first 300 characters (cut at a space, with "…" when longer), and the card's link. A card in a collection not everyone can see: ephemeral "KB-107 is in a collection not everyone can see, so it can't be posted to a channel." Unknown, draft, archived or hidden: ephemeral "No card KB-150 found."
+   - `post KB-101` (or `post 101`; case doesn't matter): when the card is published, the person can see it, and its collection is visible to everyone, reply `in_channel` with four lines: "KB-101 How do I connect to the VPN?", the trust text, the body's first 300 characters with its line breaks replaced by spaces (cut at the last space within 300 characters, with "…" when longer), and the card's link. A card in a collection not everyone can see: ephemeral "KB-107 is in a collection not everyone can see, so it can't be posted to a channel." Unknown, draft, archived or hidden: ephemeral "No card KB-150 found."
    - Anything else is a search: ephemeral, "1 card matches "vpn not working":" (or "3 cards match …") and up to 3 lines like "KB-101 How do I connect to the VPN? · Verified · <link>". With none: "No cards match "discount"." With no terms: "Type a word to search for."
+
+Card text in replies has `&`, `<` and `>` escaped as `&amp;`, `&lt;` and `&gt;`, so a card containing `<!channel>` can't notify a channel.
 
 Slack doesn't allow slash commands in message threads, so people use `/kb` in a channel or a direct message.
 
@@ -270,8 +274,8 @@ Slack doesn't allow slash commands in message threads, so people use `/kb` in a 
 **Clock.** Every server-side use of the current time goes through one now() function. Today is the date of now() in Settings.time_zone.
 
 **Development toolbar** (development only; it must not exist or respond in production):
-- Sign in as any person.
-- The clock: shows "Today: Wed 14 Oct 2026, 09:00 (America/New_York)", can be set to any date and time in the team zone, and has "+1 day". It is stored on the server and now() returns it.
+- Sign in as any person, inactive ones included, so the "Ask an admin to add you." case can be tried.
+- The clock: shows "Today: Wed 14 Oct 2026, 09:00 (America/New_York)", can be set to any date and time in the team zone, and has "+1 day". It is stored on the server, stands still until it is changed ("+1 day" keeps the time of day), and now() returns it.
 - "Reset to seed data": deletes every row, loads section 15 and sets the clock to Wed 14 Oct 2026, 09:00 America/New_York.
 - "Run scheduled job now" (Phase 4): runs the job with the development clock.
 - "Slack command tester" (Phase 4): pick a person (their slack_user_id) or "Unlinked Slack user" (user_id U0NOBODY), type the text, and pick "Signed", "Wrong signature" or "Timestamp 10 minutes old". It sends a real request to /api/slack/command, signed with SLACK_SIGNING_SECRET (in development, "dev-signing-secret" when it isn't set), and shows the HTTP status and the JSON reply.
@@ -340,8 +344,8 @@ Cards (body lines are separated by " / "; each line is its own line in the body)
 | KB-111 | IT & Accounts | archived | Ben Cho | 90 | "Where is the old shared drive?"; none; drive; "The old shared drive moved to Google Drive in June." |
 | KB-112 | IT & Accounts | published | Kai Brooks | 180 | "How do I set up two-factor sign-in?"; "Two-factor setup"; security, 2fa; "Install Google Authenticator on your phone. / Scan the code on your laptop's account page." |
 
-History (each card has the versions and events its history implies; version 1 has no change note):
-- KB-101: version 1 published Mon 6 Jul by Ben with the body "Install Cisco AnyConnect from the Self Service app. / Sign in with your company email and password." Priya Nair flagged it Mon 12 Oct at 15:00: "Cisco AnyConnect stopped working for me." Ben published version 2 (the body above) on Tue 13 Oct with the note "Moved from Cisco AnyConnect to Tailscale" and verified it at the same time, which resolved Priya's flag. Followers: Jo Park, Lee Park.
+History (each card has the versions and events its history implies, starting with a `created` event; version 1 has no change note; earlier versions have the card's current title, alternate questions and tags, and differ only in the body given; follows date from when version 1 was published):
+- KB-101: version 1 published (not verified) Mon 6 Jul by Ben with the body "Install Cisco AnyConnect from the Self Service app. / Sign in with your company email and password." Priya Nair flagged it Mon 12 Oct at 15:00: "Cisco AnyConnect stopped working for me." Ben published version 2 (the body above) on Tue 13 Oct with the note "Moved from Cisco AnyConnect to Tailscale" and verified it at the same time, which resolved Priya's flag. Followers: Jo Park, Lee Park.
 - KB-104: version 1 published and verified by Ben Mon 3 Aug with the body "Your team lead approves software purchases. / Send receipts to Ana Lima." Sam Okafor published version 2 (the body above) on Tue 13 Oct at 11:30 with the note "Added the $500 yearly limit", so needs_verification is edited by Sam at that time.
 - KB-105: open flag by Jo Park, Mon 12 Oct: "The meal limit changed to $60 in October."
 - KB-110: draft created by Ana Lima Tue 13 Oct. KB-111: archived by Ben Mon 5 Oct.
@@ -373,7 +377,7 @@ Do not build the card screens or search yet. When you're done, list what you bui
 - [ ] Signed in as Dana, Admin → People lists 11 people: 10 active and Kai Brooks inactive, with the teams from section 15, Dana Ruiz and Ben Cho as admins, and Maya Chen's Slack shown as "not linked".
 - [ ] Signed in as Jo, Admin → People shows "Admins only" (also when opened by URL) and a direct request to save a person is refused.
 - [ ] Admin → Collections lists IT & Accounts (everyone; Ben Cho, Sam Okafor, Kai Brooks (inactive)), People & Policies (everyone; Ana Lima, Dana Ruiz), Sales playbook (Sales; Rosa Quinn, Lee Park) and Finance (Operations; Ana Lima).
-- [ ] Adding Jo Park as an editor of Sales playbook is refused with "Jo Park can't see Sales playbook, so they can't edit it." Changing Finance to be visible to Sales only is refused with "Ana Lima edits Finance and couldn't see it any more. Remove her as an editor first."
+- [ ] Adding Jo Park as an editor of Sales playbook is refused with "Jo Park can't see Sales playbook, so they can't edit it." Changing Finance to be visible to Sales only is refused with "Ana Lima edits Finance and couldn't see it any more. Remove them as an editor first."
 - [ ] Deleting the Sales team is refused with "Sales has 2 people and is used by 1 collection, so it can't be deleted.", and deleting IT & Accounts with "IT & Accounts has 6 cards, so it can't be deleted."
 - [ ] Dana removes Ben's admin flag, and removing her own is refused with "At least one active admin is needed." Deactivating Tom Bennett works, and signing in as Tom then shows "Ask an admin to add you."
 - [ ] The toolbar shows "Today: Wed 14 Oct 2026, 09:00 (America/New_York)" and "+1 day" changes it to Thu 15 Oct. "Reset to seed data" sets it back, makes Ben an admin again and Tom active again.
@@ -455,3 +459,49 @@ When you're done, list what you built and anything in the spec you had to interp
 - Moving cards between collections, with a check that the owner can edit the new one.
 - View counts, to find the most-read unverified cards first.
 - Scheduled publishing and an approval step before publishing.
+
+## 18. Build notes from our test build
+
+We built this blueprint by sending the four phase prompts above, in order, to an AI builder (Claude, working in Type, with a fresh session for each phase that saw only this spec and the code so far), then checked every acceptance item in a real browser, resetting to the seed data before each phase's checks. Where a check says something is refused, the person saw the reason on screen and a direct request got an error with nothing changed.
+
+**Result:** 31 of 31 acceptance checks passed in one final browser run on a fresh database, plus 155 automated tests. The item-by-item results are in [acceptance-results.json](/builds/knowledge-base/acceptance-results.json).
+
+**Gaps the build found, now fixed in this spec:**
+1. R3's message said "Remove her as an editor first.", but Person has no pronoun field. The message and its check now say "Remove them".
+2. The seed history didn't say whether KB-101's first version was verified. It now says version 1 was published, not verified.
+3. Publishing with "Verify now" could be read as two events, `published` and `verified`. R19 now says it is one event that records the verification and the flags it resolved.
+4. The seed gave only the old body for earlier versions, and no time for the follows. Earlier versions now keep the current title, questions and tags, every card starts with a `created` event, and follows date from version 1.
+5. R3 had one refusal message. It now also has the messages for adding an inactive person and for adding someone who already edits the collection.
+6. R3 checked visibility only when editors or a collection changed. The same check now applies when an admin changes an editor's team or removes their admin flag.
+7. R15 didn't say whether deactivating the last admin is refused too, or what the delete counts include. Both are refused, and the counts include inactive people, drafts and archived cards, with "1 person" in the singular.
+8. The development toolbar didn't say whether inactive people can be picked, or whether the clock moves on its own. Inactive people are listed so their refusal can be tried, and the clock stands still until changed.
+9. R1 gave no HTTP status for refusals and said nothing about requests from other sites. It now gives 403, 409 and 400, a JSON error shape, and refuses cross-site form posts.
+10. Screen 2 listed Change owner for every editor, but R10 allows only the owner or an admin. Screen 2 now follows R10.
+11. The card editor had an owner picker for published cards as well as Change owner on the card page. The picker is now for drafts only.
+12. Trust rule 2 showed " (+1 more)" without saying what happens with more flags. It now counts them: " (+2 more)" and so on.
+13. "Due soon" had no display. A due-soon card still shows Verified with its text plus a "Due soon" badge, and a card is still Verified on its review date itself.
+14. A check expected a resolved flag to "show as resolved", but the card page listed only open flags. Resolved flags leave the list and Activity now says how they were resolved.
+15. Changing the owner, deleting a draft and withdrawing a flag had no refusal messages. R11 now gives them.
+16. Nothing said what changing a card's review interval does to its review date. It takes effect at the next verification.
+17. Screen 3 had no line for a collection with no published cards. It now shows "0 cards · 0 verified (–)".
+18. Section 8 didn't say whether stop words are removed before or after the final "s" is dropped, so "does" could become the term "doe". Stop words are now removed first.
+19. Section 8 didn't say whether tags and alternate questions go through the same word rules as titles. They do, and each term scores once, at its best field.
+20. R14 didn't say whether a reload counts as a search, or whether result_count is every match or the 20 shown. A reload counts, and the count is the number shown.
+21. "The last 30 days" and "older than 90 days" could be calendar days or hours. Both are now counted in 24-hour days back from now.
+22. Recently changed lists versions, so a card can appear twice, which the spec didn't say. It now says so; the check's 10th line depends on it.
+23. The CSV export didn't say how number, the person columns or open_flags are written. Numbers are "KB-101", people are names, and open_flags is a count.
+24. Section 5 counts send attempts, but didn't say whether a logged email is an attempt. It isn't: attempts stays 0.
+25. Only R13 required followers to be active and able to see the card. Section 11 now applies that rule to every recipient.
+26. Section 11 told the new owner after any owner change, including drafts and people taking a card themselves. Only a published card's new owner is told.
+27. Every email and Slack reply links to the card, but no setting held the app's address. APP_URL now does.
+28. The Slack timestamp check compared with now, but the development clock stands still, and only the tester had a development signing secret. The check now uses now(), the tester signs with it, and the endpoint uses the same development secret.
+29. "Post" replies with four lines, but a card body has line breaks. The body's line breaks are now replaced by spaces before it is cut at 300 characters.
+30. Card text in Slack replies wasn't escaped, so a card containing `<!channel>` could notify a whole channel. `&`, `<` and `>` are now escaped.
+
+**What we did not test:**
+- Production sign-in. A path for a sign-in proxy's email header was built, but every check used the development "sign in as" switcher.
+- Sending email. Emails were logged in the outbox, not delivered.
+- A real Slack workspace. Every `/kb` request came from the development Slack command tester, signed or deliberately mis-signed, and Link Slack accounts was tried only without a bot token.
+- The hourly job on a real scheduler. It was run from the development control and by calling its endpoint without the secret and with a wrong one.
+- Two editors saving the same card at the same moment from two browsers. The version check is covered by automated tests only.
+- Hosting. The test build ran on SQLite on one server. For a hosted deploy, use a managed Postgres (or your platform's database) and the same schema.
