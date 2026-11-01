@@ -1,0 +1,5 @@
+{"scenes": [
+ {"id": "rule", "text": "The core rule is the ticket lifecycle. New, Open, Pending, Solved, then Closed. Nobody closes a ticket by hand. A job closes it four days after it's solved.", "cues": []},
+ {"id": "gaps", "text": "The most surprising gap was a boundary. One seeded ticket sat exactly on the Due soon line, so both answers were right. And a reopened ticket could stay assigned to an agent who'd been deactivated. Now it's unassigned.", "cues": []},
+ {"id": "untested", "text": "Passing isn't production-ready. We never tested real sign-in, real email in and out, a real scheduler, or hosting. Check those before your team relies on it.", "cues": []}
+]}
