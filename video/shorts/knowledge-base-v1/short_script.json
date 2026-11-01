@@ -1,0 +1,5 @@
+{"scenes": [
+ {"id": "build", "text": "Claude built a knowledge base where every answer is a card with one owner. Each card says if it's verified, and when it's next due for review. If someone else edits it, it turns unverified until the owner checks it.", "cues": []},
+ {"id": "gaps", "text": "But the useful part is what broke. Search could turn the word does into doe. And a card with a channel-wide mention could notify everyone in a Slack channel.", "cues": []},
+ {"id": "verdict", "text": "Guru doesn't publish prices. It's scoped on a sales call. If you just need one owned, current answer to every question your team keeps asking, build your own.", "cues": []}
+]}

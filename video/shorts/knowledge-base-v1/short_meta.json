@@ -1,0 +1,22 @@
+{
+ "file": "guru-short.mp4",
+ "short": true,
+ "title": "Can Claude replace Guru? 31/31 checks, 30 spec gaps #shorts",
+ "description": "Claude built a Guru alternative, an internal knowledge base where every answer is a card with one owner and a review date, from one written spec: all 31 acceptance checks passed, and the build exposed 30 gaps in the spec.\n\nFull build test (2:46): https://youtu.be/c0GKCgOTBgo\nThe free spec: https://personalsoftwarefactory.com/blueprints/knowledge-base\nGuru pricing and alternatives: https://personalsoftwarefactory.com/alternatives/guru\n\nGuru does not publish prices: its pricing page says the investment is tailored to an organization and scoped on a call with its team (getguru.com/pricing, October 2026).\n\nMade with AI: Sam's on-camera hook and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/\n\n#shorts #claude #guru",
+ "tags": [
+  "Guru alternative",
+  "Guru",
+  "build a Guru alternative",
+  "internal knowledge base",
+  "knowledge base software",
+  "knowledge management",
+  "Claude",
+  "AI app builder",
+  "internal tools",
+  "build vs buy SaaS",
+  "personal software factory",
+  "shorts"
+ ],
+ "categoryId": "28",
+ "publishAt": "2026-11-02T21:00:00Z"
+}

@@ -1,0 +1,27 @@
+{
+ "file": "long.mp4",
+ "title": "Build a Guru alternative with Claude: free internal knowledge base spec, 31/31 checks passed",
+ "description": "Claude built a Guru alternative from one Markdown spec: all 31 acceptance checks passed in a real browser, along with 155 automated tests.\nThe test build also exposed 30 gaps in the spec, and every one is now fixed.\n\nWe gave Claude one Markdown spec for an internal knowledge base for teams of 5 to 80 people and had it build the tool in four phases: people, teams, collections and sign-in; cards, trust and flags; search, insights and the export; and notifications, review reminders and a /kb Slack command. The core rule is trust: it is never stored but worked out every time a card is shown, and a card turns unverified when its owner leaves, when someone flags it, when someone else edits it, or when its review date passes. The gaps included nothing saying whether the last admin could be deactivated, search turning \"does\" into \"doe\" because the spec never said when to remove stop words, and card text with a channel-wide mention that could notify everyone in a Slack channel. What passed, what broke, what we didn't test, and when Guru is still the better buy.\n\nChapters\n00:00 Reverse engineering Guru\n00:26 The core rule: trust\n00:42 Four build phases\n01:01 What Claude built\n01:23 Result and what broke\n01:53 What we didn't test\n02:07 Is it worth building?\n02:27 Get the free spec\n\nSam's on-camera intro and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nThe spec (free): https://personalsoftwarefactory.com/blueprints/knowledge-base\nGuru pricing and alternatives: https://personalsoftwarefactory.com/alternatives/guru\nAll blueprints on GitHub: https://github.com/samclaassen/internal-tool-blueprints\nBefore you rely on an AI-built tool: https://personalsoftwarefactory.com/guides/ai-built-tools-production-readiness\n\nGuru prices: Guru does not publish prices. Its pricing page says it is a platform and expertise solution rather than a per-seat tool, with the investment tailored to an organization's scale and scoped on a call with its team; eligible 501(c)(3) nonprofits can get reduced pricing through Guru for Good (getguru.com/pricing, October 2026).\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/",
+ "tags": [
+  "Guru",
+  "Guru alternative",
+  "Guru pricing",
+  "build a Guru alternative",
+  "internal knowledge base",
+  "knowledge base software",
+  "knowledge management",
+  "Claude",
+  "AI app builder",
+  "spec-driven development",
+  "internal tools",
+  "build vs buy SaaS",
+  "personal software factory"
+ ],
+ "categoryId": "28",
+ "publishAt": "2026-11-02T17:00:00Z",
+ "thumbnail": "thumb.jpg",
+ "playlists": [
+  "PLQ_n7bK0gJf0",
+  "PLY7Yy8lQCdGo"
+ ]
+}
