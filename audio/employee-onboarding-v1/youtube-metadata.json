@@ -1,0 +1,27 @@
+{
+ "file": "long.mp4",
+ "title": "Build a BambooHR alternative with Claude: free employee onboarding spec, 20/20 checks passed",
+ "description": "Claude built a BambooHR alternative from one Markdown spec: all 20 acceptance checks passed in a real browser, along with 109 automated tests.\nThe test build also exposed 44 gaps in the spec, and every one is now fixed.\n\nWe gave Claude one Markdown spec for an employee onboarding checklist for teams of 5 to 150 people and had it build the tool in four phases: templates, people and sign-in; onboardings and tasks; the new hire's view; and the daily job, digests and the CSV export. The core rule is due dates: every task is due a set number of days before or after the start date, a due date that lands on a weekend moves to the Friday before, and when the start date moves, every open task moves with it. The gaps included private 30, 60 and 90-day check-ins that any role could own, nothing stopping the people team from deactivating themselves, and task titles starting with = that could run as formulas in the CSV export. What passed, what broke, what we didn't test, and when BambooHR is still the better buy.\n\nChapters\n00:00 Reverse engineering BambooHR\n00:29 The core rule: due dates\n00:46 Four build phases\n01:03 What Claude built\n01:26 Result and what broke\n01:55 What we didn't test\n02:09 Is it worth building?\n02:30 Get the free spec\n\nSam's on-camera intro and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nThe spec (free): https://personalsoftwarefactory.com/blueprints/employee-onboarding\nBambooHR pricing and alternatives: https://personalsoftwarefactory.com/alternatives/bamboohr\nAll blueprints on GitHub: https://github.com/samclaassen/internal-tool-blueprints\nBefore you rely on an AI-built tool: https://personalsoftwarefactory.com/guides/ai-built-tools-production-readiness\n\nBambooHR prices: for 25 employees or fewer, a flat $250 a month for Core, $425 for Pro and $650 for Elite; above 25 employees, from $10.25 per employee per month for Core, $17.50 for Pro and $25 for Elite, with automatic volume discounts. Onboarding is one part of its HR system (bamboohr.com/pricing, October 2026).\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/",
+ "tags": [
+  "BambooHR",
+  "BambooHR alternative",
+  "BambooHR pricing",
+  "build a BambooHR alternative",
+  "employee onboarding",
+  "onboarding checklist",
+  "HR software",
+  "Claude",
+  "AI app builder",
+  "spec-driven development",
+  "internal tools",
+  "build vs buy SaaS",
+  "personal software factory"
+ ],
+ "categoryId": "28",
+ "publishAt": "2026-11-03T17:00:00Z",
+ "thumbnail": "thumb.jpg",
+ "playlists": [
+  "PLQ_n7bK0gJf0",
+  "PLQ2NkBPBMzSw"
+ ]
+}

@@ -1,0 +1,22 @@
+{
+ "file": "bamboohr-short.mp4",
+ "short": true,
+ "title": "Can Claude replace BambooHR? 20/20 checks, 44 spec gaps #shorts",
+ "description": "Claude built a BambooHR alternative, an employee onboarding checklist where every task has one owner and a due date set from the start date, from one written spec: all 20 acceptance checks passed, and the build exposed 44 gaps in the spec.\n\nFull build test (2:47): https://youtu.be/sdlGQ1rFUlk\nThe free spec: https://personalsoftwarefactory.com/blueprints/employee-onboarding\nBambooHR pricing and alternatives: https://personalsoftwarefactory.com/alternatives/bamboohr\n\nBambooHR prices: for 25 employees or fewer, a flat $250 a month for Core ($425 Pro, $650 Elite); above 25, from $10.25 per employee per month for Core (bamboohr.com/pricing, October 2026). Onboarding is one part of its HR system.\n\nMade with AI: Sam's on-camera hook and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/\n\n#shorts #claude #bamboohr",
+ "tags": [
+  "BambooHR alternative",
+  "BambooHR",
+  "build a BambooHR alternative",
+  "employee onboarding",
+  "onboarding checklist",
+  "HR software",
+  "Claude",
+  "AI app builder",
+  "internal tools",
+  "build vs buy SaaS",
+  "personal software factory",
+  "shorts"
+ ],
+ "categoryId": "28",
+ "publishAt": "2026-11-03T21:00:00Z"
+}

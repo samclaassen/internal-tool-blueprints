@@ -1,0 +1,188 @@
+1
+00:00:00,100 --> 00:00:03,369
+Here's how to reverse engineer BambooHR from a written spec.
+
+2
+00:00:03,369 --> 00:00:09,200
+Claude passed all twenty checks, but my spec never said not to email the new hire whose offer fell through.
+
+3
+00:00:09,983 --> 00:00:12,053
+We gave Claude one Markdown file.
+
+4
+00:00:12,073 --> 00:00:16,362
+It copies the part of BambooHR a small team needs so onboarding stops slipping.
+
+5
+00:00:16,511 --> 00:00:19,114
+A template turns a start date into dated tasks.
+
+6
+00:00:19,157 --> 00:00:24,790
+Each task has one owner: the manager, IT, the people team, a buddy, or the new hire.
+
+7
+00:00:24,917 --> 00:00:28,723
+Late tasks are flagged, and everyone gets one email a day with what's theirs.
+
+8
+00:00:29,683 --> 00:00:31,518
+The core rule is due dates.
+
+9
+00:00:31,603 --> 00:00:35,230
+Every task is due a set number of days before or after the start date.
+
+10
+00:00:35,272 --> 00:00:37,875
+If that lands on a weekend, it moves to the Friday before.
+
+11
+00:00:38,045 --> 00:00:42,348
+So for a Monday start, the desk task, one day before, is due on Friday.
+
+12
+00:00:42,340 --> 00:00:45,741
+And when the start date moves, every open task moves with it.
+
+13
+00:00:46,683 --> 00:00:49,414
+Claude built it in four phases, one prompt each.
+
+14
+00:00:49,541 --> 00:00:52,358
+The foundation, with templates, people and sign-in.
+
+15
+00:00:52,357 --> 00:00:54,065
+Onboardings and tasks.
+
+16
+00:00:54,149 --> 00:00:55,430
+The new hire's view.
+
+17
+00:00:55,600 --> 00:00:58,370
+Then the daily job, the digests and the export.
+
+18
+00:00:58,365 --> 00:01:03,124
+After every phase, the acceptance checks ran in a real browser, from fresh seed data.
+
+19
+00:01:04,083 --> 00:01:05,044
+Here's what it built.
+
+20
+00:01:05,150 --> 00:01:11,209
+Priya Nair's onboarding shows her manager, her buddy, and Ben's laptop task, due a week before she starts.
+
+21
+00:01:11,422 --> 00:01:14,552
+The onboardings list shows Leo Grant with two tasks overdue.
+
+22
+00:01:14,523 --> 00:01:19,899
+Creating one for Rosa warns that four tasks are already overdue, because her start date is close.
+
+23
+00:01:20,027 --> 00:01:22,182
+Ben's tasks are grouped by when they're due.
+
+24
+00:01:22,160 --> 00:01:26,140
+And Leo's first weeks shows what others are doing for him, by first name only.
+
+25
+00:01:27,083 --> 00:01:33,427
+In one final run, on a fresh database, all twenty checks passed, along with one hundred and nine automated tests.
+
+26
+00:01:34,350 --> 00:01:36,463
+But the more useful result is what broke.
+
+27
+00:01:36,612 --> 00:01:38,916
+The build exposed forty-four gaps in the spec.
+
+28
+00:01:38,916 --> 00:01:40,602
+Places where Claude had to guess.
+
+29
+00:01:40,750 --> 00:01:45,595
+Check-in notes were private, yet any role could own a check-in, so the wrong person could end up reading one.
+
+30
+00:01:45,660 --> 00:01:48,455
+Nothing stopped the people team from deactivating themselves.
+
+31
+00:01:48,562 --> 00:01:52,936
+And a task title starting with an equals sign could run as a formula in the export.
+
+32
+00:01:53,084 --> 00:01:55,191
+Every gap is now fixed in the spec.
+
+33
+00:01:56,117 --> 00:01:58,763
+Passing every check isn't the same as production-ready.
+
+34
+00:01:58,890 --> 00:02:05,995
+We didn't test production sign-in, real email delivery, the hourly job on a real scheduler, other time zones, or hosting.
+
+35
+00:02:06,058 --> 00:02:08,416
+Those are yours to check before your team relies on it.
+
+36
+00:02:09,350 --> 00:02:10,822
+So is it worth building?
+
+37
+00:02:11,056 --> 00:02:16,284
+BambooHR charges a flat two hundred and fifty dollars a month for Core, up to twenty-five employees.
+
+38
+00:02:16,347 --> 00:02:20,420
+Above that, it starts at ten dollars and twenty-five cents per employee per month.
+
+39
+00:02:20,524 --> 00:02:22,530
+But that buys a whole HR system.
+
+40
+00:02:22,743 --> 00:02:26,690
+If you need records, time off, payroll and benefits, buy it.
+
+41
+00:02:26,711 --> 00:02:29,405
+If onboarding is the part you need, build it.
+
+42
+00:02:30,350 --> 00:02:31,823
+Everything is in one file.
+
+43
+00:02:31,929 --> 00:02:38,571
+The data model, thirteen rules, seed data, four phase prompts, and all twenty checks, with the forty-four fixes already in.
+
+44
+00:02:39,300 --> 00:02:42,791
+The full spec is free at personal software factory dot com.
+
+45
+00:02:42,791 --> 00:02:44,921
+If you build it, tell me what broke.
+
+46
+00:02:44,921 --> 00:02:45,394
+I'm Sam.
+
+47
+00:02:45,394 --> 00:02:46,400
+See you tomorrow.
+

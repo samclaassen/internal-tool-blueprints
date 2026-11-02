@@ -1,0 +1,5 @@
+{"scenes": [
+ {"id": "build", "text": "Claude built an onboarding checklist with one hard rule. Every task is due a set number of days from the start date. If that lands on a weekend, it moves to the Friday before.", "cues": []},
+ {"id": "gaps", "text": "The test build found forty-four gaps. Check-in notes were private, yet any role could own a check-in. And the people team could deactivate themselves. All forty-four are fixed.", "cues": []},
+ {"id": "verdict", "text": "BambooHR starts at two hundred and fifty dollars a month, but that buys a whole HR system. If onboarding is the part you need, build your own.", "cues": []}
+]}

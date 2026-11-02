@@ -1,0 +1,1 @@
+{"kicker": "Build test · Employee onboarding", "title": "Claude built a BambooHR alternative", "stats": [{"n": "20/20", "label": "checks passed", "tone": "ok"}, {"n": "44", "label": "spec gaps found", "tone": "signal"}], "shot": "/home/daytona/samclaassen-1/f16/site/public/builds/employee-onboarding/test-onboarding.webp", "face": "/home/daytona/samclaassen-1/f16/face.png"}
