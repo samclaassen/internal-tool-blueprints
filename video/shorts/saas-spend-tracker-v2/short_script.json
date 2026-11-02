@@ -1,0 +1,19 @@
+{
+ "scenes": [
+  {
+   "id": "rule",
+   "text": "The core rule is the notice deadline. Zoom renews on December first, with thirty days' notice. So the last day to cancel is November first, and the owner's reminder comes thirty days before that.",
+   "cues": []
+  },
+  {
+   "id": "gaps",
+   "text": "Cancel after that deadline, and the app records it as late notice. But the history had nowhere to put it. And the form rolled past renewal dates forward, with steps that only arrive in phase three. All six gaps are now fixed in the spec.",
+   "cues": []
+  },
+  {
+   "id": "untested",
+   "text": "Thirty-one checks isn't production-ready. Reminder emails were only logged, never sent, and the daily job never ran on a real scheduler. Check those before you rely on it.",
+   "cues": []
+  }
+ ]
+}

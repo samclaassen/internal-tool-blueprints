@@ -1,0 +1,73 @@
+{
+ "out": "zylo2-short.mp4",
+ "kicker": "Build test \u00b7 Zylo alternative",
+ "title": "What my Zylo spec forgot",
+ "badge_image": "sam_photo.jpg (https://raw.githubusercontent.com/samclaassen/internal-tool-blueprints/media/video/host/sam-photo.jpg)",
+ "music": "../../../audio/music/chill-wave-kevin-macleod.mp3",
+ "music_volume": 0.08,
+ "words": "stts/words.json",
+ "highlight": [
+  "Zylo",
+  "thirty-one",
+  "late",
+  "cancellation",
+  "deadline.",
+  "November",
+  "first,",
+  "nowhere",
+  "six",
+  "never"
+ ],
+ "segments": [
+  {
+   "type": "avatar",
+   "video": "hook-norm.mp4",
+   "text": "Here's how to reverse engineer Zylo from a written spec. Claude passed all thirty-one checks, but my spec never said where a late cancellation goes."
+  },
+  {
+   "type": "product",
+   "scene": "rule",
+   "audio": "stts/rule.mp3",
+   "source": "rulesrc.mp4",
+   "from": 0.0,
+   "crop": [
+    60,
+    320,
+    1100,
+    660
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "gaps",
+   "audio": "stts/gaps.mp3",
+   "source": "gapsrc.mp4",
+   "from": 0.0,
+   "crop": [
+    930,
+    240,
+    940,
+    690
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "untested",
+   "audio": "stts/untested.mp3",
+   "source": "untsrc.mp4",
+   "from": 0.0,
+   "crop": [
+    40,
+    140,
+    1220,
+    600
+   ]
+  },
+  {
+   "type": "avatar",
+   "video": "../../host/outro-generic-v2-norm.mp4",
+   "text": "The full spec is free at personal software factory dot com. If you build it, tell me what broke. I'm Sam. See you tomorrow."
+  }
+ ],
+ "note": "Second Short for F11 Zylo, 2026-11-02. Sources: rulesrc from long render 43.5 s (right card masked), gapsrc 114.2 s -> 116.5 s, untsrc 128.5 s. Uploaded https://youtube.com/shorts/YzXKruYtTck"
+}
