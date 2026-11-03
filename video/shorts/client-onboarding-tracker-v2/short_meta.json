@@ -1,0 +1,23 @@
+{
+ "file": "rocketlane-short-v2.mp4",
+ "short": true,
+ "title": "What my Rocketlane spec forgot: 28/28 checks passed, 18 gaps found #shorts",
+ "description": "Claude built a Rocketlane alternative, a client onboarding tracker where every client gets their own read-only link, from one written spec: all 28 acceptance checks passed, and the build exposed 18 gaps in the spec. The most surprising one: the morning digest named only the client, so once a client had two projects nobody could tell which one was late. Real sign-in, real email delivery and a real scheduler were not tested.\n\nFull build test (2:46): https://youtu.be/8o02hhUDQ5s\nThe free spec: https://personalsoftwarefactory.com/blueprints/client-onboarding-tracker\nRocketlane pricing and alternatives: https://personalsoftwarefactory.com/alternatives/rocketlane\n\nMade with AI: Sam's on-camera hook and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/\n\n#shorts #claude #rocketlane",
+ "tags": [
+  "Rocketlane alternative",
+  "Rocketlane",
+  "build a Rocketlane alternative",
+  "client onboarding tracker",
+  "client onboarding software",
+  "client portal",
+  "onboarding digest",
+  "Claude",
+  "AI app builder",
+  "spec-driven development",
+  "internal tools",
+  "personal software factory",
+  "shorts"
+ ],
+ "categoryId": "28",
+ "publishAt": "2026-11-04T01:00:00Z"
+}

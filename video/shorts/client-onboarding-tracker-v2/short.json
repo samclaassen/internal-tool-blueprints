@@ -1,0 +1,77 @@
+{
+ "out": "rocketlane-short-v2.mp4",
+ "kicker": "Build test · Rocketlane alternative",
+ "title": "What my Rocketlane spec forgot",
+ "badge_image": "../../host/sam-photo.jpg",
+ "music": "../../../audio/music/chill-wave-kevin-macleod.mp3",
+ "music_volume": 0.08,
+ "words": "words.json",
+ "highlight": [
+  "Rocketlane",
+  "twenty-eight",
+  "eighteen",
+  "own",
+  "link.",
+  "only",
+  "client.",
+  "Ridgeway",
+  "two",
+  "projects,",
+  "never",
+  "tested."
+ ],
+ "segments": [
+  {
+   "type": "avatar",
+   "video": "hook.mp4",
+   "text": "Here's how to reverse engineer Rocketlane from a written spec. Claude passed all twenty-eight checks, and my spec still had eighteen gaps."
+  },
+  {
+   "type": "product",
+   "scene": "portal",
+   "audio": "portal.mp3",
+   "source": "src_portal.mp4",
+   "from": 0.0,
+   "crop": [
+    440,
+    150,
+    1060,
+    700
+   ],
+   "note": "source = F13 render (file_01m64cp8v3etxa4wx6qerhhm50) frozen: portal 80.9s+2.6s, digest 77.9s+1.7s, untested 121.6s+1.0s, then last frame held (tpad clone)"
+  },
+  {
+   "type": "product",
+   "scene": "digest",
+   "audio": "digest.mp3",
+   "source": "src_digest.mp4",
+   "from": 0.0,
+   "crop": [
+    290,
+    205,
+    1340,
+    650
+   ],
+   "note": "source = F13 render (file_01m64cp8v3etxa4wx6qerhhm50) frozen: portal 80.9s+2.6s, digest 77.9s+1.7s, untested 121.6s+1.0s, then last frame held (tpad clone)"
+  },
+  {
+   "type": "product",
+   "scene": "untested",
+   "audio": "untested.mp3",
+   "source": "src_untested.mp4",
+   "from": 0.0,
+   "crop": [
+    40,
+    160,
+    1200,
+    600
+   ],
+   "note": "source = F13 render (file_01m64cp8v3etxa4wx6qerhhm50) frozen: portal 80.9s+2.6s, digest 77.9s+1.7s, untested 121.6s+1.0s, then last frame held (tpad clone)"
+  },
+  {
+   "type": "avatar",
+   "video": "../../host/outro-generic-v2.mp4",
+   "text": "The full spec is free at personal software factory dot com. If you build it, tell me what broke. I'm Sam. See you tomorrow."
+  }
+ ]
+}

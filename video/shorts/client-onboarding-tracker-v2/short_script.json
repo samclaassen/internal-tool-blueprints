@@ -1,0 +1,5 @@
+{"scenes": [
+ {"id": "portal", "text": "Claude built a client onboarding tracker that gives every client their own link. This one shows two of five tasks done, and none of the team's internal tasks.", "cues": []},
+ {"id": "digest", "text": "The most surprising gap was in the morning digest. It named only the client. So once Ridgeway had two projects, nobody could tell which one was late. The spec now adds the project name.", "cues": []},
+ {"id": "untested", "text": "And passing isn't production-ready. Real sign-in, real email and a real scheduler were never tested. Check those before a client opens that link.", "cues": []}
+]}
