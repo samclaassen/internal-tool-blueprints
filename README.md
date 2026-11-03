@@ -3,7 +3,7 @@
 Free, build-tested specs for the internal tools a small team can build with an AI app builder (Claude, ChatGPT, Cursor, Claude Code, Lovable, Replit or Type) instead of paying per seat for SaaS: a CRM instead of HubSpot, an approval workflow instead of Kissflow, a help desk instead of Zendesk, and more.
 
 - **37 blueprints**, each one Markdown file you can paste into an AI builder.
-- **18 build-tested**: an AI builder followed the phase prompts and every acceptance check was run in a real browser. 483 acceptance checks passed in the final runs, the builds include 1,470 automated tests, and the builds exposed **259 gaps in the specs**, all fixed here.
+- **19 build-tested**: an AI builder followed the phase prompts and every acceptance check was run in a real browser. 501 acceptance checks passed in the final runs, the builds include 1,584 automated tests, and the builds exposed **317 gaps in the specs**, all fixed here.
 - Every price and feature claim about the paid product was checked on the vendor's own pages, with the month checked.
 
 Mirrored from **[Personal Software Factory](https://personalsoftwarefactory.com)** (personalsoftwarefactory.com), where each blueprint also has a labelled drawing and build-or-buy notes, many have a live demo, and tested ones show their build-test results and what was not tested.
@@ -56,7 +56,7 @@ The same AI builder (Claude, working in Type) wrote each test build and its test
 | **Performance Reviews**: Reviews live in Google Docs, half of them are late, and nobody can find last year's. | Lattice | People | 10–200 people | Full spec; build test pending | [performance-reviews.md](blueprints/performance-reviews.md) | [page](https://personalsoftwarefactory.com/blueprints/performance-reviews) |
 | **Customer Feedback Inbox**: Customer feedback is scattered across email, calls and support tickets. | Productboard | Support | 3–50 people | Build-tested 2026-10-28, 25/25 acceptance checks passed | [feedback-inbox.md](blueprints/feedback-inbox.md) | [page](https://personalsoftwarefactory.com/blueprints/feedback-inbox) |
 | **Help Desk**: Support requests land in a shared inbox and nobody knows who is answering what. | Zendesk | Support | 2–25 people | Build-tested 2026-10-15, 24/24 acceptance checks passed | [help-desk.md](blueprints/help-desk.md) | [page](https://personalsoftwarefactory.com/blueprints/help-desk) |
-| **Status Page**: When something breaks, half our support queue is people asking if it's down. | Statuspage | Support | 2–50 people | Full spec; build test pending | [status-page.md](blueprints/status-page.md) | [page](https://personalsoftwarefactory.com/blueprints/status-page) |
+| **Status Page**: When something breaks, half our support queue is people asking if it's down. | Statuspage | Support | 2–50 people | Build-tested 2026-11-03, 18/18 acceptance checks passed | [status-page.md](blueprints/status-page.md) | [page](https://personalsoftwarefactory.com/blueprints/status-page) |
 | **NPS Surveys**: We send an NPS survey once a year from a form tool, and nobody reads the comments. | Delighted | Support | 2–100 people | Full spec; build test pending | [nps-surveys.md](blueprints/nps-surveys.md) | [page](https://personalsoftwarefactory.com/blueprints/nps-surveys) |
 | **Feature Requests**: Feature requests arrive in emails, calls and chats, and we can't say what customers want most. | Canny | Support | 2–50 people | Full spec; build test pending | [feature-requests.md](blueprints/feature-requests.md) | [page](https://personalsoftwarefactory.com/blueprints/feature-requests) |
 | **Bug Tracker**: Bugs get reported in five places, and nobody knows which ones are fixed. | Jira | Support | 5–30 people | Build-tested 2026-10-17, 31/31 acceptance checks passed | [bug-tracker.md](blueprints/bug-tracker.md) | [page](https://personalsoftwarefactory.com/blueprints/bug-tracker) |
@@ -65,7 +65,7 @@ The full catalog, with live demos and test results, is at https://personalsoftwa
 
 ## Field reports
 
-- [Is an AI-built internal tool ready for production? What our 18 build tests didn't test](https://personalsoftwarefactory.com/guides/ai-built-tools-production-readiness)
+- [Is an AI-built internal tool ready for production? What our 19 build tests didn't test](https://personalsoftwarefactory.com/guides/ai-built-tools-production-readiness)
 - [Field report: building a Zendesk replacement with AI, 24 checks and 21 spec gaps](https://personalsoftwarefactory.com/guides/zendesk-replacement-build-test)
 - [Field report: building a Greenhouse replacement with AI, 29 checks and 18 spec gaps](https://personalsoftwarefactory.com/guides/greenhouse-replacement-build-test)
 - [Field report: building a Jira replacement with AI, 31 checks and 5 spec gaps](https://personalsoftwarefactory.com/guides/jira-replacement-build-test)
@@ -84,6 +84,7 @@ The full catalog, with live demos and test results, is at https://personalsoftwa
 - [Field report: building a Harvest replacement with AI, 21 checks and 21 spec gaps](https://personalsoftwarefactory.com/guides/harvest-replacement-build-test)
 - [Field report: building a Guru replacement with AI, 31 checks and 30 spec gaps](https://personalsoftwarefactory.com/guides/guru-replacement-build-test)
 - [Field report: building a BambooHR replacement with AI, 20 checks and 44 spec gaps](https://personalsoftwarefactory.com/guides/bamboohr-replacement-build-test)
+- [Field report: building a Statuspage replacement with AI, 18 checks and 58 spec gaps](https://personalsoftwarefactory.com/guides/statuspage-replacement-build-test)
 
 Short videos of the build tests, with what passed and what broke, are on YouTube at [@personalsoftwarefactory](https://www.youtube.com/@personalsoftwarefactory).
 
