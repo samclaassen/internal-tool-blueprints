@@ -1,0 +1,22 @@
+{
+ "file": "statuspage-short.mp4",
+ "short": true,
+ "title": "Can Claude replace Statuspage? 18/18 checks, 58 spec gaps #shorts",
+ "description": "Claude built a Statuspage alternative, a public status page with components, incidents, maintenance and 90-day uptime calculated from a log that is never edited, from one written spec: all 18 acceptance checks passed, and the build exposed 58 gaps in the spec.\n\nFull build test (2:42): https://youtu.be/HMHDdT--cn4\nThe free spec: https://personalsoftwarefactory.com/blueprints/status-page\nStatuspage pricing and alternatives: https://personalsoftwarefactory.com/alternatives/statuspage\n\nAtlassian Statuspage prices: public pages free for 100 subscribers and 2 team members; Hobby $29, Startup $99, Business $399 (component subscriptions) and Enterprise $1,499 a month (atlassian.com/software/statuspage/pricing, October 2026).\n\nMade with AI: Sam's on-camera hook and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/\n\n#shorts #claude #statuspage",
+ "tags": [
+  "Statuspage alternative",
+  "Statuspage",
+  "Atlassian Statuspage",
+  "build a Statuspage alternative",
+  "status page",
+  "incident communication",
+  "Claude",
+  "AI app builder",
+  "internal tools",
+  "build vs buy SaaS",
+  "personal software factory",
+  "shorts"
+ ],
+ "categoryId": "28",
+ "publishAt": "2026-11-04T21:00:00Z"
+}

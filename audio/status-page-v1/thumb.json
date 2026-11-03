@@ -1,0 +1,1 @@
+{"kicker": "Build test · Status page", "title": "Claude built a Statuspage alternative", "stats": [{"n": "18/18", "label": "checks passed", "tone": "ok"}, {"n": "58", "label": "spec gaps found", "tone": "signal"}], "shot": "site/public/builds/status-page/test-status.webp", "face": "face.png"}

@@ -1,0 +1,184 @@
+1
+00:00:00,100 --> 00:00:03,361
+Here's how to reverse engineer Statuspage from a written spec.
+
+2
+00:00:03,361 --> 00:00:07,200
+Claude passed all eighteen checks, and found fifty-eight gaps in my spec.
+
+3
+00:00:08,050 --> 00:00:10,034
+We gave Claude one Markdown file.
+
+4
+00:00:10,311 --> 00:00:13,682
+It copies the part of Atlassian Statuspage a small software team needs.
+
+5
+00:00:13,938 --> 00:00:16,007
+Each part of the product gets a live status.
+
+6
+00:00:16,199 --> 00:00:17,500
+Incidents get timed updates.
+
+7
+00:00:17,692 --> 00:00:19,544
+Maintenance starts and ends on time.
+
+8
+00:00:19,732 --> 00:00:23,238
+And customers subscribe by email to only the parts they use.
+
+9
+00:00:24,317 --> 00:00:26,002
+The core rule is uptime.
+
+10
+00:00:26,194 --> 00:00:29,095
+Every status change is written to a log that's never edited.
+
+11
+00:00:29,351 --> 00:00:34,386
+Uptime over ninety days counts every minute of major outage, and half of every minute of partial outage.
+
+12
+00:00:34,599 --> 00:00:36,322
+Degraded and maintenance count as up.
+
+13
+00:00:36,510 --> 00:00:41,711
+So forty-two minutes of API outage shows as ninety-nine point nine six percent, rounded down.
+
+14
+00:00:42,817 --> 00:00:45,419
+Claude built it in four phases, one prompt each.
+
+15
+00:00:45,675 --> 00:00:47,361
+The foundation and the public page.
+
+16
+00:00:47,595 --> 00:00:48,854
+Incidents and maintenance.
+
+17
+00:00:49,046 --> 00:00:52,033
+Subscribers, emails, the feed and the API.
+
+18
+00:00:52,289 --> 00:00:53,906
+Then automation and postmortems.
+
+19
+00:00:54,116 --> 00:00:58,597
+After every phase, the acceptance checks ran in a real browser, from fresh seed data.
+
+20
+00:00:59,683 --> 00:01:00,622
+Here's what it built.
+
+21
+00:01:00,963 --> 00:01:06,040
+The public page shows each component with ninety daily bars, and one red day for the API.
+
+22
+00:01:06,382 --> 00:01:09,260
+The incident page lists every update, newest first.
+
+23
+00:01:09,492 --> 00:01:13,140
+Owen starts a new incident from a template, with a preview of the subscriber email.
+
+24
+00:01:13,418 --> 00:01:15,487
+His dashboard now shows a partial outage.
+
+25
+00:01:15,807 --> 00:01:19,419
+And the outbox holds the email, with its one-click unsubscribe link.
+
+26
+00:01:20,517 --> 00:01:26,966
+In one final run, on a fresh database, all eighteen checks passed, along with one hundred and fourteen automated tests.
+
+27
+00:01:28,050 --> 00:01:30,034
+But the more useful result is what broke.
+
+28
+00:01:30,312 --> 00:01:33,426
+The test build exposed fifty-eight places where Claude had to guess.
+
+29
+00:01:33,640 --> 00:01:36,242
+A hidden component could still set the banner for the whole page.
+
+30
+00:01:36,454 --> 00:01:40,017
+Caching a subscriber's own page could show their email address to the next visitor.
+
+31
+00:01:40,209 --> 00:01:44,198
+And one check said C D T, which was wrong once daylight saving ended.
+
+32
+00:01:44,433 --> 00:01:46,296
+Every gap is now fixed in the spec.
+
+33
+00:01:47,383 --> 00:01:49,751
+Passing every check isn't the same as production-ready.
+
+34
+00:01:49,985 --> 00:01:58,090
+We didn't test production sign-in, real email delivery, the every-minute job on a real scheduler, a real monitoring tool, or hosting it apart from your product.
+
+35
+00:01:58,345 --> 00:02:00,818
+Those are yours to check before customers rely on it.
+
+36
+00:02:01,883 --> 00:02:03,397
+So is it worth building?
+
+37
+00:02:03,675 --> 00:02:07,455
+Statuspage is free for one hundred subscribers and two team members.
+
+38
+00:02:07,694 --> 00:02:16,049
+Paid plans run from twenty-nine to fourteen hundred and ninety-nine dollars a month, and subscribing to single components starts on Business, at three hundred and ninety-nine.
+
+39
+00:02:16,298 --> 00:02:19,882
+If you need text messages, Slack alerts or private pages, buy it.
+
+40
+00:02:20,181 --> 00:02:23,032
+If you want component subscriptions on your own domain, build it.
+
+41
+00:02:24,117 --> 00:02:25,461
+Everything is in one file.
+
+42
+00:02:25,696 --> 00:02:33,100
+The data model, twelve rules, seed data, four phase prompts, and all eighteen checks, with the fifty-eight fixes already in.
+
+43
+00:02:33,967 --> 00:02:37,458
+The full spec is free at personal software factory dot com.
+
+44
+00:02:37,458 --> 00:02:39,588
+If you build it, tell me what broke.
+
+45
+00:02:39,588 --> 00:02:40,061
+I'm Sam.
+
+46
+00:02:40,061 --> 00:02:41,067
+See you tomorrow.
+

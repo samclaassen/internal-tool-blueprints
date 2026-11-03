@@ -1,0 +1,5 @@
+{"scenes": [
+ {"id": "build", "text": "Claude built a status page with one strict rule. Uptime comes from a log that's never edited. So forty-two minutes of API outage shows as ninety-nine point nine six percent.", "cues": []},
+ {"id": "gaps", "text": "The test build found fifty-eight gaps. A hidden component could still set the banner for the whole page. And a cached page could show a subscriber's email to the next visitor. All fifty-eight are fixed.", "cues": []},
+ {"id": "verdict", "text": "Statuspage is free for a hundred subscribers. But subscribing to single components starts at three hundred and ninety-nine dollars a month. If that's what you need, build your own.", "cues": []}
+]}

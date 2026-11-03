@@ -1,0 +1,27 @@
+{
+ "file": "long.mp4",
+ "title": "Build a Statuspage alternative with Claude: free status page spec, 18/18 checks passed",
+ "description": "Claude built a Statuspage alternative from one Markdown spec: all 18 acceptance checks passed in a real browser, along with 114 automated tests.\nThe test build also exposed 58 gaps in the spec, and every one is now fixed.\n\nWe gave Claude one Markdown spec for a public status page for software teams of 2 to 50 people and had it build the tool in four phases: the foundation and the public page; incidents and maintenance; subscribers, emails, the Atom feed and the JSON API; and the monitoring webhook and postmortems. The core rule is uptime: every component status change goes into a log that is never edited, and 90-day uptime counts every minute of major outage and half of every minute of partial outage, rounded down, so 42 minutes of API outage shows as 99.96%. The gaps included hidden components that could still set the page's status banner, a 30-second cache that could have shown one subscriber's manage page, with their email address, to the next visitor, and an acceptance check that quoted 02:00 CDT after daylight saving had ended. What passed, what broke, what we didn't test, and when Atlassian Statuspage is still the better buy.\n\nChapters\n00:00 Reverse engineering Statuspage\n00:24 The core rule: uptime\n00:42 Four build phases\n00:59 What Claude built\n01:20 Result and what broke\n01:47 What we didn't test\n02:01 Is it worth building?\n02:23 Get the free spec\n\nSam's on-camera intro and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nThe spec (free): https://personalsoftwarefactory.com/blueprints/status-page\nStatuspage pricing and alternatives: https://personalsoftwarefactory.com/alternatives/statuspage\nAll blueprints on GitHub: https://github.com/samclaassen/internal-tool-blueprints\nBefore you rely on an AI-built tool: https://personalsoftwarefactory.com/guides/ai-built-tools-production-readiness\n\nAtlassian Statuspage prices: public pages are free for 100 subscribers, 25 components and 2 team members; Hobby $29 a month (250 subscribers, custom domain), Startup $99 (1,000 subscribers, SMS and webhook notifications), Business $399 (5,000 subscribers, component subscriptions) and Enterprise $1,499; private pages from $79 a month (atlassian.com/software/statuspage/pricing, October 2026).\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/",
+ "tags": [
+  "Statuspage",
+  "Statuspage alternative",
+  "Statuspage pricing",
+  "build a Statuspage alternative",
+  "Atlassian Statuspage",
+  "status page",
+  "incident communication",
+  "Claude",
+  "AI app builder",
+  "spec-driven development",
+  "internal tools",
+  "build vs buy SaaS",
+  "personal software factory"
+ ],
+ "categoryId": "28",
+ "publishAt": "2026-11-04T17:00:00Z",
+ "thumbnail": "thumb.jpg",
+ "playlists": [
+  "PLQ_n7bK0gJf0",
+  "PLBL2d2qwAD-s"
+ ]
+}
