@@ -1,0 +1,70 @@
+{
+ "out": "bitly-short.mp4",
+ "kicker": "Build test \u00b7 Bitly alternative",
+ "title": "Can Claude replace Bitly?",
+ "badge_image": "sam-photo.jpg",
+ "music": "music.mp3",
+ "music_volume": 0.08,
+ "words": "stts/words.json",
+ "highlight": [
+  "Bitly",
+  "nineteen",
+  "sixty-nine",
+  "never",
+  "counted",
+  "ten",
+  "Enterprise",
+  "build"
+ ],
+ "segments": [
+  {
+   "type": "avatar",
+   "video": "hook.mp4",
+   "text": "Here's how to reverse engineer Bitly from a written spec. Claude passed all nineteen checks, but my spec never said how to count the last thirty days."
+  },
+  {
+   "type": "product",
+   "scene": "build",
+   "audio": "stts/build.mp3",
+   "source": "long.mp4",
+   "from": 33.6,
+   "crop": [
+    70,
+    240,
+    1100,
+    580
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "gaps",
+   "audio": "stts/gaps.mp3",
+   "source": "long.mp4",
+   "from": 96.0,
+   "crop": [
+    940,
+    250,
+    920,
+    680
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "verdict",
+   "audio": "stts/verdict.mp3",
+   "source": "long.mp4",
+   "from": 138.5,
+   "crop": [
+    60,
+    250,
+    1000,
+    720
+   ]
+  },
+  {
+   "type": "avatar",
+   "video": "outro.mp4",
+   "text": "The full spec is free at personal software factory dot com. If you build it, tell me what broke. I'm Sam. See you tomorrow."
+  }
+ ]
+}

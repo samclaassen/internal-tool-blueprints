@@ -1,0 +1,27 @@
+{
+ "file": "long.mp4",
+ "title": "Build a Bitly alternative with Claude: free link shortener spec, 19/19 checks passed",
+ "description": "Claude built a Bitly alternative from one Markdown spec: all 19 acceptance checks passed in a real browser, along with 151 automated tests.\nThe test build also exposed 69 gaps in the spec, and every one is now fixed.\n\nWe gave Claude one Markdown spec for a link shortener for marketing teams of 2 to 50 people and had it build the tool in four phases: the foundation and the link builder; redirects and counting; reports and exports; and reminders, the weekly digest and safeguards. The core rule is counting: a visitor is counted once per link in 30 seconds, link previews from Slack or LinkedIn and other bots are recorded but never counted, QR codes carry a marker so scans count apart from clicks, and no IP address is ever stored. The gaps included a sign-in rule limited to the company email domain with no setting to hold the domain, a one-time sign-in link that a Slack link preview could use up, and source and medium fields that could be dropdowns, which made the check that refuses \"fb\" impossible to try. What passed, what broke, what we didn't test, and when Bitly is still the better buy.\n\nChapters\n00:00 Reverse engineering Bitly\n00:25 The core rule: counting\n00:43 Four build phases\n00:59 What Claude built\n01:23 Result and what broke\n01:52 What we didn't test\n02:07 Is it worth building?\n02:32 Get the free spec\n\nSam's on-camera intro and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nThe spec (free): https://personalsoftwarefactory.com/blueprints/link-shortener\nBitly pricing and alternatives: https://personalsoftwarefactory.com/alternatives/bitly\nAll blueprints on GitHub: https://github.com/samclaassen/internal-tool-blueprints\nBefore you rely on an AI-built tool: https://personalsoftwarefactory.com/guides/ai-built-tools-production-readiness\n\nBitly prices, billed annually: Core $10 a month (100 links a month, 30 days of click data), Growth $29 (500 links, a custom domain, 4 months of data) and Premium $199 (3,000 links, 1 year of data); Enterprise is custom pricing, and the free plan has ads and 5 links a month. Changing where a link points is limited to 5, 20 or 110 times a month on those plans, and multiple users are an Enterprise addition (bitly.com/pages/pricing, October 2026).\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/",
+ "tags": [
+  "Bitly",
+  "Bitly alternative",
+  "Bitly pricing",
+  "build a Bitly alternative",
+  "link shortener",
+  "UTM builder",
+  "QR code tracking",
+  "Claude",
+  "AI app builder",
+  "spec-driven development",
+  "internal tools",
+  "build vs buy SaaS",
+  "personal software factory"
+ ],
+ "categoryId": "28",
+ "publishAt": "2026-11-05T17:00:00Z",
+ "thumbnail": "thumb.jpg",
+ "playlists": [
+  "PLQ_n7bK0gJf0",
+  "PLLBNFDc05BbM"
+ ]
+}

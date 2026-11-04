@@ -1,0 +1,5 @@
+{"scenes": [
+ {"id": "build", "text": "Claude built a link shortener with one hard rule. Only real visits are counted. Slack previews and bots are recorded, but never counted, and a QR scan counts apart from a click.", "cues": []},
+ {"id": "gaps", "text": "The test build found sixty-nine gaps. No setting held the company email domain. A Slack preview could use up a sign-in link. And typing f b into the source field could never be tried. All sixty-nine are fixed.", "cues": []},
+ {"id": "verdict", "text": "Bitly starts at ten dollars a month. But it limits how often a link's destination can change, and multiple users are an Enterprise addition. If your team shares links, build your own.", "cues": []}
+]}

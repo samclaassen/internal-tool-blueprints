@@ -1,0 +1,183 @@
+1
+00:00:00,150 --> 00:00:03,145
+Here's how to reverse engineer Bitly from a written spec.
+
+2
+00:00:03,145 --> 00:00:07,980
+Claude passed all nineteen checks, but my spec never said how to count the last thirty days.
+
+3
+00:00:08,883 --> 00:00:10,953
+We gave Claude one Markdown file.
+
+4
+00:00:10,973 --> 00:00:13,641
+It copies the part of Bitly a marketing team needs.
+
+5
+00:00:13,832 --> 00:00:15,369
+Short links on your own domain.
+
+6
+00:00:15,411 --> 00:00:18,633
+A UTM builder that only accepts your agreed sources and mediums.
+
+7
+00:00:18,653 --> 00:00:21,207
+QR codes, counted separately as scans.
+
+8
+00:00:21,285 --> 00:00:24,848
+And click counts that leave out bots and link previews.
+
+9
+00:00:25,783 --> 00:00:27,874
+The core rule is counting.
+
+10
+00:00:28,001 --> 00:00:31,053
+A visitor is counted only once on a link in thirty seconds.
+
+11
+00:00:31,244 --> 00:00:35,937
+Link previews from Slack or LinkedIn, and other bots, are recorded but never counted.
+
+12
+00:00:35,979 --> 00:00:40,033
+A QR code carries a small marker in the link, so a scan counts apart from a click.
+
+13
+00:00:40,075 --> 00:00:42,480
+And no IP address is ever stored.
+
+14
+00:00:43,417 --> 00:00:46,041
+Claude built it in four phases, one prompt each.
+
+15
+00:00:46,147 --> 00:00:47,919
+The foundation and the link builder.
+
+16
+00:00:47,939 --> 00:00:49,497
+Redirects and counting.
+
+17
+00:00:49,646 --> 00:00:51,161
+Reports and exports.
+
+18
+00:00:51,353 --> 00:00:54,123
+Then reminders, the weekly digest and safeguards.
+
+19
+00:00:54,205 --> 00:00:58,964
+After every phase, the acceptance checks ran in a real browser, from fresh seed data.
+
+20
+00:00:59,883 --> 00:01:00,929
+Here's what it built.
+
+21
+00:01:01,078 --> 00:01:05,494
+The Links screen shows five seed links, with three hundred and forty-two clicks on spring.
+
+22
+00:01:05,600 --> 00:01:11,085
+The new link form previews the final URL, with every UTM tag in order, and its QR code.
+
+23
+00:01:11,193 --> 00:01:14,799
+The link page charts the clicks, with twenty-five previews left out.
+
+24
+00:01:15,033 --> 00:01:18,746
+The campaign report adds up four hundred and seventy clicks by source and medium.
+
+25
+00:01:18,873 --> 00:01:22,423
+And the outbox holds the weekly digests and an expiry reminder.
+
+26
+00:01:23,350 --> 00:01:30,297
+In one final run, on a fresh database, all nineteen checks passed, along with one hundred and fifty-one automated tests.
+
+27
+00:01:31,217 --> 00:01:33,394
+But the more useful result is what broke.
+
+28
+00:01:33,479 --> 00:01:36,850
+The test build exposed sixty-nine places where Claude had to guess.
+
+29
+00:01:36,935 --> 00:01:40,773
+Sign-in was limited to the company email domain, but no setting held the domain.
+
+30
+00:01:40,813 --> 00:01:44,035
+A one-time sign-in link could be used up by a link preview in Slack.
+
+31
+00:01:44,099 --> 00:01:49,582
+And the source and medium fields could be dropdowns, which made the check that refuses f b impossible to try.
+
+32
+00:01:49,688 --> 00:01:51,738
+Every gap is now fixed in the spec.
+
+33
+00:01:52,683 --> 00:01:55,286
+Passing every check isn't the same as production-ready.
+
+34
+00:01:55,413 --> 00:02:02,798
+We didn't test production sign-in, real email delivery, the daily job on a real scheduler, a real short domain, or redirect speed under load.
+
+35
+00:02:02,886 --> 00:02:07,088
+And the QR codes were decoded by software, not scanned by a phone camera.
+
+36
+00:02:08,050 --> 00:02:09,458
+So is it worth building?
+
+37
+00:02:09,671 --> 00:02:15,480
+Billed yearly, Bitly's Core plan is ten dollars a month, Growth twenty-nine and Premium one hundred and ninety-nine.
+
+38
+00:02:15,528 --> 00:02:23,060
+Changing where a link points is limited to five, twenty or one hundred and ten times a month, and multiple users are an Enterprise addition.
+
+39
+00:02:23,166 --> 00:02:26,610
+If one person makes a handful of links a month, Core may be enough.
+
+40
+00:02:26,768 --> 00:02:31,400
+If your team shares links and keeps changing where printed QR codes point, build it.
+
+41
+00:02:32,350 --> 00:02:33,908
+Everything is in one file.
+
+42
+00:02:34,014 --> 00:02:40,478
+The data model, nine rules, seed data, four phase prompts, and all nineteen checks, with the sixty-nine fixes already in.
+
+43
+00:02:41,300 --> 00:02:44,692
+The full spec is free at personal software factory dot com.
+
+44
+00:02:44,692 --> 00:02:46,762
+If you build it, tell me what broke.
+
+45
+00:02:46,762 --> 00:02:47,222
+I'm Sam.
+
+46
+00:02:47,222 --> 00:02:48,200
+See you tomorrow.

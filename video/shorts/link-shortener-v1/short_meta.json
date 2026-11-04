@@ -1,0 +1,22 @@
+{
+ "file": "bitly-short.mp4",
+ "short": true,
+ "title": "Can Claude replace Bitly? 19/19 checks, 69 spec gaps #shorts",
+ "description": "Claude built a Bitly alternative, a link shortener on your own domain with a UTM builder, QR codes and click counts that leave out bots and link previews, from one written spec: all 19 acceptance checks passed, and the build exposed 69 gaps in the spec.\n\nFull build test (2:48): https://youtu.be/tBud8dlU-nI\nThe free spec: https://personalsoftwarefactory.com/blueprints/link-shortener\nBitly pricing and alternatives: https://personalsoftwarefactory.com/alternatives/bitly\n\nBitly prices, billed annually: Core $10, Growth $29 and Premium $199 a month; changing where a link points is limited to 5, 20 or 110 times a month on those plans, and multiple users are an Enterprise addition (bitly.com/pages/pricing, October 2026).\n\nMade with AI: Sam's on-camera hook and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/\n\n#shorts #claude #bitly",
+ "tags": [
+  "Bitly alternative",
+  "Bitly",
+  "build a Bitly alternative",
+  "link shortener",
+  "UTM builder",
+  "QR code tracking",
+  "Claude",
+  "AI app builder",
+  "internal tools",
+  "build vs buy SaaS",
+  "personal software factory",
+  "shorts"
+ ],
+ "categoryId": "28",
+ "publishAt": "2026-11-05T21:00:00Z"
+}

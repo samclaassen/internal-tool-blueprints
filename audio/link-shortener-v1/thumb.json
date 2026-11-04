@@ -1,0 +1,1 @@
+{"kicker": "Build test · Link shortener", "title": "Claude built a Bitly alternative", "stats": [{"n": "19/19", "label": "checks passed", "tone": "ok"}, {"n": "69", "label": "spec gaps found", "tone": "signal"}], "shot": "public/builds/link-shortener/test-links.webp", "face": "/home/daytona/samclaassen-1/forkB/work/face.png"}
