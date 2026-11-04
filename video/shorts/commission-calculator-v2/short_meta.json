@@ -1,0 +1,9 @@
+{
+ "file": "qp-short-v2.mp4",
+ "short": true,
+ "title": "What my QuotaPath spec forgot: 24/24 checks passed, 10 gaps found #shorts",
+ "description": "Claude built a QuotaPath alternative, a commission calculator with a what-if screen, from one written spec: all 24 acceptance checks passed, but the what-if split could mean either rep's share. It was one of 10 spec gaps, and all 10 are now fixed.\n\nFull build test (2:45): https://youtu.be/ryupZOqZHxg\nThe free spec: https://personalsoftwarefactory.com/blueprints/commission-calculator\nQuotaPath pricing and alternatives: https://personalsoftwarefactory.com/alternatives/quotapath\n\nNot tested: production sign-in, two people saving at once, importing the export into a real payroll system, and hosting.\n\nMade with AI: Sam's on-camera hook and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/\n\n#shorts #claude #quotapath",
+ "tags": ["QuotaPath alternative", "QuotaPath", "build a QuotaPath alternative", "commission calculator", "sales commissions", "Claude", "AI app builder", "spec-driven development", "internal tools", "build vs buy SaaS", "personal software factory", "shorts"],
+ "categoryId": "28",
+ "publishAt": "2026-11-05T01:00:00Z"
+}

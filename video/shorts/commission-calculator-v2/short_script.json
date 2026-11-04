@@ -1,0 +1,7 @@
+{
+  "scenes": [
+    {"id": "build", "text": "Claude built a commission calculator with a what-if screen. Cy types in a twenty-five thousand dollar deal. It adds three thousand six hundred and fifty dollars: two thousand at ten percent, twenty-three thousand at fifteen. Nothing is saved.", "cues": []},
+    {"id": "gaps", "text": "Then the gap. The what-if split could mean either rep's share. Does Cy keep twenty percent, or does Rosa get it? Now it matches the split on a real deal. All ten gaps are fixed.", "cues": []},
+    {"id": "untested", "text": "What we didn't test: real sign-in, two people saving at once, importing the export into a real payroll system, and hosting. Check those before your team relies on it.", "cues": []}
+  ]
+}
