@@ -1,0 +1,9 @@
+{
+ "file": "sortly-short.mp4",
+ "short": true,
+ "title": "Can Claude replace Sortly? 21/21 checks, 63 spec gaps #shorts",
+ "description": "Claude built a Sortly alternative, an inventory tracker with quantities per location, QR labels, low stock alerts, purchase orders and blind stock counts, from one written spec: all 21 acceptance checks passed, and the build exposed 63 gaps in the spec.\n\nFull build test (2:50): https://youtu.be/mRltqI-Tl2c\nThe free spec: https://personalsoftwarefactory.com/blueprints/inventory-tracker\nSortly pricing and alternatives: https://personalsoftwarefactory.com/alternatives/sortly\n\nSortly prices, billed monthly: Free for 100 items and 1 user license; Advanced $49, Ultra $149 and Premium $299 a month with 2, 5 and 8 user licenses; purchase orders and stock counts start on Ultra (sortly.com/pricing, October 2026).\n\nMade with AI: Sam's on-camera hook and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/\n\n#shorts #claude #sortly",
+ "tags": ["Sortly alternative", "Sortly", "build a Sortly alternative", "inventory tracker", "inventory management software", "stock count", "Claude", "AI app builder", "internal tools", "build vs buy SaaS", "personal software factory", "shorts"],
+ "categoryId": "28",
+ "publishAt": "2026-11-06T21:00:00Z"
+}

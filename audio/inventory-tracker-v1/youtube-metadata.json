@@ -1,0 +1,27 @@
+{
+ "file": "long.mp4",
+ "title": "Build a Sortly alternative with Claude: free inventory tracker spec, 21/21 checks passed",
+ "description": "Claude built a Sortly alternative from one Markdown spec: all 21 acceptance checks passed in a real browser, along with 137 automated tests.\nThe test build also exposed 63 gaps in the spec, and every one is now fixed.\n\nWe gave Claude one Markdown spec for an inventory tracker for teams of 5 to 50 people who keep supplies or parts in a few places, and had it build the tool in four phases: the foundation; recording stock, alerts, labels and scanning; purchase orders; and counts and reports. The core rule is movements: stock never changes by editing a number, every use, delivery, move and count is a permanent movement, the quantity on hand is their sum, and no movement can take a location below zero. The gaps included seed history that couldn't add up to the seed table, an adjustment reason \"Found\" that could remove stock, and a count waiting for review that didn't block a second count, so approving both would correct the same stock twice. What passed, what broke, what we didn't test, and when Sortly is still the better buy.\n\nChapters\n00:00 Reverse engineering Sortly\n00:23 The core rule: movements\n00:44 Four build phases\n00:59 What Claude built\n01:24 Result and what broke\n01:54 What we didn't test\n02:09 Is it worth building?\n02:32 Get the free spec\n\nSam's on-camera intro and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nThe spec (free): https://personalsoftwarefactory.com/blueprints/inventory-tracker\nSortly pricing and alternatives: https://personalsoftwarefactory.com/alternatives/sortly\nAll blueprints on GitHub: https://github.com/samclaassen/internal-tool-blueprints\nBefore you rely on an AI-built tool: https://personalsoftwarefactory.com/guides/ai-built-tools-production-readiness\n\nSortly prices, billed monthly: Free for 100 items and 1 user license; Advanced $49 a month (500 items, 2 user licenses), Ultra $149 (2,000 items, 5 user licenses) and Premium $299 (5,000 items, 8 user licenses); Enterprise is by quote. Yearly billing is 50% off in the first year and 20% off after that. Purchase orders and stock counts start on Ultra (sortly.com/pricing, October 2026).\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/",
+ "tags": [
+  "Sortly",
+  "Sortly alternative",
+  "Sortly pricing",
+  "build a Sortly alternative",
+  "inventory tracker",
+  "inventory management software",
+  "stock count",
+  "Claude",
+  "AI app builder",
+  "spec-driven development",
+  "internal tools",
+  "build vs buy SaaS",
+  "personal software factory"
+ ],
+ "categoryId": "28",
+ "publishAt": "2026-11-06T17:00:00Z",
+ "thumbnail": "thumb.jpg",
+ "playlists": [
+  "PLQ_n7bK0gJf0",
+  "PLY7Yy8lQCdGo"
+ ]
+}

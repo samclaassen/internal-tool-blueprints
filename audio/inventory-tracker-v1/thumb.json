@@ -1,0 +1,1 @@
+{"kicker": "Build test · Inventory tracker", "title": "Claude built a Sortly alternative", "stats": [{"n": "21/21", "label": "checks passed", "tone": "ok"}, {"n": "63", "label": "spec gaps found", "tone": "signal"}], "shot": "public/builds/inventory-tracker/test-items.webp", "face": "face.png"}

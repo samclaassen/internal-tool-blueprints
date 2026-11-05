@@ -1,0 +1,5 @@
+{"scenes": [
+ {"id": "build", "text": "Claude built an inventory tracker with one hard rule. Stock only changes through movements, and no movement can take a shelf below zero. Try to use a case that isn't there, and it's refused.", "cues": []},
+ {"id": "gaps", "text": "The test build found sixty-three gaps. An adjustment marked Found could remove stock. And a count waiting for review didn't block a second count, so the same stock could be corrected twice. All sixty-three are fixed.", "cues": []},
+ {"id": "verdict", "text": "Sortly's Advanced plan is forty-nine dollars a month, but purchase orders and stock counts start on Ultra, at one hundred and forty-nine. If more than eight people record stock, build your own.", "cues": []}
+]}
