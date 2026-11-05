@@ -1,0 +1,9 @@
+{
+ "file": "pto-short-v2.mp4",
+ "short": true,
+ "title": "What my Timetastic spec forgot: 32/32 checks passed, 7 gaps found #shorts",
+ "description": "Claude built a Timetastic alternative, a time-off tracker whose home page shows who's out, from one written spec: all 32 acceptance checks passed, but my spec never said where a pending request goes once it has started. It was one of 7 spec gaps, and all 7 are now fixed.\n\nFull build test (2:51): https://youtu.be/Bx2m_GK5A24\nThe free spec: https://personalsoftwarefactory.com/blueprints/pto-tracker\nTimetastic pricing and alternatives: https://personalsoftwarefactory.com/alternatives/timetastic\n\nNot tested: production sign-in, sending email, subscribing to the calendar feed, the hourly job on a real scheduler, and hosting.\n\nMade with AI: Sam's on-camera hook and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/\n\n#shorts #claude #timetastic",
+ "tags": ["Timetastic alternative", "Timetastic", "build a Timetastic alternative", "time-off tracker", "PTO tracker", "leave management", "Claude", "AI app builder", "spec-driven development", "internal tools", "build vs buy SaaS", "personal software factory", "shorts"],
+ "categoryId": "28",
+ "publishAt": "2026-11-06T01:00:00Z"
+}

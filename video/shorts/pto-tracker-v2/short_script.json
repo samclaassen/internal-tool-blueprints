@@ -1,0 +1,7 @@
+{
+  "scenes": [
+    {"id": "build", "text": "Claude built a time-off tracker whose home page is Who's out. Tom is out today, with the day he's back. Jo is out next week. And Maya's request is listed apart, because it's still waiting for approval. Pending leave never looks confirmed.", "cues": []},
+    {"id": "gaps", "text": "Then the gap. My spec never said where a pending request goes once it has started. It had nowhere to appear on Who's out. Now it's listed under Waiting for approval today. All seven gaps are fixed.", "cues": []},
+    {"id": "untested", "text": "What we didn't test: real sign-in, sending email, subscribing to the calendar feed, the hourly job on a real scheduler, and hosting. Check those before your team relies on it.", "cues": []}
+  ]
+}

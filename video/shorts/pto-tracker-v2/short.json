@@ -1,0 +1,18 @@
+{
+ "out": "pto-short-v2.mp4",
+ "kicker": "Build test · Timetastic alternative",
+ "title": "What my Timetastic spec forgot",
+ "badge_image": "sam_photo.jpg",
+ "music": "music.mp3",
+ "music_volume": 0.08,
+ "words": "stts/words.json",
+ "highlight": ["Timetastic", "thirty-two", "seven", "Who's", "out", "apart", "waiting", "never", "started", "nowhere", "fixed", "sign-in", "email", "hosting"],
+ "segments": [
+  {"type": "avatar", "video": "hook.mp4", "text": "Here's how to reverse engineer Timetastic from a written spec. Claude passed all thirty-two checks, and my spec still had seven gaps."},
+  {"type": "product", "scene": "build", "audio": "stts/build.mp3", "source": "whossrc.mp4", "from": 0.0, "crop": [320, 290, 800, 470]},
+  {"type": "product", "scene": "gaps", "audio": "stts/gaps.mp3", "source": "gapsrc.mp4", "from": 0.0, "crop": [940, 260, 920, 660]},
+  {"type": "product", "scene": "untested", "audio": "stts/untested.mp3", "source": "long.mp4", "from": 121.4, "crop": [60, 160, 1180, 660]},
+  {"type": "avatar", "video": "outro.mp4", "text": "The full spec is free at personal software factory dot com. If you build it, tell me what broke. I'm Sam. See you tomorrow."}
+ ],
+ "notes": "Local paths: long.mp4 = F10 render file_01m5wqtw6aenn86krz2jw25dr3 (artifact wart_01m5wmmx1we9xv26t59vjmq60e rev 2); outro.mp4 = video/host/outro-generic-v2-norm.mp4; music.mp3 = audio/music/chill-wave-kevin-macleod.mp3; sam_photo.jpg = video/host/sam-photo.jpg; stts/ = heygen.py tts of short_script.json (words.json here). whossrc.mp4 = long 67.6-72.6 s + hold; gapsrc.mp4 = long 110.8-114.6 s + hold, 116.4-117.0 s + hold."
+}
