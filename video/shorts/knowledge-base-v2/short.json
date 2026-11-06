@@ -1,0 +1,18 @@
+{
+ "out": "guru-short-v2.mp4",
+ "kicker": "Build test · Guru alternative",
+ "title": "What my Guru spec forgot",
+ "badge_image": "sam_photo.jpg",
+ "music": "music.mp3",
+ "music_volume": 0.08,
+ "words": "stts/words.json",
+ "highlight": ["Guru", "thirty-one", "due-soon", "grades", "sixty", "flagged", "due", "soon", "Verified", "last", "admin", "refused", "thirty", "fixed", "sign-in", "email", "Slack", "hosting"],
+ "segments": [
+  {"type": "avatar", "video": "hook.mp4", "text": "Here's how to reverse engineer Guru from a written spec. Claude passed all thirty-one checks, but my spec never said what a due-soon card looks like."},
+  {"type": "product", "scene": "build", "audio": "stts/build.mp3", "source": "insrc.mp4", "from": 0.0, "crop": [280, 200, 1400, 720]},
+  {"type": "product", "scene": "gaps", "audio": "stts/gaps.mp3", "source": "gapsrc.mp4", "from": 0.0, "crop": [930, 250, 930, 680]},
+  {"type": "product", "scene": "untested", "audio": "stts/untested.mp3", "source": "untsrc.mp4", "from": 0.0, "crop": [40, 150, 1180, 720]},
+  {"type": "avatar", "video": "outro.mp4", "text": "The full spec is free at personal software factory dot com. If you build it, tell me what broke. I'm Sam. See you tomorrow."}
+ ],
+ "notes": "Local paths: long.mp4 = F15 render file_01m6c73gx5e2zvrhv5f8fw8tf5 (artifact wart_01m6c6nt3wetasp9wscyqpahjd rev 1); outro.mp4 = video/host/outro-generic-v2-norm.mp4; music.mp3 = audio/music/chill-wave-kevin-macleod.mp3; sam_photo.jpg = video/host/sam-photo.jpg; stts/ = heygen.py tts of short_script.json (words.json here). insrc.mp4 = long 73.5-75.4 s + hold (Insights); gapsrc.mp4 = long 96.0 s held 7.6 s (gap-card intro), 100.2-101.5 s + hold to 4.0 s (last admin card, fix refused), 111.6-113.0 s + hold (All 30 fixed); untsrc.mp4 = long 123.6-127.4 s + hold (not tested list)."
+}

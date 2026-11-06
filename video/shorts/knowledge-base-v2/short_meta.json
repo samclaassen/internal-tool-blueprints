@@ -1,0 +1,9 @@
+{
+ "file": "guru-short-v2.mp4",
+ "short": true,
+ "title": "What my Guru spec forgot: 31/31 checks passed, 30 gaps found #shorts",
+ "description": "Claude built a Guru alternative, an internal knowledge base that grades its own answers, from one written spec: all 31 acceptance checks passed, but my spec never said what a card looks like when its review is due soon, or whether the last admin could be deactivated. Those were 2 of 30 spec gaps, and all 30 are now fixed.\n\nFull build test (2:46): https://youtu.be/c0GKCgOTBgo\nThe free spec: https://personalsoftwarefactory.com/blueprints/knowledge-base\nGuru pricing and alternatives: https://personalsoftwarefactory.com/alternatives/guru\n\nNot tested: production sign-in, real email delivery, a real Slack workspace, the hourly job on a real scheduler, and hosting.\n\nMade with AI: Sam's on-camera hook and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/\n\n#shorts #claude #guru",
+ "tags": ["Guru alternative", "Guru", "build a Guru alternative", "internal knowledge base", "knowledge base software", "Claude", "AI app builder", "spec-driven development", "internal tools", "build vs buy SaaS", "personal software factory", "shorts"],
+ "categoryId": "28",
+ "publishAt": "2026-11-07T01:00:00Z"
+}

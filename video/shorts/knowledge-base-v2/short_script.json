@@ -1,0 +1,7 @@
+{
+  "scenes": [
+    {"id": "build", "text": "Claude built a knowledge base that grades itself. Insights shows six of ten published cards verified, sixty percent, and who must review what. Ana's expense card is flagged, because the meal limit changed.", "cues": []},
+    {"id": "gaps", "text": "Then the gaps. My spec never said what a card looks like when its review is due soon. Now it stays Verified, with a Due soon badge. It never said if the last admin could be deactivated. Now that's refused. All thirty gaps are fixed.", "cues": []},
+    {"id": "untested", "text": "What we didn't test: production sign-in, real email, a real Slack workspace, the hourly job on a real scheduler, and hosting. Check those before your team relies on it.", "cues": []}
+  ]
+}
