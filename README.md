@@ -3,7 +3,7 @@
 Free, build-tested specs for the internal tools a small team can build with an AI app builder (Claude, ChatGPT, Cursor, Claude Code, Lovable, Replit or Type) instead of paying per seat for SaaS: a CRM instead of HubSpot, an approval workflow instead of Kissflow, a help desk instead of Zendesk, and more.
 
 - **37 blueprints**, each one Markdown file you can paste into an AI builder.
-- **21 build-tested**: an AI builder followed the phase prompts and every acceptance check was run in a real browser. 541 acceptance checks passed in the final runs, the builds include 1,872 automated tests, and the builds exposed **449 gaps in the specs**, all fixed here.
+- **22 build-tested**: an AI builder followed the phase prompts and every acceptance check was run in a real browser. 559 acceptance checks passed in the final runs, the builds include 1,985 automated tests, and the builds exposed **532 gaps in the specs**, all fixed here.
 - Every price and feature claim about the paid product was checked on the vendor's own pages, with the month checked.
 
 Mirrored from **[Personal Software Factory](https://personalsoftwarefactory.com)** (personalsoftwarefactory.com), where each blueprint also has a labelled drawing and build-or-buy notes, many have a live demo, and tested ones show their build-test results and what was not tested.
@@ -45,7 +45,7 @@ The same AI builder (Claude, working in Type) wrote each test build and its test
 | **SaaS Spend Tracker**: Nobody knows how many software tools we're actually paying for. | Zylo | Finance | 10–200 people | Build-tested 2026-10-16, 31/31 acceptance checks passed | [saas-spend-tracker.md](blueprints/saas-spend-tracker.md) | [page](https://personalsoftwarefactory.com/blueprints/saas-spend-tracker) |
 | **Expense Reports**: Receipts pile up in email and reimbursements take weeks. | Expensify | Finance | 5–100 people | Build-tested 2026-10-15, 24/24 acceptance checks passed | [expense-reports.md](blueprints/expense-reports.md) | [page](https://personalsoftwarefactory.com/blueprints/expense-reports) |
 | **Timesheets**: Every month-end I chase people for their hours before I can invoice. | Harvest | Finance | 5–100 people | Build-tested 2026-10-30, 21/21 acceptance checks passed | [timesheets.md](blueprints/timesheets.md) | [page](https://personalsoftwarefactory.com/blueprints/timesheets) |
-| **Invoice Reminders**: Every Friday I go through the overdue list and write the same polite emails by hand. | Chaser | Finance | 2–50 people | Full spec; build test pending | [invoice-reminders.md](blueprints/invoice-reminders.md) | [page](https://personalsoftwarefactory.com/blueprints/invoice-reminders) |
+| **Invoice Reminders**: Every Friday I go through the overdue list and write the same polite emails by hand. | Chaser | Finance | 2–50 people | Build-tested 2026-11-06, 18/18 acceptance checks passed | [invoice-reminders.md](blueprints/invoice-reminders.md) | [page](https://personalsoftwarefactory.com/blueprints/invoice-reminders) |
 | **Document Requests**: Every year-end we chase clients for the same twelve documents, one email at a time. | Content Snare | Finance | 2–50 people | Full spec; build test pending | [document-requests.md](blueprints/document-requests.md) | [page](https://personalsoftwarefactory.com/blueprints/document-requests) |
 | **Contract Tracker**: We found out the contract had renewed for another year when the invoice arrived. | ContractSafe | Finance | 5–200 people | Full spec; build test pending | [contract-tracker.md](blueprints/contract-tracker.md) | [page](https://personalsoftwarefactory.com/blueprints/contract-tracker) |
 | **Time-Off Tracker**: I can never tell who's out next week until they're already gone. | Timetastic | People | 5–100 people | Build-tested 2026-10-15, 32/32 acceptance checks passed | [pto-tracker.md](blueprints/pto-tracker.md) | [page](https://personalsoftwarefactory.com/blueprints/pto-tracker) |
@@ -65,7 +65,7 @@ The full catalog, with live demos and test results, is at https://personalsoftwa
 
 ## Field reports
 
-- [Is an AI-built internal tool ready for production? What our 21 build tests didn't test](https://personalsoftwarefactory.com/guides/ai-built-tools-production-readiness)
+- [Is an AI-built internal tool ready for production? What our 22 build tests didn't test](https://personalsoftwarefactory.com/guides/ai-built-tools-production-readiness)
 - [Field report: building a Zendesk replacement with AI, 24 checks and 21 spec gaps](https://personalsoftwarefactory.com/guides/zendesk-replacement-build-test)
 - [Field report: building a Greenhouse replacement with AI, 29 checks and 18 spec gaps](https://personalsoftwarefactory.com/guides/greenhouse-replacement-build-test)
 - [Field report: building a Jira replacement with AI, 31 checks and 5 spec gaps](https://personalsoftwarefactory.com/guides/jira-replacement-build-test)
@@ -87,6 +87,7 @@ The full catalog, with live demos and test results, is at https://personalsoftwa
 - [Field report: building a Statuspage replacement with AI, 18 checks and 58 spec gaps](https://personalsoftwarefactory.com/guides/statuspage-replacement-build-test)
 - [Field report: building a Bitly replacement with AI, 19 checks and 69 spec gaps](https://personalsoftwarefactory.com/guides/bitly-replacement-build-test)
 - [Field report: building a Sortly replacement with AI, 21 checks and 63 spec gaps](https://personalsoftwarefactory.com/guides/sortly-replacement-build-test)
+- [Field report: building a Chaser replacement with AI, 18 checks and 83 spec gaps](https://personalsoftwarefactory.com/blueprints/invoice-reminders#field-report)
 
 Short videos of the build tests, with what passed and what broke, are on YouTube at [@personalsoftwarefactory](https://www.youtube.com/@personalsoftwarefactory).
 
