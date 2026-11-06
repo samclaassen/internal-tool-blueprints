@@ -1,0 +1,19 @@
+{
+ "scenes": [
+  {
+   "id": "build",
+   "text": "Claude built an invoice reminder tool with one hard rule. Never chase what shouldn't be chased. Paid, disputed and paused accounts are skipped, and so is a customer who promised to pay.",
+   "cues": []
+  },
+  {
+   "id": "gaps",
+   "text": "The test build found eighty-three gaps. Customers created by an import had no account owner, so the promise-broken email had nobody to go to. And with sending off, nothing said if a held final notice counted as sent. All eighty-three are fixed.",
+   "cues": []
+  },
+  {
+   "id": "verdict",
+   "text": "Chaser starts at two hundred and thirty-three dollars a month, billed yearly, for up to four users. If you chase late invoices from a spreadsheet, build your own.",
+   "cues": []
+  }
+ ]
+}

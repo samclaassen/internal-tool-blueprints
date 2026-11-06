@@ -1,0 +1,9 @@
+{
+ "file": "chaser-short.mp4",
+ "short": true,
+ "title": "Can Claude replace Chaser? 18/18 checks, 83 spec gaps #shorts",
+ "description": "Claude built a Chaser alternative, an invoice reminder tool with CSV import, a reminder schedule from a heads-up to a final notice, one email per customer per day and an aging report, from one written spec: all 18 acceptance checks passed, and the build exposed 83 gaps in the spec.\n\nThe free spec: https://personalsoftwarefactory.com/blueprints/invoice-reminders\nChaser pricing and alternatives: https://personalsoftwarefactory.com/alternatives/chaser\n\nChaser prices (US, by company revenue): Compact $233 a month billed yearly ($259 monthly) for revenue under $5 million and 4 users; Core $700 a month billed yearly ($779 monthly) for revenue under $13 million with unlimited users; Complete $1,050 a month billed yearly ($1,169 monthly), adding a receivables forecast (chaserhq.com/chaser-pricing, October 2026).\n\nMade with AI: Sam's on-camera hook and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/\n\n#shorts #claude #chaser",
+ "tags": ["Chaser alternative", "Chaser", "build a Chaser alternative", "invoice reminders", "accounts receivable", "payment reminders", "aging report", "Claude", "AI app builder", "internal tools", "build vs buy SaaS", "personal software factory", "shorts"],
+ "categoryId": "28",
+ "publishAt": "2026-11-07T21:00:00Z"
+}

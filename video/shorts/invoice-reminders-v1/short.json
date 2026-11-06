@@ -1,0 +1,74 @@
+{
+ "out": "chaser-short.mp4",
+ "kicker": "Build test \u00b7 Chaser alternative",
+ "title": "Can Claude replace Chaser?",
+ "badge_image": "sam-photo.jpg",
+ "music": "../../../audio/music/chill-wave-kevin-macleod.mp3",
+ "music_volume": 0.08,
+ "words": "stts/words.json",
+ "highlight": [
+  "Chaser",
+  "eighty-three",
+  "eighteen",
+  "never",
+  "skipped",
+  "owner",
+  "nobody",
+  "held",
+  "two",
+  "hundred",
+  "thirty-three",
+  "build"
+ ],
+ "segments": [
+  {
+   "type": "avatar",
+   "video": "hook.mp4",
+   "text": "Here's how to reverse engineer Chaser from a written spec. Claude passed all eighteen checks, but my spec never said if an import could undo a payment."
+  },
+  {
+   "type": "product",
+   "scene": "build",
+   "audio": "stts/build.mp3",
+   "source": "long.mp4",
+   "from": 33.2,
+   "crop": [
+    1180,
+    250,
+    700,
+    600
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "gaps",
+   "audio": "stts/gaps.mp3",
+   "source": "long.mp4",
+   "from": 101.0,
+   "crop": [
+    960,
+    260,
+    860,
+    340
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "verdict",
+   "audio": "stts/verdict.mp3",
+   "source": "long.mp4",
+   "from": 139.0,
+   "crop": [
+    60,
+    250,
+    1000,
+    430
+   ]
+  },
+  {
+   "type": "avatar",
+   "video": "outro.mp4",
+   "text": "The full spec is free at personal software factory dot com. If you build it, tell me what broke. I'm Sam. See you tomorrow."
+  }
+ ]
+}

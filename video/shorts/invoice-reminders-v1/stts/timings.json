@@ -1,0 +1,20 @@
+[
+ {
+  "id": "build",
+  "file": "build.mp3",
+  "seconds": 9.848,
+  "model": "heygen-voice-1-turbo-free"
+ },
+ {
+  "id": "gaps",
+  "file": "gaps.mp3",
+  "seconds": 14.942,
+  "model": "heygen-voice-1-turbo-free"
+ },
+ {
+  "id": "verdict",
+  "file": "verdict.mp3",
+  "seconds": 7.68,
+  "model": "heygen-voice-1-turbo-free"
+ }
+]
