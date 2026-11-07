@@ -1,0 +1,5 @@
+{"scenes": [
+ {"id": "rule", "text": "Claude built a quote builder with one hard rule. Big discounts need a manager. Lee's quote for Ridgeway Partners is seventeen point two percent off, over the fifteen percent limit, so a manager must approve it before it's sent. And nobody can approve their own quote.", "cues": []},
+ {"id": "gaps", "text": "Here's what my spec forgot. When no other manager could approve, the app showed a message, but the spec never said if the request went through. Now it's refused. All eight gaps are fixed in the spec.", "cues": []},
+ {"id": "untested", "text": "But passing every check isn't production-ready. We didn't test real sign-in, sending email, the daily job on a real scheduler, the print dialog, or hosting.", "cues": []}
+]}

@@ -1,0 +1,9 @@
+{
+ "file": "pandadoc-short-v2.mp4",
+ "short": true,
+ "title": "What my PandaDoc spec forgot: 29/29 checks passed, 8 gaps found #shorts",
+ "description": "Claude built a PandaDoc alternative, a quote builder where big discounts need a manager, from one written spec: all 29 acceptance checks passed, but my spec never said whether an approval request went through when no other manager could approve it. That was 1 of 8 spec gaps, and all 8 are now fixed (the request is now refused).\n\nFull build test (2:40): https://youtu.be/cDWAAYw-R_Q\nThe free spec: https://personalsoftwarefactory.com/blueprints/quote-builder\nPandaDoc pricing and alternatives: https://personalsoftwarefactory.com/alternatives/pandadoc\n\nNot tested: real sign-in, sending email, the daily job on a real scheduler, the browser's print dialog, and hosting.\n\nMade with AI: Sam's on-camera intro and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/\n\n#shorts #claude #pandadoc",
+ "tags": ["PandaDoc alternative", "PandaDoc", "build a PandaDoc alternative", "quote builder", "quoting software", "discount approval", "Claude", "AI app builder", "spec-driven development", "internal tools", "build vs buy SaaS", "personal software factory", "shorts"],
+ "categoryId": "28",
+ "publishAt": "2026-11-08T01:00:00Z"
+}
