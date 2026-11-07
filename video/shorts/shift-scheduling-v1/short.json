@@ -1,0 +1,17 @@
+{
+ "out": "wheniwork-short.mp4",
+ "kicker": "Build test · When I Work alternative",
+ "title": "Can Claude replace When I Work?",
+ "badge_image": "sam-photo.jpg",
+ "music": "../../media/audio/music/chill-wave-kevin-macleod.mp3",
+ "music_volume": 0.08,
+ "words": "stts/words.json",
+ "highlight": ["When", "Work", "eighty-four", "twenty", "checked", "refused", "note", "two", "nobody", "labor", "fifty", "six", "hundred", "build"],
+ "segments": [
+  {"type": "avatar", "video": "hook.mp4", "text": "Here's how to reverse engineer When I Work from a written spec. Claude passed all twenty checks, and found eighty-four gaps in my spec."},
+  {"type": "product", "scene": "build", "audio": "stts/build.mp3", "source": "long.mp4", "from": 31.8, "crop": [70, 240, 1100, 690]},
+  {"type": "product", "scene": "gaps", "audio": "stts/gaps.mp3", "source": "gaps_src.mp4", "from": 0.0, "crop": [950, 260, 900, 560]},
+  {"type": "product", "scene": "verdict", "audio": "stts/verdict.mp3", "source": "long.mp4", "from": 129.4, "crop": [60, 255, 980, 610]},
+  {"type": "avatar", "video": "outro.mp4", "text": "The full spec is free at personal software factory dot com. If you build it, tell me what broke. I'm Sam. See you tomorrow."}
+ ]
+}

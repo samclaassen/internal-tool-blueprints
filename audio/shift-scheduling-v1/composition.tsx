@@ -440,7 +440,7 @@ const Cost: React.FC<{ s: Scene }> = ({ s }) => {
   const pay = useEnter(c[4]);
   const build = useEnter(c[3]);
   const rows: [string, string, number][] = [["One location", "$2.50 per user", c[0]], ["Several", "$5 per user", c[1]], ["Enterprise", "By contact", c[1] + 30]];
-  const buildItems: [string, number][] = [["Schedule in a spreadsheet", c[5]], ["Changes happen by text", c[5] + 14], ["Your own conflict rules", c[5] + 28]];
+  const buildItems: [string, number][] = [["Schedule in a spreadsheet", c[3] + 30], ["Changes happen by text", c[3] + 60], ["Your own conflict rules", c[3] + 90]];
   return (
     <Frame label="THE COST" n={9}>
       <H>Is it worth building?</H>

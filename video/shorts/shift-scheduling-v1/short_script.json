@@ -1,0 +1,7 @@
+{
+ "scenes": [
+  {"id": "build", "text": "Claude built a shift scheduler with one hard rule. Every assignment is checked. Overlaps and approved time off are refused. Short rest or too many hours need a manager's note, and staff can't override anything.", "cues": []},
+  {"id": "gaps", "text": "The test build found eighty-four gaps. An approved swap sent two emails for one change. A shift opened after publishing reached nobody. And the printout showed labor cost. All eighty-four are fixed.", "cues": []},
+  {"id": "verdict", "text": "When I Work costs two dollars fifty per user per month. For twenty staff, that's six hundred dollars a year. It's cheap, so build your own only if you want your own rules, with every change approved by a manager.", "cues": []}
+ ]
+}
