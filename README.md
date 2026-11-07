@@ -3,7 +3,7 @@
 Free, build-tested specs for the internal tools a small team can build with an AI app builder (Claude, ChatGPT, Cursor, Claude Code, Lovable, Replit or Type) instead of paying per seat for SaaS: a CRM instead of HubSpot, an approval workflow instead of Kissflow, a help desk instead of Zendesk, and more.
 
 - **37 blueprints**, each one Markdown file you can paste into an AI builder.
-- **22 build-tested**: an AI builder followed the phase prompts and every acceptance check was run in a real browser. 559 acceptance checks passed in the final runs, the builds include 1,985 automated tests, and the builds exposed **532 gaps in the specs**, all fixed here.
+- **23 build-tested**: an AI builder followed the phase prompts and every acceptance check was run in a real browser. 579 acceptance checks passed in the final runs, the builds include 2,051 automated tests, and the builds exposed **616 gaps in the specs**, all fixed here.
 - Every price and feature claim about the paid product was checked on the vendor's own pages, with the month checked.
 
 Mirrored from **[Personal Software Factory](https://personalsoftwarefactory.com)** (personalsoftwarefactory.com), where each blueprint also has a labelled drawing and build-or-buy notes, many have a live demo, and tested ones show their build-test results and what was not tested.
@@ -51,7 +51,7 @@ The same AI builder (Claude, working in Type) wrote each test build and its test
 | **Time-Off Tracker**: I can never tell who's out next week until they're already gone. | Timetastic | People | 5–100 people | Build-tested 2026-10-15, 32/32 acceptance checks passed | [pto-tracker.md](blueprints/pto-tracker.md) | [page](https://personalsoftwarefactory.com/blueprints/pto-tracker) |
 | **Hiring Pipeline**: We're hiring for three roles and tracking candidates in a spreadsheet. | Greenhouse | People | 5–75 people | Build-tested 2026-10-15, 29/29 acceptance checks passed | [hiring-pipeline.md](blueprints/hiring-pipeline.md) | [page](https://personalsoftwarefactory.com/blueprints/hiring-pipeline) |
 | **Employee Onboarding**: Every new hire's first week depends on who remembers what. | BambooHR | People | 5–150 people | Build-tested 2026-11-02, 20/20 acceptance checks passed | [employee-onboarding.md](blueprints/employee-onboarding.md) | [page](https://personalsoftwarefactory.com/blueprints/employee-onboarding) |
-| **Shift Scheduling**: The schedule lives in a spreadsheet and every change happens by text. | When I Work | People | 10–100 staff | Full spec; build test pending | [shift-scheduling.md](blueprints/shift-scheduling.md) | [page](https://personalsoftwarefactory.com/blueprints/shift-scheduling) |
+| **Shift Scheduling**: The schedule lives in a spreadsheet and every change happens by text. | When I Work | People | 10–100 staff | Build-tested 2026-11-07, 20/20 acceptance checks passed | [shift-scheduling.md](blueprints/shift-scheduling.md) | [page](https://personalsoftwarefactory.com/blueprints/shift-scheduling) |
 | **OKR Tracker**: We set OKRs in January and looked at them again in March. | Perdoo | People | 5–100 people | Full spec; build test pending | [okr-tracker.md](blueprints/okr-tracker.md) | [page](https://personalsoftwarefactory.com/blueprints/okr-tracker) |
 | **Performance Reviews**: Reviews live in Google Docs, half of them are late, and nobody can find last year's. | Lattice | People | 10–200 people | Full spec; build test pending | [performance-reviews.md](blueprints/performance-reviews.md) | [page](https://personalsoftwarefactory.com/blueprints/performance-reviews) |
 | **Customer Feedback Inbox**: Customer feedback is scattered across email, calls and support tickets. | Productboard | Support | 3–50 people | Build-tested 2026-10-28, 25/25 acceptance checks passed | [feedback-inbox.md](blueprints/feedback-inbox.md) | [page](https://personalsoftwarefactory.com/blueprints/feedback-inbox) |
@@ -65,7 +65,7 @@ The full catalog, with live demos and test results, is at https://personalsoftwa
 
 ## Field reports
 
-- [Is an AI-built internal tool ready for production? What our 22 build tests didn't test](https://personalsoftwarefactory.com/guides/ai-built-tools-production-readiness)
+- [Is an AI-built internal tool ready for production? What our 23 build tests didn't test](https://personalsoftwarefactory.com/guides/ai-built-tools-production-readiness)
 - [Field report: building a Zendesk replacement with AI, 24 checks and 21 spec gaps](https://personalsoftwarefactory.com/guides/zendesk-replacement-build-test)
 - [Field report: building a Greenhouse replacement with AI, 29 checks and 18 spec gaps](https://personalsoftwarefactory.com/guides/greenhouse-replacement-build-test)
 - [Field report: building a Jira replacement with AI, 31 checks and 5 spec gaps](https://personalsoftwarefactory.com/guides/jira-replacement-build-test)
@@ -88,6 +88,7 @@ The full catalog, with live demos and test results, is at https://personalsoftwa
 - [Field report: building a Bitly replacement with AI, 19 checks and 69 spec gaps](https://personalsoftwarefactory.com/guides/bitly-replacement-build-test)
 - [Field report: building a Sortly replacement with AI, 21 checks and 63 spec gaps](https://personalsoftwarefactory.com/guides/sortly-replacement-build-test)
 - [Field report: building a Chaser replacement with AI, 18 checks and 83 spec gaps](https://personalsoftwarefactory.com/blueprints/invoice-reminders#field-report)
+- [Field report: building a When I Work replacement with AI, 20 checks and 84 spec gaps](https://personalsoftwarefactory.com/blueprints/shift-scheduling#field-report)
 
 Short videos of the build tests, with what passed and what broke, are on YouTube at [@personalsoftwarefactory](https://www.youtube.com/@personalsoftwarefactory).
 
