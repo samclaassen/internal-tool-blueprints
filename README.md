@@ -101,7 +101,7 @@ Short videos of the build tests, with what passed and what broke, are on YouTube
 - [How to build an internal tool with AI that your team can rely on](https://personalsoftwarefactory.com/guides/how-to-build-internal-tools-with-ai)
 - [What 36 business SaaS tools cost a 10-person team (October 2026)](https://personalsoftwarefactory.com/guides/saas-pricing-for-small-teams)
 - [The hidden limits in SaaS pricing: caps, minimums and metered features in 36 tools](https://personalsoftwarefactory.com/guides/saas-pricing-limits)
-- [What AI app builders get wrong: 449 spec gaps from 21 build tests](https://personalsoftwarefactory.com/guides/what-ai-builders-get-wrong)
+- [What AI app builders get wrong: 688 spec gaps from 24 build tests](https://personalsoftwarefactory.com/guides/what-ai-builders-get-wrong)
 - [What is a personal software factory?](https://personalsoftwarefactory.com/guides/what-is-a-personal-software-factory)
 
 ## Contributing
