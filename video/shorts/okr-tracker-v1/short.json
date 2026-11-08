@@ -1,0 +1,73 @@
+{
+ "out": "perdoo-short.mp4",
+ "kicker": "Build test \u00b7 Perdoo alternative",
+ "title": "Can Claude replace Perdoo?",
+ "badge_image": "sam-photo.jpg",
+ "music": "../../media/audio/music/chill-wave-kevin-macleod.mp3",
+ "music_volume": 0.08,
+ "words": "stts/words.json",
+ "highlight": [
+  "Perdoo",
+  "nineteen",
+  "seventy-two",
+  "refused",
+  "lock",
+  "fourteen",
+  "Behind",
+  "thousand",
+  "eighty",
+  "free",
+  "scariest"
+ ],
+ "segments": [
+  {
+   "type": "avatar",
+   "video": "hook.mp4",
+   "text": "Here's how to reverse engineer Perdoo from a written spec. Claude passed all nineteen checks, and found seventy-two gaps in my spec."
+  },
+  {
+   "type": "product",
+   "scene": "gap",
+   "audio": "stts/gap.mp3",
+   "source": "gap_src.mp4",
+   "from": 0.0,
+   "crop": [
+    950,
+    262,
+    740,
+    340
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "build",
+   "audio": "stts/build.mp3",
+   "source": "build_src.mp4",
+   "from": 0.0,
+   "crop": [
+    186,
+    180,
+    700,
+    520
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "verdict",
+   "audio": "stts/verdict.mp3",
+   "source": "verdict_src.mp4",
+   "from": 0.0,
+   "crop": [
+    60,
+    255,
+    980,
+    660
+   ]
+  },
+  {
+   "type": "avatar",
+   "video": "outro.mp4",
+   "text": "The full spec is free at personal software factory dot com. If you build it, tell me what broke. I'm Sam. See you tomorrow."
+  }
+ ]
+}

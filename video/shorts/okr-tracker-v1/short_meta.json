@@ -1,0 +1,9 @@
+{
+ "file": "perdoo-short.mp4",
+ "short": true,
+ "title": "Can Claude replace Perdoo? 19/19 checks, 72 spec gaps #shorts",
+ "description": "Claude built a Perdoo alternative, an OKR tracker with quarterly cycles, company and team objectives with up to 5 key results each, weekly check-ins, progress and pace calculated by one set of rules, and a cycle close that scores everything and carries unfinished key results forward, from one written spec: all 19 acceptance checks passed, along with 136 automated tests, and the build exposed 72 gaps in the spec, now fixed.\n\nThe free spec: https://personalsoftwarefactory.com/blueprints/okr-tracker\nPerdoo pricing and alternatives: https://personalsoftwarefactory.com/alternatives/perdoo\n\nPerdoo prices: free for up to 5 users. For 10 users billed annually, Premium is $9 per user per month ($1,080 a year) and Supreme $11 ($1,320 a year); the price per user falls as you add licenses (perdoo.com/pricing, October 2026).\n\nMade with AI: Sam's on-camera intro and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/\n\n#shorts #claude #okr",
+ "tags": ["Perdoo alternative", "Perdoo", "Perdoo pricing", "build a Perdoo alternative", "OKR tracker", "OKR software", "OKRs", "Claude", "AI app builder", "internal tools", "build vs buy SaaS", "personal software factory", "shorts"],
+ "categoryId": "28",
+ "publishAt": "2026-11-09T21:00:00Z"
+}

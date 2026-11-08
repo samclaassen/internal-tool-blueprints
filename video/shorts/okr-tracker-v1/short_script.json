@@ -1,0 +1,7 @@
+{
+ "scenes": [
+  {"id": "gap", "text": "The scariest gap first. My spec let an admin deactivate themselves, or demote the last admin, and lock everyone out of the OKR tracker. Claude had to guess. Now both are refused.", "cues": []},
+  {"id": "build", "text": "Here's what it built. Every key result gets progress and pace. On day fifteen of ninety-two, the self-serve revenue objective is at fourteen percent, and its MRR key result is Behind.", "cues": []},
+  {"id": "verdict", "text": "Perdoo is free for up to five users. For ten users, Premium is one thousand and eighty dollars a year. All nineteen checks passed, and all seventy-two gaps are fixed in the free spec.", "cues": []}
+ ]
+}
