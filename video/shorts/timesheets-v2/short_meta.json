@@ -1,0 +1,23 @@
+{
+ "file": "harvest-short-v2.mp4",
+ "short": true,
+ "title": "What my Harvest spec forgot: 21/21 checks passed, 21 gaps found #shorts",
+ "description": "Claude built a Harvest alternative, a weekly timesheet app, from one written spec: all 21 acceptance checks passed in a real browser, and the build still exposed 21 gaps in the spec. The one I didn't see coming: sign-in was limited to our company email, but no setting held the email domain. All 21 gaps are now fixed in the spec.\n\nWhat the build test did not cover: production sign-in, real email delivery, the hourly job on a real scheduler, and hosting.\n\nFull build test (2:48): https://youtu.be/Z2wrf7ZLiQ4\nThe free spec: https://personalsoftwarefactory.com/blueprints/timesheets\nHarvest pricing and alternatives: https://personalsoftwarefactory.com/alternatives/harvest\n\nMade with AI: Sam's on-camera intro and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/\n\n#shorts #claude #harvest",
+ "tags": [
+  "Harvest alternative",
+  "Harvest",
+  "build a Harvest alternative",
+  "timesheets",
+  "timesheet approval",
+  "time tracking software",
+  "spec-driven development",
+  "Claude",
+  "AI app builder",
+  "internal tools",
+  "build vs buy SaaS",
+  "personal software factory",
+  "shorts"
+ ],
+ "categoryId": "28",
+ "publishAt": "2026-11-09T01:00:00Z"
+}

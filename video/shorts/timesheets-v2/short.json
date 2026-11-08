@@ -1,0 +1,71 @@
+{
+ "out": "harvest-short-v2.mp4",
+ "kicker": "Build test \u00b7 Harvest alternative",
+ "title": "What my Harvest spec forgot",
+ "badge_image": "sam-photo.jpg",
+ "music": "music.mp3",
+ "music_volume": 0.08,
+ "words": "tts/words.json",
+ "highlight": [
+  "Harvest",
+  "twenty-one",
+  "gaps.",
+  "gap",
+  "domain,",
+  "guess",
+  "eighty",
+  "production-ready.",
+  "hosting."
+ ],
+ "segments": [
+  {
+   "type": "avatar",
+   "video": "hook.mp4",
+   "text": "Here's how to reverse engineer Harvest from a written spec. Claude passed all twenty-one checks, and my spec still had twenty-one gaps."
+  },
+  {
+   "type": "product",
+   "scene": "gap",
+   "audio": "tts/gap.mp3",
+   "source": "gapsrc.mp4",
+   "from": 0.0,
+   "crop": [
+    940,
+    250,
+    920,
+    440
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "build",
+   "audio": "tts/build.mp3",
+   "source": "buildsrc.mp4",
+   "from": 0.0,
+   "crop": [
+    0,
+    0,
+    1200,
+    700
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "untested",
+   "audio": "tts/untested.mp3",
+   "source": "long.mp4",
+   "from": 116.5,
+   "crop": [
+    40,
+    120,
+    1170,
+    640
+   ]
+  },
+  {
+   "type": "avatar",
+   "video": "outro.mp4",
+   "text": "The full spec is free at personal software factory dot com. If you build it, tell me what broke. I'm Sam. See you tomorrow."
+  }
+ ]
+}

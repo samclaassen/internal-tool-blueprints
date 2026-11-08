@@ -1,0 +1,5 @@
+{"scenes": [
+ {"id": "gap", "text": "Here's the gap I didn't see coming. My spec said only people with our company email could sign in. But no setting held the email domain, so Claude had to guess which company that was. Now the settings hold it.", "cues": []},
+ {"id": "build", "text": "Here's what it built. Projects shows Website redesign at eighty percent of its budget, ninety-six of one hundred and twenty hours. And reports keep approved and submitted hours apart, by client.", "cues": []},
+ {"id": "untested", "text": "Passing every check still isn't production-ready. We never tested production sign-in, real email delivery, the hourly job on a real scheduler, or hosting. Check those before your team relies on it.", "cues": []}
+]}
