@@ -3,7 +3,7 @@
 Free, build-tested specs for the internal tools a small team can build with an AI app builder (Claude, ChatGPT, Cursor, Claude Code, Lovable, Replit or Type) instead of paying per seat for SaaS: a CRM instead of HubSpot, an approval workflow instead of Kissflow, a help desk instead of Zendesk, and more.
 
 - **37 blueprints**, each one Markdown file you can paste into an AI builder.
-- **24 build-tested**: an AI builder followed the phase prompts and every acceptance check was run in a real browser. 598 acceptance checks passed in the final runs, the builds include 2,187 automated tests, and the builds exposed **688 gaps in the specs**, all fixed here.
+- **25 build-tested**: an AI builder followed the phase prompts and every acceptance check was run in a real browser. 615 acceptance checks passed in the final runs, the builds include 2,309 automated tests, and the builds exposed **752 gaps in the specs**, all fixed here.
 - Every price and feature claim about the paid product was checked on the vendor's own pages, with the month checked.
 
 Mirrored from **[Personal Software Factory](https://personalsoftwarefactory.com)** (personalsoftwarefactory.com), where each blueprint also has a labelled drawing and build-or-buy notes, many have a live demo, and tested ones show their build-test results and what was not tested.
@@ -53,7 +53,7 @@ The same AI builder (Claude, working in Type) wrote each test build and its test
 | **Employee Onboarding**: Every new hire's first week depends on who remembers what. | BambooHR | People | 5–150 people | Build-tested 2026-11-02, 20/20 acceptance checks passed | [employee-onboarding.md](blueprints/employee-onboarding.md) | [page](https://personalsoftwarefactory.com/blueprints/employee-onboarding) |
 | **Shift Scheduling**: The schedule lives in a spreadsheet and every change happens by text. | When I Work | People | 10–100 staff | Build-tested 2026-11-07, 20/20 acceptance checks passed | [shift-scheduling.md](blueprints/shift-scheduling.md) | [page](https://personalsoftwarefactory.com/blueprints/shift-scheduling) |
 | **OKR Tracker**: We set OKRs in January and looked at them again in March. | Perdoo | People | 5–100 people | Build-tested 2026-11-08, 19/19 acceptance checks passed | [okr-tracker.md](blueprints/okr-tracker.md) | [page](https://personalsoftwarefactory.com/blueprints/okr-tracker) |
-| **Performance Reviews**: Reviews live in Google Docs, half of them are late, and nobody can find last year's. | Lattice | People | 10–200 people | Full spec; build test pending | [performance-reviews.md](blueprints/performance-reviews.md) | [page](https://personalsoftwarefactory.com/blueprints/performance-reviews) |
+| **Performance Reviews**: Reviews live in Google Docs, half of them are late, and nobody can find last year's. | Lattice | People | 10–200 people | Build-tested 2026-11-09, 17/17 acceptance checks passed | [performance-reviews.md](blueprints/performance-reviews.md) | [page](https://personalsoftwarefactory.com/blueprints/performance-reviews) |
 | **Customer Feedback Inbox**: Customer feedback is scattered across email, calls and support tickets. | Productboard | Support | 3–50 people | Build-tested 2026-10-28, 25/25 acceptance checks passed | [feedback-inbox.md](blueprints/feedback-inbox.md) | [page](https://personalsoftwarefactory.com/blueprints/feedback-inbox) |
 | **Help Desk**: Support requests land in a shared inbox and nobody knows who is answering what. | Zendesk | Support | 2–25 people | Build-tested 2026-10-15, 24/24 acceptance checks passed | [help-desk.md](blueprints/help-desk.md) | [page](https://personalsoftwarefactory.com/blueprints/help-desk) |
 | **Status Page**: When something breaks, half our support queue is people asking if it's down. | Statuspage | Support | 2–50 people | Build-tested 2026-11-03, 18/18 acceptance checks passed | [status-page.md](blueprints/status-page.md) | [page](https://personalsoftwarefactory.com/blueprints/status-page) |
@@ -90,6 +90,7 @@ The full catalog, with live demos and test results, is at https://personalsoftwa
 - [Field report: building a Chaser replacement with AI, 18 checks and 83 spec gaps](https://personalsoftwarefactory.com/blueprints/invoice-reminders#field-report)
 - [Field report: building a When I Work replacement with AI, 20 checks and 84 spec gaps](https://personalsoftwarefactory.com/blueprints/shift-scheduling#field-report)
 - [Field report: building a Perdoo replacement with AI, 19 checks and 72 spec gaps](https://personalsoftwarefactory.com/blueprints/okr-tracker#field-report)
+- [Field report: building a Lattice replacement with AI, 17 checks and 64 spec gaps](https://personalsoftwarefactory.com/blueprints/performance-reviews#field-report)
 
 Short videos of the build tests, with what passed and what broke, are on YouTube at [@personalsoftwarefactory](https://www.youtube.com/@personalsoftwarefactory).
 
