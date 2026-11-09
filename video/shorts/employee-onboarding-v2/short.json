@@ -1,0 +1,71 @@
+{
+ "out": "bamboohr-short-v2.mp4",
+ "kicker": "Build test \u00b7 BambooHR alternative",
+ "title": "What my BambooHR spec forgot",
+ "badge_image": "sam-photo.jpg",
+ "music": "../music/music.mp3",
+ "music_volume": 0.08,
+ "words": "stts/words.json",
+ "highlight": [
+  "BambooHR",
+  "twenty",
+  "forty-four",
+  "never",
+  "skip",
+  "reason.",
+  "first",
+  "weeks",
+  "real"
+ ],
+ "segments": [
+  {
+   "type": "avatar",
+   "video": "hook.mp4",
+   "text": "Here's how to reverse engineer BambooHR from a written spec. Claude passed all twenty checks, and my spec still had forty-four gaps."
+  },
+  {
+   "type": "product",
+   "scene": "build",
+   "audio": "stts/build.mp3",
+   "source": "build_src.mp4",
+   "from": 0.0,
+   "crop": [
+    220,
+    120,
+    1000,
+    520
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "gap",
+   "audio": "stts/gap.mp3",
+   "source": "gap_src.mp4",
+   "from": 0.0,
+   "crop": [
+    220,
+    515,
+    1000,
+    535
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "untested",
+   "audio": "stts/untested.mp3",
+   "source": "untested_src.mp4",
+   "from": 0.0,
+   "crop": [
+    60,
+    280,
+    1160,
+    560
+   ]
+  },
+  {
+   "type": "avatar",
+   "video": "outro.mp4",
+   "text": "The full spec is free at personal software factory dot com. If you build it, tell me what broke. I'm Sam. See you tomorrow."
+  }
+ ]
+}

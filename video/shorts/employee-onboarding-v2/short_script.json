@@ -1,0 +1,7 @@
+{
+ "scenes": [
+  {"id": "build", "text": "Here's what the new hire sees. Leo's first weeks page names his manager and his buddy, flags his overdue security training, and shows what others are doing for him, with only titles and first names.", "cues": []},
+  {"id": "gap", "text": "My spec almost broke that. It let the new hire open the full checklist, with notes and skip reasons they must never see. Now they only get My first weeks, and they can't skip a task, because they'd never see the reason.", "cues": []},
+  {"id": "untested", "text": "What we didn't test: production sign-in, sending real email, the hourly job on a real scheduler, and daylight saving. All twenty checks passed, and all forty-four gaps are fixed in the free spec.", "cues": []}
+ ]
+}

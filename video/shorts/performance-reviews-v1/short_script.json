@@ -1,0 +1,7 @@
+{
+ "scenes": [
+  {"id": "build", "text": "Claude built a performance review tool with one hard rule: who sees what. The employee sees the manager's review and final rating only after release. Peer feedback comes without names, and only if two peers answered. Calibration notes, never.", "cues": []},
+  {"id": "gap", "text": "Then the gaps. Sixty-four of them. Nothing stopped an admin from calibrating her own review. And the employee would have seen the rating from before calibration. Both are fixed now.", "cues": []},
+  {"id": "verdict", "text": "Lattice Performance is ten dollars a seat a month, with a four thousand dollar yearly minimum. Under thirty-three people, you pay the minimum. All seventeen checks passed, and the spec is free.", "cues": []}
+ ]
+}

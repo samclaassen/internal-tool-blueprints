@@ -1,0 +1,22 @@
+{
+ "file": "bamboohr-short-v2.mp4",
+ "short": true,
+ "title": "What my BambooHR spec forgot: 20/20 checks passed, 44 gaps found #shorts",
+ "description": "Claude built a BambooHR alternative, an employee onboarding checklist, from one written spec: all 20 acceptance checks passed in a real browser, and the build still exposed 44 gaps in the spec. One of them: the spec let the new hire open the full onboarding checklist, with notes and skip reasons they must never see. Now new hires only get My first weeks, and they can't skip a task. All 44 gaps are now fixed in the spec.\n\nWhat the build test did not cover: production sign-in, sending real email, the hourly job on a real scheduler, daylight saving and other time zones, and hosting.\n\nFull build test (2:47): https://youtu.be/sdlGQ1rFUlk\nThe free spec: https://personalsoftwarefactory.com/blueprints/employee-onboarding\nBambooHR pricing and alternatives: https://personalsoftwarefactory.com/alternatives/bamboohr\n\nMade with AI: Sam's on-camera intro and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/\n\n#shorts #claude #bamboohr",
+ "tags": [
+  "BambooHR alternative",
+  "BambooHR",
+  "build a BambooHR alternative",
+  "employee onboarding",
+  "onboarding checklist",
+  "HR software",
+  "Claude",
+  "AI app builder",
+  "internal tools",
+  "build vs buy SaaS",
+  "personal software factory",
+  "shorts"
+ ],
+ "categoryId": "28",
+ "publishAt": "2026-11-10T01:00:00Z"
+}

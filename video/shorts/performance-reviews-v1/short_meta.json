@@ -1,0 +1,22 @@
+{
+ "file": "lattice-short.mp4",
+ "short": true,
+ "title": "Can Claude replace Lattice? 17/17 checks, 64 spec gaps #shorts",
+ "description": "Claude built a Lattice alternative, a performance review tool with review cycles, self reviews, peer feedback the manager approves, manager reviews, calibration with a recorded reason and release on a set date, from one written spec: all 17 acceptance checks passed, along with 122 automated tests, and the build exposed 64 gaps in the spec, now fixed.\n\nThe core rule is who sees what: the employee sees the manager review and final rating only after release, peer feedback without names and only if at least 2 peers answered, and never the calibration reason.\n\nThe free spec: https://personalsoftwarefactory.com/blueprints/performance-reviews\nLattice pricing and alternatives: https://personalsoftwarefactory.com/alternatives/lattice\n\nLattice prices: Performance $10 per seat per month, Goals & OKRs $8, Engagement $4, billed annually with a $4,000 minimum annual agreement, so a team of up to 33 pays the minimum for Performance alone (lattice.com/pricing, October 2026).\n\nMade with AI: Sam's on-camera intro and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/\n\n#shorts #claude #lattice",
+ "tags": [
+  "Lattice alternative",
+  "Lattice",
+  "Lattice pricing",
+  "build a Lattice alternative",
+  "performance reviews",
+  "performance review software",
+  "Claude",
+  "AI app builder",
+  "internal tools",
+  "build vs buy SaaS",
+  "personal software factory",
+  "shorts"
+ ],
+ "categoryId": "28",
+ "publishAt": "2026-11-10T21:00:00Z"
+}
