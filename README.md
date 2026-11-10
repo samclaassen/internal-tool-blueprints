@@ -15,6 +15,17 @@ Mirrored from **[Personal Software Factory](https://personalsoftwarefactory.com)
 3. Run the phase's acceptance checks by clicking through the app. Fix anything that fails.
 4. Repeat for each of the four phases. When the builder says it had to interpret something, that is a gap in the spec: fix it in your copy, and tell us.
 
+## Use them as agent skills
+
+Every blueprint is also packaged as an [agent skill](https://agentskills.io/) for Claude Code, Codex, Cursor, Gemini CLI, Copilot and other coding agents, listed on [skills.sh](https://skills.sh/samclaassen/internal-tool-blueprints). Each skill bundles the full spec and tells the agent to build it one phase at a time, run the acceptance checks, and log any spec gaps.
+
+```bash
+npx skills add samclaassen/internal-tool-blueprints                      # pick from the list
+npx skills add samclaassen/internal-tool-blueprints --skill simple-crm   # one blueprint
+```
+
+Then ask your agent something like "build us a simple CRM" or "replace our Zendesk with something we own". The `internal-tool-blueprints` skill helps the agent pick the right blueprint. Skills live in [`skills/`](skills) and are generated from [`blueprints/`](blueprints) by `scripts/generate-skills.py`.
+
 ## What "build-tested" means
 
 The same AI builder (Claude, working in Type) wrote each test build and its test scripts, following the spec one phase at a time; every acceptance check was then run in Chromium on fresh seed data. It is evidence that the spec is complete enough to build from, not an independent human audit, a comparison of AI builders, or a production-readiness guarantee. None of the test builds tested production sign-in, real email delivery or hosting; each blueprint's build notes list what was not tested. Method: https://personalsoftwarefactory.com/how-we-test
