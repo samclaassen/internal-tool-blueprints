@@ -112,4 +112,4 @@ Found a gap in a spec, built one of these with a different AI builder, or want a
 
 ## Terms
 
-The blueprints are free to copy and adapt for your own team. If you share or publish them, please link to https://personalsoftwarefactory.com. Product names are trademarks of their owners and are used only to describe what each blueprint is an alternative to. Personal Software Factory is independent and not affiliated with any vendor named here. No affiliate links.
+The blueprints are released under the [MIT License](LICENSE): free to copy, adapt and reuse, including commercially. If you share or publish them, a link to https://personalsoftwarefactory.com is appreciated. Product names are trademarks of their owners and are used only to describe what each blueprint is an alternative to. Personal Software Factory is independent and not affiliated with any vendor named here. No affiliate links.
