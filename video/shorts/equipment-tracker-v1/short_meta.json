@@ -1,0 +1,22 @@
+{
+ "file": "final.mp4",
+ "short": true,
+ "title": "Claude built an Asset Panda alternative, and my spec forgot who already had laptops #shorts",
+ "description": "Free spec: https://personalsoftwarefactory.com/blueprints/equipment-tracker?utm_source=youtube&utm_medium=short&utm_campaign=equipment-tracker\n\nClaude built an IT equipment tracker, an Asset Panda alternative with check-out and check-in, warranty reminders, asset checks and CSV import, from one written spec: all 21 acceptance checks passed, along with 116 automated tests. One of the 82 gaps the build exposed: the spec emailed the holder on every check-out, and importing an existing spreadsheet counted as one, so now an import records who has what without emailing anyone.\n\nAsset Panda does not publish prices; its pricing page asks for details for a custom quote and offers a free 7-day trial (assetpanda.com/pricing, October 2026).\n\nMade with AI: Sam's on-camera intro and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/\n\n#shorts #claude #assetpanda",
+ "tags": [
+  "Asset Panda alternative",
+  "Asset Panda",
+  "Asset Panda pricing",
+  "build an Asset Panda alternative",
+  "IT asset tracking",
+  "equipment tracker",
+  "Claude",
+  "AI app builder",
+  "internal tools",
+  "build vs buy SaaS",
+  "personal software factory",
+  "shorts"
+ ],
+ "categoryId": "28",
+ "publishAt": "2026-11-11T21:00:00Z"
+}

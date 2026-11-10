@@ -1,0 +1,7 @@
+{
+ "scenes": [
+  {"id": "gap", "text": "Claude built an equipment tracker, an Asset Panda alternative. You paste in your old laptop spreadsheet here. But my spec emailed the holder on every check-out, and an import counted as one.", "cues": []},
+  {"id": "fix", "text": "Now an import just records who has what. Only a real hand-over sends the email, like this one to Priya.", "cues": []},
+  {"id": "verdict", "text": "That was one of eighty-two gaps this build found. All twenty-one checks passed, and every gap is fixed.", "cues": []}
+ ]
+}

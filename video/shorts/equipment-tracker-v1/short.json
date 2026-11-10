@@ -1,0 +1,72 @@
+{
+ "out": "asset-panda-short.mp4",
+ "kicker": "Build test \u00b7 Asset Panda alternative",
+ "title": "My spec forgot old laptops",
+ "badge_image": "sam-photo.jpg",
+ "music": "music.mp3",
+ "music_volume": 0.08,
+ "words": "stts/words.json",
+ "highlight": [
+  "Asset",
+  "Panda",
+  "emailed",
+  "everyone",
+  "import",
+  "Priya.",
+  "eighty-two",
+  "twenty-one",
+  "fixed.",
+  "free"
+ ],
+ "segments": [
+  {
+   "type": "avatar",
+   "video": "hook.mp4",
+   "text": "My spec would have emailed everyone about laptops they've had for years."
+  },
+  {
+   "type": "product",
+   "scene": "gap",
+   "audio": "stts/gap.mp3",
+   "source": "gap_src.mp4",
+   "from": 0.0,
+   "crop": [
+    146,
+    430,
+    780,
+    400
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "fix",
+   "audio": "stts/fix.mp3",
+   "source": "fix_src.mp4",
+   "from": 0.0,
+   "crop": [
+    486,
+    300,
+    500,
+    170
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "verdict",
+   "audio": "stts/verdict.mp3",
+   "source": "verdict_src.mp4",
+   "from": 0.0,
+   "crop": [
+    80,
+    240,
+    1780,
+    700
+   ]
+  },
+  {
+   "type": "avatar",
+   "video": "outro.mp4",
+   "text": "The full spec is free at personal software factory dot com."
+  }
+ ]
+}
