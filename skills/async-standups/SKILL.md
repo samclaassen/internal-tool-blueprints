@@ -1,11 +1,11 @@
 ---
 name: async-standups
-description: "Build a self-hosted Async Standups, a lightweight Geekbot alternative for ops teams of 4 to 40 people, from a complete blueprint (build test pending) with data model, business rules, seed data, phased build prompts and acceptance checks. Use when someone wants to build their own Async Standups, replace Geekbot with an internal tool, or says: 'Our daily standup takes 30 minutes, and half the team is in another time zone.'"
+description: "Build a self-hosted Async Standups, a lightweight Geekbot alternative for ops teams of 4 to 40 people, from a build-tested blueprint (32/32 acceptance checks passed) with data model, business rules, seed data, phased build prompts and acceptance checks. Use when someone wants to build their own Async Standups, replace Geekbot with an internal tool, or says: 'Our daily standup takes 30 minutes, and half the team is in another time zone.'"
 license: MIT
 metadata:
   author: Personal Software Factory
   source: https://personalsoftwarefactory.com/blueprints/async-standups
-  status: "Full spec; build test pending"
+  status: "Build-tested 2026-11-11, 32/32 acceptance checks passed"
 ---
 
 # Async Standups
@@ -14,7 +14,7 @@ metadata:
 
 A complete, build-ready blueprint for an internal async standups that a ops team of 4 to 40 people can run instead of paying per seat for Geekbot (async standups in Slack and Teams), the daily standup call, status-update threads. The full spec is in [references/spec.md](references/spec.md): the problem, what the paid product actually does (checked on the vendor's own pages), what v1 keeps and leaves out, roles, data model, business rules, screens, edge cases, seed data, a four-phase build plan with acceptance checks, and build notes.
 
-This is a full spec that has not yet been build-tested end to end. Expect a few ambiguities; record each one as a spec gap (step 5).
+This spec was build-tested: an AI builder followed the phase prompts and every acceptance check was run in a real browser (Build-tested 2026-11-11, 32/32 acceptance checks passed). Gaps the test exposed are already fixed in the spec. Read section 15 for what was not tested (typically production sign-in, real email delivery and hosting).
 
 ## When to use
 

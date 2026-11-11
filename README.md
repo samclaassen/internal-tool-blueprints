@@ -3,7 +3,7 @@
 Free, build-tested specs for the internal tools a small team can build with an AI app builder (Claude, ChatGPT, Cursor, Claude Code, Lovable, Replit or Type) instead of paying per seat for SaaS: a CRM instead of HubSpot, an approval workflow instead of Kissflow, a help desk instead of Zendesk, and more.
 
 - **37 blueprints**, each one Markdown file you can paste into an AI builder.
-- **26 build-tested**: an AI builder followed the phase prompts and every acceptance check was run in a real browser. 636 acceptance checks passed in the final runs, the builds include 2,425 automated tests, and the builds exposed **834 gaps in the specs**, all fixed here.
+- **27 build-tested**: an AI builder followed the phase prompts and every acceptance check was run in a real browser. 668 acceptance checks passed in the final runs, the builds include 2,592 automated tests, and the builds exposed **907 gaps in the specs**, all fixed here.
 - Every price and feature claim about the paid product was checked on the vendor's own pages, with the month checked.
 
 Mirrored from **[Personal Software Factory](https://personalsoftwarefactory.com)** (personalsoftwarefactory.com), where each blueprint also has a labelled drawing and build-or-buy notes, many have a live demo, and tested ones show their build-test results and what was not tested.
@@ -50,7 +50,7 @@ The same AI builder (Claude, working in Type) wrote each test build and its test
 | **Training Manual**: Every new hire learns the job from whoever happens to be on shift. | Trainual | Ops | 5–200 people | Full spec; build test pending | [training-manual.md](blueprints/training-manual.md) | [page](https://personalsoftwarefactory.com/blueprints/training-manual) |
 | **Maintenance Requests**: The walk-in cooler was warm for two days because the request was a text to someone on holiday. | MaintainX | Ops | 5–200 people | Full spec; build test pending | [maintenance-requests.md](blueprints/maintenance-requests.md) | [page](https://personalsoftwarefactory.com/blueprints/maintenance-requests) |
 | **Inspections**: The audit says the fire exit was blocked again, and nobody fixed it after last month's audit either. | SafetyCulture | Ops | 5–200 people | Full spec; build test pending | [inspections.md](blueprints/inspections.md) | [page](https://personalsoftwarefactory.com/blueprints/inspections) |
-| **Async Standups**: Our daily standup takes 30 minutes, and half the team is in another time zone. | Geekbot | Ops | 4–40 people | Full spec; build test pending | [async-standups.md](blueprints/async-standups.md) | [page](https://personalsoftwarefactory.com/blueprints/async-standups) |
+| **Async Standups**: Our daily standup takes 30 minutes, and half the team is in another time zone. | Geekbot | Ops | 4–40 people | Build-tested 2026-11-11, 32/32 acceptance checks passed | [async-standups.md](blueprints/async-standups.md) | [page](https://personalsoftwarefactory.com/blueprints/async-standups) |
 | **Capacity Planner**: We say yes to new projects without knowing who actually has time. | Float | Ops | 5–40 people | Full spec; build test pending | [capacity-planner.md](blueprints/capacity-planner.md) | [page](https://personalsoftwarefactory.com/blueprints/capacity-planner) |
 | **Internal Knowledge Base**: The same questions get asked in Slack every week, and the answers keep changing. | Guru | Ops | 5–80 people | Build-tested 2026-11-01, 31/31 acceptance checks passed | [knowledge-base.md](blueprints/knowledge-base.md) | [page](https://personalsoftwarefactory.com/blueprints/knowledge-base) |
 | **SaaS Spend Tracker**: Nobody knows how many software tools we're actually paying for. | Zylo | Finance | 10–200 people | Build-tested 2026-10-16, 31/31 acceptance checks passed | [saas-spend-tracker.md](blueprints/saas-spend-tracker.md) | [page](https://personalsoftwarefactory.com/blueprints/saas-spend-tracker) |
@@ -103,6 +103,7 @@ The full catalog, with live demos and test results, is at https://personalsoftwa
 - [Field report: building a Perdoo replacement with AI, 19 checks and 72 spec gaps](https://personalsoftwarefactory.com/blueprints/okr-tracker#field-report)
 - [Field report: building a Lattice replacement with AI, 17 checks and 64 spec gaps](https://personalsoftwarefactory.com/blueprints/performance-reviews#field-report)
 - [Field report: building an Asset Panda replacement with AI, 21 checks and 82 spec gaps](https://personalsoftwarefactory.com/blueprints/equipment-tracker#field-report)
+- [Field report: building a Geekbot replacement with AI, 32 checks and 73 spec gaps](https://personalsoftwarefactory.com/blueprints/async-standups#field-report)
 
 Short videos of the build tests, with what passed and what broke, are on YouTube at [@personalsoftwarefactory](https://www.youtube.com/@personalsoftwarefactory).
 
