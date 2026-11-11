@@ -1,0 +1,7 @@
+{
+ "scenes": [
+  {"id": "gap", "text": "Claude built a standup tool, a free Geekbot alternative. Every update here also posts to Slack. But my spec never said to clean up what people type, so one mention in an update could ping the whole channel.", "cues": []},
+  {"id": "fix", "text": "Now every Slack post has a fixed layout, and typed text is escaped, so it shows as plain words.", "cues": []},
+  {"id": "verdict", "text": "That was one of seventy-three gaps this build found. All thirty-two checks passed, and every gap is fixed.", "cues": []}
+ ]
+}

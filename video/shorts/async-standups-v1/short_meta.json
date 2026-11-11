@@ -1,0 +1,23 @@
+{
+ "file": "final.mp4",
+ "short": true,
+ "title": "Claude built a Geekbot alternative, and my spec forgot one update could ping all of Slack #shorts",
+ "description": "Free spec: https://personalsoftwarefactory.com/blueprints/async-standups?utm_source=youtube&utm_medium=short&utm_campaign=async-standups\n\nClaude built an async standup tool, a Geekbot alternative that asks everyone the same questions at 09:30 in their own time zone, tracks blockers until they are resolved and sends a daily summary by email and to Slack, from one written spec: all 32 acceptance checks passed, along with 167 automated tests. One of the 73 gaps the build exposed: the spec never said to escape what people type before it went to Slack, so one mention in an update could ping the whole channel; now every post has a set layout and typed text is escaped.\n\nGeekbot's Starter plan is free for up to 10 users; Basic is $2.50 per participant per month billed yearly ($3 monthly), per geekbot.com/pricing (checked November 2026).\n\nMade with AI: Sam's on-camera intro and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/\n\n#shorts #claude #geekbot",
+ "tags": [
+  "Geekbot alternative",
+  "Geekbot",
+  "Geekbot pricing",
+  "build a Geekbot alternative",
+  "async standup",
+  "standup tool",
+  "Slack standup",
+  "Claude",
+  "AI app builder",
+  "internal tools",
+  "build vs buy SaaS",
+  "personal software factory",
+  "shorts"
+ ],
+ "categoryId": "28",
+ "publishAt": "2026-11-12T21:00:00Z"
+}
