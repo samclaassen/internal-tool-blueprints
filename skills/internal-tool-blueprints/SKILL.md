@@ -32,7 +32,7 @@ metadata:
 | `link-shortener` | Link Shortener | Bitly | 2–50 people | Build-tested |
 | `testimonial-wall` | Testimonial Wall | Senja | 1–10 people | Build-tested |
 | `approval-workflow` | Approval Workflow | Kissflow | 5–100 people | Build-tested |
-| `async-standups` | Async Standups | Geekbot | 4–40 people | Spec |
+| `async-standups` | Async Standups | Geekbot | 4–40 people | Build-tested |
 | `capacity-planner` | Capacity Planner | Float | 5–40 people | Spec |
 | `client-onboarding-tracker` | Client Onboarding Tracker | Rocketlane | 2–25 people | Build-tested |
 | `equipment-tracker` | Equipment Tracker | Asset Panda | 10–200 people | Build-tested |

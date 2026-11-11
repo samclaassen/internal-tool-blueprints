@@ -1,4 +1,4 @@
-<!-- Mirrored from https://personalsoftwarefactory.com/blueprints/async-standups . The page has a labelled drawing and build-or-buy notes. Free to copy and adapt for your own team. -->
+<!-- Mirrored from https://personalsoftwarefactory.com/blueprints/async-standups . The page has a labelled drawing, build-or-buy notes and the build-test results. Free to copy and adapt for your own team. -->
 
 # Async Standups
 
@@ -76,7 +76,7 @@ All timestamps are UTC. Report dates and out-of-office dates are calendar dates 
 - days (list of ISO weekdays, 1 = Monday to 7 = Sunday, at least one)
 - prompt_time, due_time (`HH:MM`; R3)
 - reminder_minutes (nullable integer, 15 to 480; empty means no reminder)
-- summary_time (nullable `HH:MM` in time_zone; empty means no summary)
+- summary_time (nullable `HH:MM` in time_zone, any time of day; empty means no summary)
 - slack_webhook_url (nullable secret; never shown in full after saving, never exported)
 - created_by, created_at
 
@@ -84,8 +84,8 @@ All timestamps are UTC. Report dates and out-of-office dates are calendar dates 
 - id, standup_id, position (integer), text (required, 1 to 200)
 - kind: text | choice | blocker
 - required (boolean; always true for blocker)
-- options (list of 2 to 6 different strings of 1 to 40 characters; choice only)
-- archived_at (nullable; archived questions leave new forms, their answers stay)
+- options (list of 2 to 6 different strings of 1 to 40 characters, trimmed and compared ignoring case; choice only)
+- archived_at (nullable; archived questions leave new forms, their answers stay). Archiving is final. A question's text, required flag and options can still be edited after it has answers, because each answer keeps its own copy of the text. The last active question can't be archived: "A standup needs 1 to 8 questions."
 
 **Member** (a person's place in a standup)
 - id, standup_id, person_id; unique (standup_id, person_id)
@@ -118,7 +118,7 @@ All timestamps are UTC. Report dates and out-of-office dates are calendar dates 
 
 **Notification** (outbox)
 - id, channel: email | slack; kind: prompt | reminder | nudge | report_post | blocker_opened | blocker_resolved | summary
-- standup_id, person_id (nullable for Slack), to (an email address, or "Slack: <standup name>"), check_in_id (nullable)
+- standup_id, person_id (nullable for Slack), to (an email address, or "Slack: <standup name>"), check_in_id (nullable; cleared when R4 deletes the check-in, and the row stays)
 - subject, body (plain text), status: queued | sent | logged | failed
 - attempts (integer, default 0; each send attempt adds 1), last_error (nullable), created_at, sent_at
 
@@ -134,7 +134,7 @@ All timestamps are UTC. Report dates and out-of-office dates are calendar dates 
 - due_at: D at due_time
 - closes_at: D plus one day, at 00:00
 
-Never convert by adding a fixed offset or multiples of 24 hours. If a local time does not exist on that date (clocks jump forward), move it forward by the length of the gap (02:30 becomes 03:30); if it happens twice (clocks go back), use the first. The values are stored on the check-in and never recalculated, so later changes to the standup or the person's time zone affect new check-ins only.
+Never convert by adding a fixed offset or multiples of 24 hours. If a local time does not exist on that date (clocks jump forward), move it forward by the length of the gap (02:30 becomes 03:30); if it happens twice (clocks go back), use the first. The same rule applies to closes_at when midnight itself is skipped, as in zones that change their clocks at 00:00. The values are stored on the check-in and never recalculated, so later changes to the standup or the person's time zone affect new check-ins only.
 
 **Creating check-ins** (only the scheduled job does this, section 13). A member gets a check-in for report date D when all of these hold:
 1. The standup is active, the member has reports ticked and is not removed, and the person is active.
@@ -144,7 +144,7 @@ Never convert by adding a fixed offset or multiples of 24 hours. If a local time
 
 If an out-of-office period of the person covers D, the check-in is created as away and no prompt is sent. Otherwise it is open, prompted_at is set to now and a prompt is queued (section 12). Only today's date is considered: a day on which the job never ran inside the window gets no check-in and is not counted anywhere.
 
-**Next check-in** (shown in the schedule preview and on Today). For each member who reports: the first report date D, starting with today in their schedule zone and looking ahead at most 60 days, that has no check-in yet, whose closes_at is later than now, whose prompt_at is later than joined_at, and that no out-of-office period covers. When dates were skipped because of out-of-office, also show "Away until <end date of that period>". With no date in 60 days, show "None in the next 60 days". For a paused standup, show "Paused".
+**Next check-in** (shown in the schedule preview and on Today). For each member who reports: the first report date D, starting with today in their schedule zone and looking ahead at most 60 days (today and the next 59 dates), that has no check-in yet, whose closes_at is later than now, whose prompt_at is later than joined_at, and that no out-of-office period covers. When dates were skipped because of out-of-office, also show "Away until <end date of that period>"; when several periods were skipped, use the end date of the last one. With no date in 60 days, show "None in the next 60 days". For a paused standup, show "Paused".
 
 ### Worked examples (seed data in section 15)
 
@@ -179,17 +179,17 @@ From Mon 26 to Fri 30 Oct 2026 London is four hours ahead of New York instead of
 | Close | Scheduled job | open, closes_at ≤ now | missed | None |
 | Member removed or deactivated | Manager, admin (R4, R13) | open | deleted | None |
 
-Missed and away are final. On-time and late check-ins can be edited until closes_at, then they are final too. Screens treat an open check-in whose closes_at has passed as missed until the job records it, and the server refuses to accept answers for it.
+Missed and away are final. On-time and late check-ins can be edited until closes_at, then they are final too. Screens treat an open check-in whose closes_at has passed as missed until the job records it, and the server refuses to accept answers for it with R6's closed message; its stored status stays open until the job runs.
 
 ### The form
 
-The form shows the standup's active questions in position order. Under each one: "Last time (Tue 13 Oct): …" with the person's answer to the same question in their most recent submitted check-in in this standup with an earlier report date. Text questions take 1 to 2,000 characters, trimmed, kept as plain text with line breaks. Choice questions show their options as buttons; an optional one can be left empty. The blocker question works as section 8 describes.
+The form shows the standup's active questions in position order. Under each one: "Last time (Tue 13 Oct): …" with the person's answer to the same question in their most recent submitted check-in in this standup with an earlier report date. When that check-in has no answer to the question, the line is left out; don't look further back. Text questions take 1 to 2,000 characters, trimmed, kept as plain text with line breaks. A longer answer gets "Answer "<question>" in at most 2,000 characters.", a choice that isn't an option gets "Pick one of the options for "<question>".", and editing a check-in that hasn't been submitted gets "This check-in hasn't been submitted yet. Use Submit to post your update." Choice questions show their options as buttons; an optional one can be left empty. The blocker question works as section 8 describes.
 
 Saving writes one Answer per question on the form, including empty ones for skipped optional questions, and copies the question's text and kind. Questions added to the standup while a check-in is open appear on its form; archived ones disappear from it.
 
 ### Day status
 
-The feed and the summary describe a report date D of one standup with one function. For each member who reports (and each removed member who has a submitted check-in for D):
+The feed and the summary describe a report date D of one standup with one function. For each member who reports (and anyone else with an on-time or late check-in for D, whether removed, deactivated or no longer reporting, so a report never disappears):
 - **Reported:** their check-in for D is on_time or late.
 - **Away:** their check-in is away, or there is no check-in and an out-of-office period covers D.
 - **Missed:** their check-in is missed, or open with closes_at in the past.
@@ -213,38 +213,38 @@ On submit, in the same transaction as the answers:
 | Unblocked | unblocked | The blocker is resolved: resolved_at = submitted_at, resolved_by = the person, resolved_check_in_id set | "Unblocked: <old text>" |
 | Blocked by something else | blocked_other | The old blocker is resolved as for Unblocked and a new one opened as for I'm blocked | "Unblocked: <old text>. Blocked: <new text>" |
 
-Open blockers are listed oldest first: by opened_on, then opened_at, then person name, as "Jo Park · Product daily · Need staging database access from Ana · since Tue 13 Oct", followed by " · last reported Wed 14 Oct" when last_reported_on is later than opened_on. Resolved blockers from the last 30 days are listed by resolved_at, newest first: "Resolved by Sam Okafor on Tue 13 Oct: Raised the plan limit" (the note is left out when empty; the date is resolved_at in the viewer's time zone). Resolving outside a report is covered by R11. A blocker stays open when its person leaves the standup or is deactivated, until someone resolves it.
+Open blockers are listed oldest first: by opened_on, then opened_at, then person name, as "Jo Park · Product daily · Need staging database access from Ana · since Tue 13 Oct", followed by " · last reported Wed 14 Oct" when last_reported_on is later than opened_on. Resolved blockers whose resolved_at is within 30 × 24 hours of now are listed by resolved_at, newest first, then person name: "Resolved by Sam Okafor on Tue 13 Oct: Raised the plan limit" (the note is left out when empty; the date is resolved_at in the viewer's time zone). Resolving outside a report is covered by R11. A blocker stays open when its person leaves the standup or is deactivated, until someone resolves it.
 
 ## 9. Business rules
 
 - **R1. Server checks.** Every permission is enforced on the server for every action and API call. Hiding a button is not a permission check. Refusals for standup-level permissions use the standup's name: "Only managers of Product daily and admins can change this standup.", "Only managers of Product daily and admins can see insights.", "Only managers of Product daily and admins can export reports."
-- **R2. Visibility.** A standup with visibility team can be read by every active person. A members-only standup can be read only by its members (any flags, not removed) and admins. For anyone else it does not exist: its pages and API calls return "Not found", and it is left out of the Standups list, Today, the Blockers page and its count.
-- **R3. Standup settings.** Name unique ignoring case: "A standup with this name already exists." At least one day: "Pick at least one day." A time zone from the IANA list: "Pick a time zone from the list." Prompt and due times between 04:00 and 22:00: "Prompt and due times must be between 04:00 and 22:00." Due later than prompt: "The due time must be later than the prompt time." A reminder must land before the due time (prompt_time plus reminder_minutes earlier than due_time): "The reminder must come before the due time." 1 to 8 active questions: "A standup needs 1 to 8 questions." At most one active blocker question: "A standup can have only one blocker question." Choice options: "Choice questions need 2 to 6 different options." A question that has answers can't change its kind: "Archive this question and add a new one instead."
-- **R4. Members.** Managers and admins add and remove members and set their flags in Standup settings. Adding or re-adding sets joined_at to now and clears removed_at; the first check-in follows the rule in section 6, so someone added after today's prompt starts tomorrow. Removing sets removed_at and deletes the member's open check-ins that have no submission; unticking reports deletes them the same way. Their submitted reports and their blockers stay.
-- **R5. Who answers.** Only the check-in's person submits or edits it: "Only Ben Cho can answer this check-in." Submitting twice (for example a double click) is refused: "You already submitted this check-in. Use Edit to change it."
+- **R2. Visibility.** A standup with visibility team can be read by every active person. A members-only standup can be read only by its members (any flags, not removed) and admins. For anyone else it does not exist: its pages and API calls, changes included, return "Not found" before any R1 message, and it is left out of the Standups list, Today, the Blockers page and its count.
+- **R3. Standup settings.** The checks run in the order below and the first failure is shown. Name unique ignoring case: "A standup with this name already exists." At least one day: "Pick at least one day." A time zone from the IANA list: "Pick a time zone from the list." The list uses current IANA names (Asia/Kolkata, Europe/Kyiv); some runtimes report these under older aliases (Asia/Calcutta), so add the current names and accept the old ones as the same zone. Prompt and due times between 04:00 and 22:00, both included: "Prompt and due times must be between 04:00 and 22:00." Due later than prompt: "The due time must be later than the prompt time." A reminder must land before the due time (prompt_time plus reminder_minutes earlier than due_time): "The reminder must come before the due time." 1 to 8 active questions: "A standup needs 1 to 8 questions." At most one active blocker question: "A standup can have only one blocker question." Choice options: "Choice questions need 2 to 6 different options." A question that has answers can't change its kind: "Archive this question and add a new one instead." Other standup limits use "Name must be 1 to 60 characters.", "The reminder must be 15 to 480 minutes." and "Pick a summary time as HH:MM."; question limits use "Question text must be 1 to 200 characters." and, for an archived question, "This question is archived."
+- **R4. Members.** Managers and admins add and remove members and set their flags in Standup settings. Adding or re-adding sets joined_at to now and clears removed_at; the first check-in follows the rule in section 6, so someone added after today's prompt starts tomorrow. Removing sets removed_at and deletes the member's open check-ins that have no submission; unticking reports deletes them the same way. Their submitted reports and their blockers stay. Only active people can be added ("Only active people can be added."), adding a current member is refused ("Maya Chen is already a member of this standup."), changing a current member's flags never changes joined_at, and removed members are hidden from the members list.
+- **R5. Who answers.** Only the check-in's person opens, submits or edits its form: "Only Ben Cho can answer this check-in." Others read reports in the feed. Submitting twice (for example a double click) is refused: "You already submitted this check-in. Use Edit to change it."
 - **R6. The answer window.** Answers are accepted while prompt_at ≤ now < closes_at. With no open check-in, Today shows the next check-in instead: "Your next Product daily check-in opens Wed 14 Oct at 09:30 (America/Los_Angeles)." (date and time in the schedule zone). After closes_at: "This check-in closed at 00:00 on Thu 15 Oct (Europe/London). Missed check-ins can't be filled in later." An away check-in has no form: "You're out of office on Wed 14 Oct, so there's nothing to answer."
 - **R7. On time or late.** The first submission decides the status: on_time when submitted_at ≤ due_at, late otherwise. Edits never change it.
-- **R8. Required answers.** A required text question needs at least one character after trimming and a required choice or blocker question needs an option. The refusal names the first unanswered required question in position order: "Answer "What will you do today?" before submitting." "I'm blocked" and "Blocked by something else" need a description: "Describe the blocker in 1 to 500 characters." Nothing is saved when any answer is refused.
-- **R9. Editing.** The person can edit until closes_at; after that: "This check-in closed at 00:00 on Thu 15 Oct (Europe/London). Reports can't be changed after that." The blocker answer is read-only on the edit form; to clear a blocker, resolve it (R11). Edits set edited_at, show "edited" next to the report, and are not posted to Slack again.
-- **R10. One open blocker.** A person has at most one open blocker per standup, enforced with a unique key. If the open blocker was resolved after the form was loaded, submitting "Still blocked", "Unblocked" or "Blocked by something else" is refused, and so is resolving it a second time: "This blocker was already resolved by Sam Okafor. Reload to see the change."
-- **R11. Resolving blockers.** From the Blockers page or the feed, a blocker can be resolved by its person, a manager of its standup or an admin, with an optional note of up to 300 characters. Anyone else: "Only Sam Okafor, a manager of Product daily or an admin can resolve this blocker." When someone other than the blocked person resolves it, the blocked person is told (section 12). A resolved blocker can't be reopened; the person reports a new one.
-- **R12. Out of office.** Each person adds and deletes their own periods in My settings. The start can't be before today in their own time zone ("Out-of-office can't start before today."), the end can't be before the start ("The end date is before the start date."), a period is at most 90 days ("Out-of-office can be at most 90 days."), and periods can't overlap: "Overlaps your out-of-office Mon 12 – Fri 16 Oct." A period applies to every standup the person reports in. Saving one turns each open, unsubmitted check-in whose report date it covers into away. Deleting a period never changes check-ins that already exist.
-- **R13. People.** Admins add, edit, deactivate and reactivate people in Admin → People. Each person can change their own time zone in My settings. Deactivating someone blocks their sign-in and removes them from every standup as in R4; reactivating does not add them back. There must always be at least one active admin: "At least one active admin is needed."
-- **R14. Nudges.** A manager or admin can nudge a person whose check-in is open, once per check-in: "Jo Park was already nudged at 12:35." (the time of nudged_at in the viewer's zone). With no open check-in: "Lee Park has no open check-in to nudge."
-- **R15. Pause.** A paused standup gets no new check-ins, reminders or summaries. Open check-ins stay open and can still be answered and nudged, and close as usual. Resuming clears paused_at; check-ins follow section 6 from the next job run. Standups can't be deleted in v1; pause one you no longer use.
-- **R16. Display.** Dates: "Wed 14 Oct", with the year added when it isn't the current year. Times: 24-hour "09:30". Times on Today, the feed, the Blockers page and the outbox are in the viewer's own time zone without a label; the feed adds the date when it differs from the report date shown. In messages about a check-in's schedule, times are in the schedule zone followed by the zone name in parentheses. Ranges use an en dash with spaces: "Mon 12 – Fri 16 Oct", "Fri 30 Oct – Mon 2 Nov". Day lists: consecutive runs as "Mon–Fri", otherwise "Mon, Wed, Fri".
-- **R17. Notifications never block.** Every notification is written to the outbox in the same transaction as its action and sent after it commits. A failed send never blocks or undoes the action.
+- **R8. Required answers.** A required text question needs at least one character after trimming and a required choice or blocker question needs an option. The refusal names the first unanswered required question in position order: "Answer "What will you do today?" before submitting." "I'm blocked" and "Blocked by something else" need a description: "Describe the blocker in 1 to 500 characters." Nothing is saved when any answer is refused. Refusals are checked in this order: Not found, the person (R5), already submitted, the answer window (R6), required answers in position order (R8), the blocker description, then R10.
+- **R9. Editing.** The person can edit until closes_at; after that: "This check-in closed at 00:00 on Thu 15 Oct (Europe/London). Reports can't be changed after that." The blocker answer is read-only on the edit form; to clear a blocker, resolve it (R11). An edit must also answer required questions added since the report was submitted; a blocker question added since stays unanswered. Edits set edited_at, show "edited" next to the report, and are not posted to Slack again.
+- **R10. One open blocker.** A person has at most one open blocker per standup, enforced with a unique key. If the open blocker was resolved after the form was loaded, submitting "Still blocked", "Unblocked" or "Blocked by something else" is refused, and so is resolving it a second time: "This blocker was already resolved by Sam Okafor. Reload to see the change." If a blocker was opened after the form was loaded, "No blockers" and "I'm blocked" are refused: "You already have an open blocker in this standup. Reload to see the change."
+- **R11. Resolving blockers.** From the Blockers page or the feed, a blocker can be resolved by its person, a current (not removed) manager of its standup or an admin, with an optional note of up to 300 characters. Anyone else: "Only Sam Okafor, a manager of Product daily or an admin can resolve this blocker." When someone other than the blocked person resolves it, the blocked person is told (section 12), unless they have been deactivated. A resolved blocker can't be reopened; the person reports a new one.
+- **R12. Out of office.** Each person adds and deletes their own periods in My settings. The start can't be before today in their own time zone ("Out-of-office can't start before today."), the end can't be before the start ("The end date is before the start date."), a period is at most 90 days counting both ends ("Out-of-office can be at most 90 days."), and periods can't overlap, past ones included: "Overlaps your out-of-office Mon 12 – Fri 16 Oct." (the earliest overlap). A note over 100 characters gets "Keep the note to 100 characters or fewer." and a bad date "Pick the start and end dates as YYYY-MM-DD." A period applies to every standup the person reports in. Saving one turns each open, unsubmitted check-in whose report date it covers into away, except those whose closes_at has passed (they count as missed); prompted_at keeps its value. Deleting a period never changes check-ins that already exist; past and current periods can be deleted too.
+- **R13. People.** Admins add, edit, deactivate and reactivate people in Admin → People. Each person can change their own time zone in My settings. Deactivating someone blocks their sign-in and removes them from every standup as in R4; reactivating does not add them back. There must always be at least one active admin: "At least one active admin is needed." Emails are unique ("A person with this email already exists.") and names are 1 to 80 characters ("Name must be 1 to 80 characters.").
+- **R14. Nudges.** A manager or admin can nudge a person whose check-in is open, once per check-in: "Jo Park was already nudged at 12:35." (the time of nudged_at in the viewer's zone). With no open check-in: "Lee Park has no open check-in to nudge." An open check-in past closes_at is not open, and this message comes before the already-nudged one. Anyone else gets "Only managers of Product daily and admins can nudge."
+- **R15. Pause.** A paused standup gets no new check-ins, reminders or summaries. Open check-ins stay open and can still be answered and nudged, and close as usual. Resuming clears paused_at; check-ins follow section 6 from the next job run, and if it is resumed after that day's summary time with no summary sent, the next run sends it. Pausing a paused standup or resuming an active one is refused: "Product daily is already paused.", "Product daily isn't paused." Standups can't be deleted in v1; pause one you no longer use.
+- **R16. Display.** Dates: "Wed 14 Oct", with the year added when it isn't the current year in the viewer's time zone. Times: 24-hour "09:30". Times on Today, the feed, the Blockers page and the outbox are in the viewer's own time zone without a label, except the due time on a Today card, which follows the next sentence; the feed adds the date when it differs from the report date shown ("Thu 15 Oct 01:10"). In messages about a check-in's schedule, times are in the schedule zone followed by the zone name in parentheses. Ranges use an en dash with spaces: "Mon 12 – Fri 16 Oct", "Fri 30 Oct – Mon 2 Nov". A one-day range is one date ("Thu 15 Oct"), and across years each end gets its year when it isn't the current year. Day lists: runs of three or more consecutive days as "Mon–Fri", otherwise "Mon, Wed, Fri"; two adjacent days are "Sat, Sun".
+- **R17. Notifications never block.** Every notification is written to the outbox in the same transaction as its action and sent right after it commits; the response waits at most 3 seconds for the sends, so the outbox shows their result at once, and anything slower finishes on its own or on the next job run. A failed send never blocks or undoes the action.
 - **R18. Reading never writes.** Opening a page or calling a read API never creates check-ins, blockers or any other row, and never changes a status. Only the scheduled job creates check-ins and marks them missed.
 
 ## 10. Participation
 
-For one standup, a range of report dates (from and to, inclusive, at most 92 days) and one person:
+For one standup, a range of report dates (from and to, inclusive, at most 92 days counting both ends; otherwise "A range can be at most 92 days.", "The end date is before the start date." or "Pick the start and end dates as YYYY-MM-DD.") and one person:
 - reported = their on_time + late check-ins in the range
 - counted = reported + missed, where open check-ins whose closes_at has passed count as missed
-- Away check-ins and open check-ins still inside their window are not counted. Dates with no check-in are not counted.
-- rate = reported ÷ counted as a whole percentage, rounded half up. With integer counts: floor((200 × reported + counted) ÷ (2 × counted)). With counted 0, show "–".
+- Away check-ins and open check-ins still inside their window are not counted; a person whose only check-in in the range is still open is listed with "0 of 0 (–)". Dates with no check-in are not counted.
+- rate = reported ÷ counted as a whole percentage, rounded half up. With integer counts: floor((200 × reported + counted) ÷ (2 × counted)). With counted 0, show "–" for the rate, so the cell reads "0 of 0 (–)"; a range with no check-ins at all shows "No check-ins in this range."
 
-The team row adds up reported and counted across people first and then divides; it never averages personal percentages. Insights lists every person with at least one check-in in the range, including removed members (marked "Removed"), with On time, Late, Missed, Away and Reported ("6 of 7 (86%)"). The default range is the 14 calendar days that end yesterday in the standup's time zone.
+The team row adds up reported and counted across people first and then divides; it never averages personal percentages. Insights lists, sorted by name, every person with at least one check-in in the range, including removed members (marked "Removed" when their membership has removed_at set, deactivation included; unticking reports doesn't count), with On time, Late, Missed, Away and Reported ("6 of 7 (86%)"). The default range is the 14 calendar days that end yesterday in the standup's time zone.
 
 ### Worked example (Product daily, default range Wed 30 Sep – Tue 13 Oct, seed data)
 
@@ -265,17 +265,17 @@ Tom's two away days are not counted against him. With the range Mon 5 – Wed 14
 
 Navigation: Today, Standups, Blockers, My settings, Admin (admins). Admin pages show "Admins only" to everyone else, and the server refuses their actions.
 
-1. **Today** (home). For each standup the signed-in person reports in: an open check-in as a card, "Product daily · Wed 14 Oct · due 12:00 (Europe/London)", with a Post update button and, once now is past due_at, "Past due: your update will be marked late."; a submitted one that can still be edited as "Posted 10:05 · On time · Edit"; otherwise the next check-in line from R6, or "Product daily is paused.". When an out-of-office period covers today in their zone, also "You're out of office until Fri 16 Oct." With no standups: "You're not in any standup yet."
+1. **Today** (home). For each standup the signed-in person reports in: an open check-in as a card, "Product daily · Wed 14 Oct · due 12:00 (Europe/London)", with a Post update button and, once now is past due_at, "Past due: your update will be marked late."; a submitted one that can still be edited as "Posted 10:05 · On time · Edit"; otherwise the next check-in line from R6 ("Your next Product daily check-in: none in the next 60 days." when there is none), or "Product daily is paused." when a paused standup has nothing to answer or edit. When an out-of-office period covers today in their zone, also "You're out of office until Fri 16 Oct." With no standups: "You're not in any standup yet."
 2. **Check-in form.** The questions as section 7 describes, the blocker options from section 8, and Submit. The same form, with the blocker answer read-only, is used for Edit.
-3. **Standups.** The standups the person can see (R2): name, schedule ("Mon–Fri at 09:30, each person's time" for local timing, "Mon at 08:00 America/New_York" for fixed), visibility, Active or Paused, and the person's role. Admins get New standup.
-4. **Standup feed.** One report date at a time (default: today in the standup's time zone) with previous and next buttons. Header "5 of 6 reported" (section 7). Reported: each report with the person's name, the submission time (R16), "Late" and "edited" when they apply, and the answers, skipping empty optional ones. Then Waiting, Missed and Away as name lists; managers and admins see Nudge next to each waiting person with an open check-in. Then the standup's open blockers with Resolve where R11 allows.
-5. **Blockers.** "3 open blockers" and the open blockers of every standup the person can see, in the order and format of section 8, with Resolve (and an optional note) where R11 allows. A Resolved tab shows the last 30 days.
-6. **Standup settings.** Name, visibility, timing, time zone, days, prompt, due, reminder and summary times, the Slack webhook (shown as "Saved, ending in …" plus the last 4 characters, with Remove), questions (add, edit, reorder, archive), members (add, remove, and the reports, manager and email summary flags) and the **schedule preview**: one row per member who reports with name, time zone, next report date, prompt and due in their own time, and prompt in UTC (section 6). Pause and Resume. Everyone who can see the standup can open this page; only managers and admins can change it (R1).
-7. **Insights** (managers and admins). A date range (section 10), the per-person table and the team row, and Export CSV.
-8. **Export.** "Reports CSV" for the standup and range, named after the standup in lowercase with spaces as hyphens (`product-daily-2026-10-13-to-2026-10-14.csv`): one row per answer, ordered by report date, person name and question position; a check-in with no answers (open, missed or away) gets one row with question and answer empty. Columns: standup, report_date, person, email, schedule_zone, status, prompt_at, due_at, submitted_at, edited_at, question, answer. Dates are `YYYY-MM-DD`, timestamps UTC ISO 8601 (`2026-10-14T13:50:00Z`), status is the stored value (on_time, late, missed, away, open), blocker answers use the text in section 8, missing values are empty, and fields with commas, quotes or line breaks are quoted.
+3. **Standups.** The standups the person can see (R2): name, schedule ("Mon–Fri at 09:30, each person's time" for local timing, "Mon at 08:00 America/New_York" for fixed), visibility, Active or Paused, and the person's role: each of Admin, Manager and Reporter that applies, "Member" for a member with no flags, or "Reader". Admins get New standup: a form with the settings and a first question (R3 needs at least one); the creator is not added as a member.
+4. **Standup feed.** One report date at a time (default: today in the standup's time zone) with previous and next buttons, which step between the standup's days from its creation date up to the later of today and the latest date with check-ins (people in zones ahead can have tomorrow's first). Header "5 of 6 reported" (section 7). Reported: each report with the person's name, the submission time (R16), "Late" and "edited" when they apply, and the answers, skipping empty optional ones. Then Waiting, Missed and Away as name lists; managers and admins see Nudge next to each waiting person with an open check-in (Nudge arrives in Phase 3, with notifications). Then the standup's open blockers with Resolve where R11 allows.
+5. **Blockers.** "3 open blockers" ("1 open blocker" for one; the Blockers link in the navigation shows the same count) and the open blockers of every standup the person can see, in the order and format of section 8, with Resolve (and an optional note) where R11 allows. A Resolved tab shows the last 30 days.
+6. **Standup settings.** Name, visibility, timing, time zone, days, prompt, due, reminder and summary times, the Slack webhook (shown as "Saved, ending in …" plus the last 4 characters, with Remove), questions (add, edit, reorder, archive), members (add, remove, and the reports, manager and email summary flags) and the **schedule preview**: one row per member who reports with name, time zone, next report date, prompt and due in their own time, and prompt in UTC (section 6). Rows are sorted by the next prompt_at, then name, and members with no next date come last. Times are in the member's own zone even when timing is fixed, with the date added when it differs from the report date. Pause and Resume. Everyone who can see the standup can open this page; only managers and admins can change it (R1).
+7. **Insights** (managers and admins, linked from the Standups list, the feed and Standup settings). A date range (section 10), the per-person table and the team row, and Export CSV.
+8. **Export.** "Reports CSV" for the standup and the Insights range (the default range when none is given), named after the standup in lowercase with each run of spaces as one hyphen (`product-daily-2026-10-13-to-2026-10-14.csv`): one row per answer for every check-in of the standup in the range, removed and deactivated people included, ordered by report date, person name and question position; a check-in with no answers (open, missed or away) gets one row with question and answer empty. Columns: standup, report_date, person, email, schedule_zone, status, prompt_at, due_at, submitted_at, edited_at, question, answer. Dates are `YYYY-MM-DD`, timestamps UTC ISO 8601 (`2026-10-14T13:50:00Z`), status is the stored value (on_time, late, missed, away, open; an open check-in past closes_at that the job hasn't closed yet exports as open, while Insights counts it as missed), blocker answers use the text in section 8, missing values are empty, and fields with commas, quotes or line breaks are quoted. Rows end with CRLF, with no byte-order mark, and rows with the same date and person name sort by email.
 9. **My settings.** The person's time zone, an email summary toggle for each standup they belong to, and their out-of-office periods with Add and Delete (R12).
 10. **Admin → People.** Name, email, time zone, admin, active. Add, edit, deactivate, reactivate (R13).
-11. **Admin → Outbox.** Every notification, newest first: time, channel, recipient, kind, subject, status, attempts and last error. Click a row to read the body.
+11. **Admin → Outbox.** Every notification, newest first: time (created_at with its date, "Wed 14 Oct 11:05"), channel, recipient, kind, subject, status, attempts and last error. Click a row to read the body.
 
 All screens must work on a phone. Text people type is always shown as text, never as HTML.
 
@@ -292,7 +292,7 @@ All screens must work on a phone. Text people type is always shown as text, neve
 | Daily summary (section 13) | Active members with email_summary ticked who are not out of office on that date | Email | "Product daily, Wed 14 Oct: 3 of 6 reported" |
 | Daily summary, webhook saved | The standup's channel | Slack | The same subject as its first line |
 
-Prompt, reminder and nudge emails link to the check-in form; a prompt includes "Still blocked? <text>" when the person has an open blocker. A report post lists each question with its answer, skipping empty optional ones. The blocker emails include the blocker's text and the resolution note.
+Prompt, reminder and nudge emails link to the check-in form (links start with the APP_URL environment variable); a prompt includes "Still blocked? <text>" when the person has an open blocker. A report post lists each question with its answer, skipping empty optional ones. The blocker emails include the blocker's text and the resolution note.
 
 **Summary body** (seed example, built at 13:05 New York time on Wed 14 Oct):
 
@@ -308,11 +308,11 @@ Open blockers:
 Then each report, as in the feed.
 ```
 
-Lines with nobody in them are left out. The summary uses the day status from section 7 at the moment the job builds it.
+Lines with nobody in them are left out. A "Missed:" line goes between Waiting and Away, Open blockers lists this standup's only, and each report reads "Priya Nair · 01:10" (plus " · Late" or " · edited") followed by its answers, with times in the recipient's zone (the standup's zone on Slack). The summary uses the day status from section 7 at the moment the job builds it.
 
-**Sending.** Each row starts queued. Email can use any provider; if none is configured, set status logged instead of sending. If sending fails, set failed and last_error; every attempt adds 1 to attempts, and the job retries until attempts reaches 5.
+**Sending.** Each row starts queued. Email can use any provider; if none is configured, set status logged instead of sending. Logging is not a send attempt: attempts stays 0 and a logged row is never retried. If sending fails, set failed and last_error; every attempt adds 1 to attempts, and the job retries until attempts reaches 5. A Slack row reads the URL from its standup when it is sent; if the URL was removed, the row fails with "No Slack webhook is saved for this standup."
 
-**Slack incoming webhook.** Setup, once per standup, by a manager: create a Slack app at api.slack.com/apps, turn on Incoming Webhooks, click Add New Webhook to Workspace, pick the channel and authorize, then paste the URL into Standup settings. The URL must start with `https://hooks.slack.com/services/`, otherwise: "Use a Slack incoming webhook URL that starts with https://hooks.slack.com/services/." The URL contains a secret: store it server-side only, never show it in full again and never put it in exports or logs. To post, send an HTTP POST to the URL with `Content-Type: application/json` and the body `{"text": "<the post>"}`, with a 10-second timeout. HTTP 200 means sent; any other status or a network error means failed, with last_error set to the status code and the first 200 characters of the response, or the error. Slack posts the message as the app, in the channel chosen during setup, and the app does not try to change or delete posts later, so edits appear in the app only.
+**Slack incoming webhook.** Setup, once per standup, by a manager: create a Slack app at api.slack.com/apps, turn on Incoming Webhooks, click Add New Webhook to Workspace, pick the channel and authorize, then paste the URL into Standup settings. The URL must start with `https://hooks.slack.com/services/`, otherwise: "Use a Slack incoming webhook URL that starts with https://hooks.slack.com/services/." An empty value, the bare prefix and URLs with spaces get the same message; Remove clears a saved URL. Everyone who can open the settings page sees "Saved, ending in …". The URL contains a secret: store it server-side only, never show it in full again and never put it in exports or logs. To post, send an HTTP POST to the URL with `Content-Type: application/json` and the body `{"text": "<the post>"}`, with a 10-second timeout. The post is the first line, then each question with its answer on the next line; escape &, < and > in typed text as &amp;, &lt; and &gt; so it can't ping a channel, and keep the unescaped text in the outbox. HTTP 200 means sent; any other status or a network error means failed, with last_error set to the status code and the first 200 characters of the response ("HTTP 404: no_team"), or the error message, never including the webhook URL. Slack posts the message as the app, in the channel chosen during setup, and the app does not try to change or delete posts later, so edits appear in the app only.
 
 ## 13. Scheduled job and time
 
@@ -320,14 +320,14 @@ Lines with nobody in them are left out. The summary uses the day status from sec
 
 **Development toolbar** (development only; it must not exist or respond in production):
 - Sign in as any person.
-- The clock: shows "Now: Wed 14 Oct 2026, 14:00 UTC", can be set to any date and time in UTC, and has "+1 hour" and "+1 day". It is stored on the server and now() returns it.
+- The clock: shows "Now: Wed 14 Oct 2026, 14:00 UTC", can be set to any date and time in UTC, and has "+1 hour" and "+1 day". It is stored on the server and now() returns it. Keep it in a one-row development settings table outside the section 5 data model; that table is the only addition the toolbar may make.
 - "Reset to seed data": deletes every row, loads section 15 and sets the clock to Wed 14 Oct 2026, 14:00 UTC.
 - "Run scheduled job now" (Phase 3): runs the job below with the development clock.
 
-**Scheduled job.** Runs every 5 minutes; any scheduler that can call a URL works. It is `GET` or `POST /api/cron/tick` with the header `Authorization: Bearer <CRON_SECRET>`, where CRON_SECRET is an environment variable. A missing or wrong header gets 401 "Unauthorized" and nothing runs. The steps run in this order, each in its own transaction:
+**Scheduled job.** Runs every 5 minutes; any scheduler that can call a URL works. It is `GET` or `POST /api/cron/tick` with the header `Authorization: Bearer <CRON_SECRET>`, where CRON_SECRET is an environment variable. A missing or wrong header gets 401 "Unauthorized" and nothing runs; when CRON_SECRET is not set, every call gets 401. The steps run in this order, each in its own transaction:
 1. **Close.** Open check-ins with closes_at ≤ now become missed.
 2. **Create.** Create check-ins by the rule in section 6, queueing prompts.
-3. **Remind.** For each open check-in of an active standup with reminder_minutes set: if reminded_at is empty, prompted_at is set, prompted_at plus reminder_minutes ≤ now and now < due_at, queue one reminder and set reminded_at to now. A check-in created late in its window may get no reminder.
+3. **Remind.** For each open check-in of an active standup with reminder_minutes set (the standup's current value, since check-ins don't store it): if reminded_at is empty, prompted_at is set, prompted_at plus reminder_minutes ≤ now and now < due_at, queue one reminder and set reminded_at to now. A check-in created late in its window may get no reminder.
 4. **Summaries.** For each active standup with a summary_time: let D be today in the standup's time zone. If D is one of its days, now is at or after D at summary_time in that zone, and no SummaryRun exists for the standup and D, create the SummaryRun and queue the summary (section 12).
 5. **Retry.** Send notifications that are queued or failed and have fewer than 5 attempts.
 
@@ -365,9 +365,9 @@ Company: Tidewater Apps, a mobile app studio with people in New York, Los Angele
 
 **Leadership weekly:** active, visibility members, timing fixed, time zone America/New_York, Mondays, prompt 08:00, due 10:00, no reminder, summary 10:30, no Slack webhook. Questions: 1 "Top priority this week?" (text, required); 2 "Anything blocking you?" (blocker); 3 "Confidence in this month's plan?" (choice: High, Medium, Low; required). Members: Dana Ruiz (reports, manager, email summary), Sam Okafor and Maya Chen (report). Ana Lima is not a member.
 
-Every member's joined_at is Thu 1 Oct 2026, 12:00 UTC. Tom Bennett has one out-of-office period, Mon 12 – Fri 16 Oct 2026, note "Family visit". The outbox is empty and there are no SummaryRuns.
+Every member's joined_at is Thu 1 Oct 2026, 12:00 UTC. People and standups have the same created_at, Dana Ruiz created both standups, and the out-of-office period was created on Fri 9 Oct 2026, 16:00 UTC. Tom Bennett has one out-of-office period, Mon 12 – Fri 16 Oct 2026, note "Family visit". The outbox is empty and there are no SummaryRuns.
 
-**Check-ins before today.** Each has the instants from section 6 and prompted_at = prompt_at (none for away). On-time reports were submitted 45 minutes after prompt_at; late ones at 14:00 in the schedule zone (Product daily) or 11:00 New York time (Leadership weekly). Product daily check-ins that ended late or missed have reminded_at = prompted_at + 90 minutes. O = on time, L = late, M = missed, A = away.
+**Check-ins before today.** Each has the instants from section 6 and prompted_at = prompt_at (none for away). On-time reports were submitted 45 minutes after prompt_at; late ones at 14:00 in the schedule zone (Product daily) or 11:00 New York time (Leadership weekly). Product daily check-ins that ended late or missed have reminded_at = prompted_at + 90 minutes; on-time ones and all Leadership weekly ones have none. A blocker answer stores its section 8 text ("Blocked: …") in Answer.text, and Priya's blocker, resolved outside a report, has no resolved_check_in_id. O = on time, L = late, M = missed, A = away.
 
 | Product daily | Mon 5 | Tue 6 | Wed 7 | Thu 8 | Fri 9 | Mon 12 | Tue 13 |
 |---|---|---|---|---|---|---|---|
@@ -505,3 +505,94 @@ When you're done, list what you built and anything in the spec you had to interp
 - An anonymous team-health check-in with a minimum group size before results show.
 - Linking blockers to tickets in your issue tracker.
 - An AI summary of the day's reports, shown next to the reports, never instead of them.
+
+## 18. Build notes from our test build
+
+We built this blueprint by sending the four phase prompts above, in order, to an AI builder (Claude, working in Type, with a fresh session for each phase that saw only this spec and the code so far), then checked every acceptance item in a real browser. Each phase's checks started from Reset to seed data and ran in order on the same data, as the build plan says; the seed's fixed clock (Wed 14 Oct 2026, 14:00 UTC) meant every date and time matched the worked examples, and the checks moved the development clock to the times they name, including Mon 26 Oct for the UK clock change. Where a check says something is refused, the person saw the reason on screen and a direct request got an error with nothing changed. Emails and Slack posts were read on the Admin → Outbox screen, the scheduled job was run from its "Run scheduled job now" button (and the cron URL was called without its header), the Slack post went to a placeholder hooks.slack.com URL that Slack refused, and the reports CSV was downloaded and parsed.
+
+**Result:** 32 of 32 acceptance checks passed in one final browser run on a fresh database, plus 167 automated tests. The item-by-item results are in [acceptance-results.json](/builds/async-standups/acceptance-results.json).
+
+**Gaps the build found, now fixed in this spec:**
+1. Phase 1 asks for the data model "exactly", yet the clock must be "stored on the server" and no table held it. It now lives in a one-row development settings table outside the data model.
+2. R3 required "a time zone from the IANA list", but Node's built-in list has Asia/Calcutta and not the seed's Asia/Kolkata. The list now uses current names and accepts the old aliases.
+3. The rule for local times that don't exist didn't say whether it covers closes_at when midnight is skipped. It does.
+4. "Looking ahead at most 60 days" didn't say whether today counts. It is today and the next 59 dates.
+5. "Away until <end date of that period>" didn't cover several periods in a row. It uses the last one skipped.
+6. The schedule preview gave no row order and didn't say whose time zone a fixed-timing standup shows. Rows sort by next prompt, then name, in the member's own zone.
+7. R3 had no messages for the name length, the reminder range or a bad summary time. Each now has one.
+8. Questions had no message for text over 200 characters or for editing an archived question. They are "Question text must be 1 to 200 characters." and "This question is archived."
+9. Admin → People had no messages for a duplicate email or a bad name. They are "A person with this email already exists." and "Name must be 1 to 80 characters."
+10. R4 didn't say whether inactive people or current members can be added. Neither can, each with its own message.
+11. "Between 04:00 and 22:00" didn't say whether the ends are allowed. Both are.
+12. R3 didn't say which message wins when a save breaks two rules, as due 09:00 with a 90-minute reminder does. Checks run in the listed order and the first failure is shown.
+13. summary_time had no allowed range while prompt and due times did. It can be any time of day.
+14. Choice options had to be "different" without saying whether "Good" and "good" differ. They are compared trimmed and ignoring case.
+15. Only kind changes were limited once a question has answers, and nothing said whether archiving can be undone or can remove the last question. Text and options stay editable, archiving is final, and the last question can't be archived.
+16. New standup didn't say how a standup gets its required first question or whether the creator joins it. The form takes a first question, and the creator isn't added.
+17. R4 didn't say whether ticking reports again resets joined_at, or whether removed members stay in the members list. It doesn't, and they're hidden.
+18. R1 and R2 didn't say which wins when an outsider tries to change a members-only standup. "Not found" comes first.
+19. The Standups list shows "the person's role" though one person can hold several. It lists each of Admin, Manager and Reporter that applies, or Member or Reader.
+20. Day lists didn't say whether two adjacent days form a run. Only three or more do; two read "Sat, Sun".
+21. "The current year" for dates didn't say in which time zone. It is the viewer's.
+22. The seed gave no created_at for people, standups and the out-of-office period, and no standup creator. They are 1 Oct 12:00 UTC, Dana Ruiz and 9 Oct.
+23. The seed didn't say which check-ins have no reminder time, what text a blocker answer stores, or whether a blocker resolved outside a report links to a check-in. It now says each.
+24. Screen 4 put Nudge on the Phase 2 feed, while Phase 2 forbids notifications and Phase 3 adds Nudge. The screen now says it arrives in Phase 3.
+25. R16 put every time on Today in the viewer's zone without a label, while screen 1 shows "due 12:00 (Europe/London)". The due time now follows the schedule-message rule.
+26. Today had no wording for someone with no check-in in the next 60 days. It reads "Your next Product daily check-in: none in the next 60 days."
+27. Screen 1 offered "Product daily is paused." instead of an open check-in, though R15 keeps those answerable. It shows only when there is nothing to answer or edit.
+28. "Last time" didn't say what to show when the latest earlier report skipped the question. The line is left out.
+29. R10 covered a blocker resolved after the form loaded but not one opened meanwhile. Submitting "No blockers" or "I'm blocked" then gets its own refusal.
+30. Nothing said which refusal wins when a submission breaks several rules. They follow a fixed order, from R5 to R10.
+31. The form had no messages for a too-long answer, an unknown choice or an edit before submitting. Each has one now.
+32. The server refuses answers for an open check-in past closes_at, but no message was named. It uses R6's closed message, and the status stays open until the job runs.
+33. R9 didn't say what an edit does with required questions added after the report was submitted. They must be answered, except a new blocker question.
+34. The day status listed removed members with a report but not deactivated people or members who stopped reporting. Anyone with a report for that day is listed.
+35. The feed's previous and next buttons had no limits. They step over the standup's days, from its creation up to today or the latest date with check-ins.
+36. The feed "adds the date" to a submission time on another day, without a format. It is "Thu 15 Oct 01:10".
+37. Screen 5 gave "3 open blockers" with no singular, and R2's "its count" didn't say whether the navigation count is included. It is "1 open blocker", and it is included.
+38. "The last 30 days" for resolved blockers didn't say calendar days or hours, and gave no tie order. It is 30 × 24 hours, ties by name.
+39. R11's "a manager of its standup" didn't say whether a removed manager still counts. Only current managers do.
+40. R5 limited submitting and editing but not opening someone else's form. Opening it is refused with the same message; others read the feed.
+41. Nothing said whether logging an email counts as a send attempt. It doesn't: attempts stays 0 and logged rows are final.
+42. R17 said "sent after it commits" without saying when, while a Phase 3 check reads a failed Slack row right after Maya submits. Sending starts right after the commit, and the response waits up to 3 seconds for it.
+43. The Slack post's layout and escaping were unspecified, so typed text like <!channel> could ping a whole channel. The layout is set and &, < and > are escaped.
+44. last_error had no format and could have written the secret webhook URL into the outbox. It is "HTTP 404: <response>" or the error message, without the URL.
+45. Nothing covered a Slack row retried after its webhook was removed. It fails with "No Slack webhook is saved for this standup."
+46. The webhook check didn't cover an empty value or the bare prefix, or say who sees "Saved, ending in …". Both are refused, and everyone who can open the settings sees the ending.
+47. Nothing said what the job endpoint does when CRON_SECRET isn't set. Every call gets 401.
+48. Reminders didn't say whether a changed reminder setting applies to open check-ins, which don't store it. The standup's current value is used.
+49. The summary sample had no Missed line, didn't say whose blockers it lists, and didn't show a report or its time zone. Each is now set.
+50. R11 emailed the blocked person when someone else resolves the blocker, even after that person was deactivated. Deactivated people get nothing.
+51. R14 had no refusal for people who may not nudge. It is "Only managers of Product daily and admins can nudge."
+52. R14 didn't say whether an open check-in past its closing time can be nudged, or which refusal comes first. It can't, and "no open check-in" comes first.
+53. "At most 90 days" didn't say whether both ends count. They do.
+54. R12 had no messages for a long note or a bad date, and didn't say whether past periods count for overlaps. Both have messages, and past periods count.
+55. Ranges had no form for a single day or for one that crosses a year. A single day is one date, and each end gets its own year.
+56. R12 didn't say whether saving a period turns an open check-in whose window already closed into away. It doesn't; those count as missed.
+57. R12 didn't say whether past periods can be deleted. They can, without changing check-ins.
+58. The outbox's time column had no format, though rows span days. It is the creation time with its date.
+59. R4 deletes open check-ins whose prompts sit in the outbox, and nothing said what happens to those rows. They stay, with check_in_id cleared.
+60. Emails link to the check-in form, but nothing set the address links start with. It is the APP_URL environment variable.
+61. Insights listed people in no stated order, and the worked example isn't alphabetical. Rows sort by name.
+62. "With counted 0, show '–'" didn't say whether it replaces the whole cell. Only the rate: "0 of 0 (–)".
+63. "Removed" in Insights didn't say whether deactivated people or members who stopped reporting count. Deactivated people do; the others don't.
+64. A person whose only check-in in the range is still open "has a check-in" yet counts nothing. They are listed with 0 of 0.
+65. The 92-day range had no messages and didn't say whether both ends count. They do, and three messages cover bad ranges.
+66. The export used "the range" without saying what applies when none is given. It is the Insights default.
+67. "Spaces as hyphens" didn't cover runs of spaces. Each run becomes one hyphen.
+68. The CSV had no line ending, byte-order-mark rule or tie order. It uses CRLF, no BOM, and ties by email.
+69. The export's "stored value" and Insights' "open past closes_at counts as missed" disagree until the job runs. Both stand, and the spec now says so.
+70. Nothing said whether the export includes removed or deactivated people. It does.
+71. R15 had no message for pausing twice or resuming an active standup. Each is refused with its own message.
+72. R15 didn't say whether resuming late in the day sends that day's missed summary. The next run sends it.
+73. Insights had no way in: the navigation has no Insights entry. Managers and admins get links from the Standups list, the feed and Standup settings.
+
+**What we did not test:**
+- Production sign-in: every check used the development "sign in as" switcher; the production path was built as a plain email form and never tried with Google or the platform's sign-in.
+- Real email delivery: every email was logged in the outbox; no email provider was configured, so email failures and their retries were not exercised.
+- A working Slack channel: the webhook was a placeholder that Slack refused, so only the failure, the error and the retry count were checked, never a post arriving in a channel.
+- A real scheduler: the job was run from its development button, never by cron every 5 minutes through its endpoint.
+- Hosting: the checks ran on localhost with SQLite.
+- Time zones beyond the seed's four, and the US clock change on Sun 1 Nov: only the UK change on Sun 25 Oct is covered by a check.
+- Removing a member while they have an open check-in, a question archived mid-answer, and two people resolving the same blocker at once are not covered by any acceptance check.
+- Phones beyond one 390-pixel Chromium viewport.
