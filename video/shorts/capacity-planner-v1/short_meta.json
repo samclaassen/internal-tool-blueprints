@@ -1,0 +1,23 @@
+{
+ "file": "final.mp4",
+ "short": true,
+ "title": "A Float-style capacity planner, built by Claude from one spec #shorts",
+ "description": "Free spec: https://personalsoftwarefactory.com/blueprints/capacity-planner?utm_source=youtube&utm_medium=short&utm_campaign=capacity-planner\n\nClaude built a capacity planner, a Float alternative that works out each person's real capacity every week from their working hours, holidays and time off and flags over-booked weeks before anyone says yes, from one written spec: all 33 acceptance checks passed, along with 222 automated tests. The test build also exposed 89 gaps in the spec, and every one is now fixed; production sign-in, real email delivery and hosting were not tested.\n\nFloat's Starter plan is $7 per scheduled person per month billed yearly ($840 a year for 10 people); Pro is $12, per float.com/pricing (checked November 2026).\n\nMade with AI: Sam's on-camera intro and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/\n\n#shorts #claude #float",
+ "tags": [
+  "Float alternative",
+  "Float",
+  "Float pricing",
+  "build a Float alternative",
+  "capacity planning",
+  "resource scheduling",
+  "capacity planner",
+  "Claude",
+  "AI app builder",
+  "internal tools",
+  "build vs buy SaaS",
+  "personal software factory",
+  "shorts"
+ ],
+ "categoryId": "28",
+ "publishAt": "2026-11-13T21:00:00Z"
+}

@@ -1,0 +1,24 @@
+{
+ "scenes": [
+  {
+   "id": "demo",
+   "text": "Can it replace Float? Here's the schedule. Lee Park is booked for forty hours in a week he can only work thirty-six, so it's flagged Over.",
+   "cues": []
+  },
+  {
+   "id": "preview",
+   "text": "Before you save a booking, it warns you. Sam Okafor would be over by twenty hours that week.",
+   "cues": []
+  },
+  {
+   "id": "budget",
+   "text": "And the Brightline project has five hundred and sixty-four hours booked on a five hundred and thirty hour budget, so it's flagged Over budget.",
+   "cues": []
+  },
+  {
+   "id": "untested",
+   "text": "All thirty-three checks passed. But production sign-in, real email and hosting were never tested, so check those first.",
+   "cues": []
+  }
+ ]
+}

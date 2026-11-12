@@ -1,0 +1,82 @@
+{
+ "out": "float-short.mp4",
+ "kicker": "Build test \u00b7 Float alternative",
+ "title": "A Float-style capacity planner",
+ "badge_image": "sam-photo.jpg",
+ "music": "music.mp3",
+ "music_volume": 0.08,
+ "words": "stts/words.json",
+ "highlight": [
+  "Float?",
+  "Over.",
+  "warns",
+  "twenty",
+  "budget.",
+  "thirty-three",
+  "never"
+ ],
+ "segments": [
+  {
+   "type": "avatar",
+   "video": "hook.mp4",
+   "text": "Claude built this capacity planner from one written spec."
+  },
+  {
+   "type": "product",
+   "scene": "demo",
+   "audio": "stts/demo.mp3",
+   "source": "demo_src.mp4",
+   "from": 0.0,
+   "crop": [
+    0,
+    290,
+    600,
+    300
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "preview",
+   "audio": "stts/preview.mp3",
+   "source": "preview_src.mp4",
+   "from": 0.0,
+   "crop": [
+    20,
+    540,
+    560,
+    285
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "budget",
+   "audio": "stts/budget.mp3",
+   "source": "budget_src.mp4",
+   "from": 0.0,
+   "crop": [
+    10,
+    160,
+    640,
+    330
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "untested",
+   "audio": "stts/untested.mp3",
+   "source": "untested_src.mp4",
+   "from": 0.0,
+   "crop": [
+    70,
+    250,
+    1120,
+    600
+   ]
+  },
+  {
+   "type": "avatar",
+   "video": "outro.mp4",
+   "text": "The full spec is free at personal software factory dot com."
+  }
+ ]
+}

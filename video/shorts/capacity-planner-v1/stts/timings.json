@@ -1,0 +1,26 @@
+[
+ {
+  "id": "demo",
+  "file": "demo.mp3",
+  "seconds": 7.001,
+  "model": "heygen-voice-1-turbo-free"
+ },
+ {
+  "id": "preview",
+  "file": "preview.mp3",
+  "seconds": 5.329,
+  "model": "heygen-voice-1-turbo-free"
+ },
+ {
+  "id": "budget",
+  "file": "budget.mp3",
+  "seconds": 7.053,
+  "model": "heygen-voice-1-turbo-free"
+ },
+ {
+  "id": "untested",
+  "file": "untested.mp3",
+  "seconds": 7.419,
+  "model": "heygen-voice-1-turbo-free"
+ }
+]
