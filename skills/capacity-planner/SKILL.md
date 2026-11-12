@@ -1,11 +1,11 @@
 ---
 name: capacity-planner
-description: "Build a self-hosted Capacity Planner, a lightweight Float alternative for ops teams of 5 to 40 people, from a complete blueprint (build test pending) with data model, business rules, seed data, phased build prompts and acceptance checks. Use when someone wants to build their own Capacity Planner, replace Float with an internal tool, or says: 'We say yes to new projects without knowing who actually has time.'"
+description: "Build a self-hosted Capacity Planner, a lightweight Float alternative for ops teams of 5 to 40 people, from a build-tested blueprint (33/33 acceptance checks passed) with data model, business rules, seed data, phased build prompts and acceptance checks. Use when someone wants to build their own Capacity Planner, replace Float with an internal tool, or says: 'We say yes to new projects without knowing who actually has time.'"
 license: MIT
 metadata:
   author: Personal Software Factory
   source: https://personalsoftwarefactory.com/blueprints/capacity-planner
-  status: "Full spec; build test pending"
+  status: "Build-tested 2026-11-12, 33/33 acceptance checks passed"
 ---
 
 # Capacity Planner
@@ -14,7 +14,7 @@ metadata:
 
 A complete, build-ready blueprint for an internal capacity planner that a ops team of 5 to 40 people can run instead of paying per seat for Float (resource scheduling and capacity planning), the resourcing spreadsheet. The full spec is in [references/spec.md](references/spec.md): the problem, what the paid product actually does (checked on the vendor's own pages), what v1 keeps and leaves out, roles, data model, business rules, screens, edge cases, seed data, a four-phase build plan with acceptance checks, and build notes.
 
-This is a full spec that has not yet been build-tested end to end. Expect a few ambiguities; record each one as a spec gap (step 5).
+This spec was build-tested: an AI builder followed the phase prompts and every acceptance check was run in a real browser (Build-tested 2026-11-12, 33/33 acceptance checks passed). Gaps the test exposed are already fixed in the spec. Read section 15 for what was not tested (typically production sign-in, real email delivery and hosting).
 
 ## When to use
 
