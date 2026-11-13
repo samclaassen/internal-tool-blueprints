@@ -1,0 +1,8 @@
+{
+ "scenes": [
+  {"id": "board", "text": "So can Claude replace it? I gave it one written spec, and the spec is free. Here's the board it built. One square per project, every week.", "cues": []},
+  {"id": "missing", "text": "When an owner misses a week, it says No update, instead of quietly keeping last week's green.", "cues": []},
+  {"id": "report", "text": "And the weekly report writes itself from the saved updates, with Blocked first.", "cues": []},
+  {"id": "untested", "text": "All twenty-eight checks passed. But sign-in, real email and hosting were never tested, so check those first.", "cues": []}
+ ]
+}

@@ -1,0 +1,81 @@
+{
+ "out": "monday-short.mp4",
+ "kicker": "Build test \u00b7 monday.com alternative",
+ "title": "monday.com: $1,080 a year for 10 people",
+ "badge_image": "sam-photo.jpg",
+ "music": "music.mp3",
+ "music_volume": 0.08,
+ "words": "stts/words.json",
+ "highlight": [
+  "free.",
+  "No",
+  "update,",
+  "Blocked",
+  "twenty-eight",
+  "never"
+ ],
+ "segments": [
+  {
+   "type": "avatar",
+   "video": "hook.mp4",
+   "text": "Monday dot com costs a ten-person team one thousand and eighty dollars a year."
+  },
+  {
+   "type": "product",
+   "scene": "board",
+   "audio": "stts/board.mp3",
+   "source": "board_src.mp4",
+   "from": 0.0,
+   "crop": [
+    484,
+    330,
+    446,
+    290
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "missing",
+   "audio": "stts/missing.mp3",
+   "source": "missing_src.mp4",
+   "from": 0.0,
+   "crop": [
+    10,
+    645,
+    370,
+    125
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "report",
+   "audio": "stts/report.mp3",
+   "source": "report_src.mp4",
+   "from": 0.0,
+   "crop": [
+    135,
+    334,
+    450,
+    236
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "untested",
+   "audio": "stts/untested.mp3",
+   "source": "untested_src.mp4",
+   "from": 0.0,
+   "crop": [
+    70,
+    250,
+    1120,
+    600
+   ]
+  },
+  {
+   "type": "avatar",
+   "video": "outro.mp4",
+   "text": "The full spec is free at personal software factory dot com."
+  }
+ ]
+}

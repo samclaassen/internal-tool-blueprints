@@ -1,0 +1,23 @@
+{
+ "file": "final.mp4",
+ "short": true,
+ "title": "monday.com costs 10 people $1,080 a year. Claude built this instead #shorts",
+ "description": "Free spec: https://personalsoftwarefactory.com/blueprints/project-status-board?utm_source=youtube&utm_medium=short&utm_campaign=project-status-board\n\nClaude built a weekly project status board, a monday.com alternative with one square per project per week, a \"No update\" flag when an owner misses a week and a report that assembles itself, from one written spec: all 28 acceptance checks passed, along with 64 automated tests. The test build also exposed 6 gaps in the spec, and every one is now fixed; production sign-in, real email delivery and hosting were not tested.\n\nmonday.com's Basic plan is $9 per seat per month billed yearly, so 10 people pay $1,080 a year; Standard is $12 and Pro $19, and portfolio project health is listed only on Enterprise (monday.com/pricing, checked November 2026).\n\nMade with AI: Sam's on-camera intro and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/\n\n#shorts #claude #mondaydotcom",
+ "tags": [
+  "monday.com alternative",
+  "monday.com",
+  "monday.com pricing",
+  "build a monday.com alternative",
+  "project status report",
+  "weekly status report",
+  "project status board",
+  "Claude",
+  "AI app builder",
+  "internal tools",
+  "build vs buy SaaS",
+  "personal software factory",
+  "shorts"
+ ],
+ "categoryId": "28",
+ "publishAt": "2026-11-14T21:00:00Z"
+}
