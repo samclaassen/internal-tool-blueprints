@@ -1,0 +1,26 @@
+[
+ {
+  "id": "board",
+  "file": "board.mp3",
+  "seconds": 8.438,
+  "model": "heygen-voice-1-turbo-free"
+ },
+ {
+  "id": "gap",
+  "file": "gap.mp3",
+  "seconds": 6.217,
+  "model": "heygen-voice-1-turbo-free"
+ },
+ {
+  "id": "fix",
+  "file": "fix.mp3",
+  "seconds": 5.669,
+  "model": "heygen-voice-1-turbo-free"
+ },
+ {
+  "id": "untested",
+  "file": "untested.mp3",
+  "seconds": 6.766,
+  "model": "heygen-voice-1-turbo-free"
+ }
+]

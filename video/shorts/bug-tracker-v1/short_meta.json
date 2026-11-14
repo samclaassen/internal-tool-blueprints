@@ -1,0 +1,23 @@
+{
+ "file": "final.mp4",
+ "short": true,
+ "title": "Claude built a Jira alternative, and my spec forgot customers with duplicate bugs #shorts",
+ "description": "Free spec: https://personalsoftwarefactory.com/blueprints/bug-tracker?utm_source=youtube&utm_medium=short&utm_campaign=bug-tracker\n\nClaude built a bug tracker, a Jira alternative with one owner per bug, fix targets by severity, duplicates linked to one bug and a public report form, from one written spec: all 31 acceptance checks passed, along with 56 automated tests. The test build exposed 5 gaps in the spec, including what to tell a customer whose report is a duplicate (now: nothing until the real bug is verified), and every one is fixed; production sign-in, real email sending and hosting were not tested.\n\nJira's Free plan is $0 for up to 10 users (everyone is an admin, 100 emails a day); Standard billed yearly is $950 a year for 1 to 10 users (atlassian.com/software/jira/pricing and atlassian.com/licensing/jira, checked November 2026).\n\nMade with AI: Sam's on-camera intro and outro are an AI avatar of him, and the narration is his AI voice clone (HeyGen). The product footage is from the real test build.\n\nMusic: \"Chill Wave\" by Kevin MacLeod (incompetech.com). Licensed under Creative Commons: By Attribution 4.0 License, http://creativecommons.org/licenses/by/4.0/\n\n#shorts #claude #jira",
+ "tags": [
+  "Jira alternative",
+  "Jira",
+  "Jira pricing",
+  "build a Jira alternative",
+  "bug tracker",
+  "bug tracking",
+  "issue tracker",
+  "Claude",
+  "AI app builder",
+  "internal tools",
+  "build vs buy SaaS",
+  "personal software factory",
+  "shorts"
+ ],
+ "categoryId": "28",
+ "publishAt": "2026-11-15T21:00:00Z"
+}

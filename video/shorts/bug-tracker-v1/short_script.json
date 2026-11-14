@@ -1,0 +1,8 @@
+{
+ "scenes": [
+  {"id": "board", "text": "So can Claude replace Jira? I gave it one written spec for a bug tracker, and the spec is free. Customers can even report bugs through a public form.", "cues": []},
+  {"id": "gap", "text": "But when a customer's report turned out to be a duplicate, my spec was silent. Do they get an email? Claude had to guess.", "cues": []},
+  {"id": "fix", "text": "Now they don't. They hear once, when the real bug is verified, and the person who fixed it can't verify it.", "cues": []},
+  {"id": "untested", "text": "All thirty-one checks passed, and all five gaps are fixed. But real email sending was never tested, so check that first.", "cues": []}
+ ]
+}

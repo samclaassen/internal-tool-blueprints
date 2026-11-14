@@ -1,0 +1,81 @@
+{
+ "out": "jira-short.mp4",
+ "kicker": "Build test \u00b7 Jira alternative",
+ "title": "Jira alternative: what my spec forgot",
+ "badge_image": "sam-photo.jpg",
+ "music": "music.mp3",
+ "music_volume": 0.08,
+ "words": "stts/words.json",
+ "highlight": [
+  "free.",
+  "duplicate,",
+  "guess.",
+  "verified,",
+  "thirty-one",
+  "never"
+ ],
+ "segments": [
+  {
+   "type": "avatar",
+   "video": "hook.mp4",
+   "text": "My spec never said what to tell a customer whose bug was already reported."
+  },
+  {
+   "type": "product",
+   "scene": "board",
+   "audio": "stts/board.mp3",
+   "source": "board_src.mp4",
+   "from": 0.0,
+   "crop": [
+    16,
+    216,
+    560,
+    340
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "gap",
+   "audio": "stts/gap.mp3",
+   "source": "gap_src.mp4",
+   "from": 0.0,
+   "crop": [
+    588,
+    250,
+    266,
+    152
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "fix",
+   "audio": "stts/fix.mp3",
+   "source": "fix_src.mp4",
+   "from": 0.0,
+   "crop": [
+    1004,
+    268,
+    360,
+    300
+   ]
+  },
+  {
+   "type": "product",
+   "scene": "untested",
+   "audio": "stts/untested.mp3",
+   "source": "untested_src.mp4",
+   "from": 0.0,
+   "crop": [
+    70,
+    250,
+    1120,
+    600
+   ]
+  },
+  {
+   "type": "avatar",
+   "video": "outro.mp4",
+   "text": "The full spec is free at personal software factory dot com."
+  }
+ ]
+}
